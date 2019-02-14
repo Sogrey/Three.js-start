@@ -1,0 +1,67 @@
+{
+    "author": "Sogrey",
+    "description": "Three.js 入门笔记",
+    "extension": null,
+    "generator": "site",
+    "isbn": "",
+    "links": {
+        "sharing": {
+            "all": null,
+            "facebook": null,
+            "google": null,
+            "twitter": null,
+            "weibo": null
+        },
+        "sidebar": {
+            "Chengwei's Blog": "https://sogrey.github.io"
+        }
+    },
+    "output": null,
+    "pdf": {
+        "fontSize": 12,
+        "footerTemplate": null,
+        "headerTemplate": null,
+        "margin": {
+            "bottom": 36,
+            "left": 62,
+            "right": 62,
+            "top": 36
+        },
+        "pageNumbers": false,
+        "paperSize": "a4"
+    },
+    "plugins": [
+	    "-lunr",
+        "-search",
+        "-highlight",
+        "-livereload",
+		"-donate@^1.0.2"
+	],
+	"pluginsConfig": {
+	    "favicon": {
+            "shortcut": "favicon.ico",
+            "bookmark": "favicon.ico"
+        },
+		"github": {
+			"url": "https://github.com/Sogrey"
+		},
+		"donate": {
+			"wechat": "https://sogrey.github.io/img/wechatPay.png",
+			"alipay": "https://sogrey.github.io/img/alipay.jpg",
+			"title": "",
+			"button": "赏",
+			"alipayText": "支付宝打赏",
+			"wechatText": "微信打赏"
+		},
+		"tbfed-pagefooter": {
+			"copyright": "Copyright &copy <b><a target='view_window' href='https://sogrey.github.io/'>Sogrey</a></b> 2018,",
+			"modify_label": "    使用中遇到问题？<b><a target='view_window' href='https://github.com/Sogrey/Three.js-start/issues/new'>提个Issue</a></b>,最后修订时间：",
+			"modify_format": "YYYY-MM-DD HH:mm:ss"
+		}
+	},
+    "title": "Three.js 入门",
+	 "styles": {
+        "website": "styles/website.css"
+    },
+    "variables": {}
+}
