@@ -223,4 +223,4 @@ three.js添加的模型都添加到了场景中，其初始化很简单
 </html>
 ```
 
-查看[演示](https://sogrey.github.io/Three.js-start/example/init.html)
+查看https://sogrey.github.io/Three.js-start/example/init.html
