@@ -31,10 +31,9 @@
         "paperSize": "a4"
     },
     "plugins": [
-	    "-lunr",
-        "-search",
-        "-highlight",
-        "-livereload",
+	    "-favicon",
+		"-github",
+		"-tbfed-pagefooter",
 		"-donate@^1.0.2"
 	],
 	"pluginsConfig": {
