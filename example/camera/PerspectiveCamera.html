@@ -13,7 +13,6 @@
         }
 
         #box {
-            position: absolute;
             width: 100%;
             height: 100%;
         }
@@ -22,7 +21,9 @@
 
 <body onload="threeExcute();">
     <div id="box" style="width: 400px;height: 200px;"></div>
-
+    <div>
+        Fov:<input type="text" value="45" id="txtFov" />(0到180的值)
+    </div>
     <script src="../js/threejs/three.js"></script>
     <script>
         var renderer, scene, camera, light;
@@ -46,8 +47,7 @@
         }
         //初始化照相机
         function initCamera() {
-            camera = new THREE.OrthographicCamera(-2, 2, 1.5, -1.5, 1, 10);
-            // camera = new THREE.OrthographicCamera(-2, 2, 1, -1, 1, 10); //设置 （right-left）/(top-bottom)的比例同样调整为2:1 与 canvas长宽比一致
+            camera = new THREE.PerspectiveCamera(45, 400 / 200, 1, 10);
             //定义camera的位置
             camera.position.set(0, 0, 5);
             //将camera添加到scene中
@@ -80,6 +80,25 @@
             scene.add(cube);
 
             renderer.render(scene, camera);
+
+            animation();
+        }
+
+        function animation() {
+            changeFov();
+            renderer.render(scene, camera);
+            requestAnimationFrame(animation);
+        }
+        //设置相机fov
+        function setCameraFov(fov) {
+            camera.fov = fov;
+            camera.updateProjectionMatrix();
+        }
+        //改变fov值
+        function changeFov() {
+            var txtFov = document.getElementById("txtFov").value;
+            var val = parseFloat(txtFov);
+            setCameraFov(val);
         }
     </script>
 </body>

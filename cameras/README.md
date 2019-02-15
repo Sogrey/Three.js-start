@@ -153,7 +153,7 @@ renderer.render( scene, camera );
 ```
 
 ``` javascript
- camera = new THREE.OrthographicCamera(-2, 2, 1, -1, 1, 10)
+ camera = new THREE.OrthographicCamera(-2, 2, 1, -1, 1, 10);
 ```
 
 这样就显示为正方体了。
@@ -254,6 +254,43 @@ height — 副摄像机的高度
 这一摄像机使用[perspective projection](https://en.wikipedia.org/wiki/Perspective_(graphical))（透视投影）来进行投影。  这一投影模式被用来模拟人眼所看到的景象，它是3D场景的渲染中使用得最普遍的投影模式。 
 
 查看**[源码](https://github.com/mrdoob/three.js/blob/master/src/cameras/PerspectiveCamera.js)**
+
+![](http://www.ituring.com.cn/download/01YYrMaASOzm.big)
+
+
+
+透视图中，灰色的部分是视景体，是可能被渲染的物体所在的区域。`fov`是视景体竖直方向上的张角（是角度制而非弧度制），如侧视图所示。
+
+`aspect`等于`width / height`，是照相机水平方向和竖直方向长度的比值，通常设为Canvas的横纵比例。
+
+`near`和`far`分别是照相机到视景体最近、最远的距离，均为正值，且`far`应大于`near`。
+
+``` javascript
+        //初始化照相机
+        function initCamera() {
+            camera = new THREE.PerspectiveCamera(45, 400 / 200, 1, 10);
+            //定义camera的位置
+            camera.position.set(0, 0, 5);
+            //将camera添加到scene中
+            scene.add(camera);
+        }
+```
+
+fov设为45度。
+
+现在，我们来看下`fov`的改变对渲染效果的影响。我们将原来的`45`改为`60` ，正方体显得更小了 ？
+
+我们从下面的侧视图来看，虽然正方体的实际大小并未改变，但是将照相机的竖直张角设置得更大时，视景体变大了，因而正方体相对于整个视景体的大小就变小了，看起来正方形就显得变小了。 
+
+![](http://www.ituring.com.cn/download/01YYrNchAHXz)
+
+> 注意，改变`fov`并不会引起画面横竖比例的变化，而改变`aspect`则会改变横竖比例。 
+
+
+
+[示例](https://sogrey.github.io/Three.js-start/example/camera/PerspectiveCamera.html)
+
+
 
 ``` javascript
 var camera = new THREE.PerspectiveCamera( 45, width / height, 1, 1000 );
