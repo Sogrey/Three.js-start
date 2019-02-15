@@ -67,7 +67,9 @@ three.js中相机分为[立方体相机(CubeCamera)](#CubeCamera)、[正交相�
 
 ![](http://www.daimami.com/img/2016/04/30/180835238.jpg)
 
-我们先从上面的两种图来理解正交投影与透视投影，我觉得我们可以把正交投影理解为到面的投影，投影线垂直于投影面进行投影，因此物体投影之后的比例是保持不变的。而对于透视  投影我们可以理解为到点的投影，所有的投影线最后都将汇聚于一点，透视投影的特点就是近大远小。 
+我们先从上面的两种图来理解正交投影与透视投影，我觉得我们可以把正交投影理解为到面的投影，投影线垂直于投影面进行投影，因此物体投影之后的比例是保持不变的。而对于透视  投影我们可以理解为到点的投影，所有的投影线最后都将汇聚于一点，透视投影的特点就是近大远小。
+
+[示例](https://threejs.org/examples/#webgl_camera) 
 
 
 
@@ -252,6 +254,8 @@ height — 副摄像机的高度
 ## <a id="PerspectiveCamera"></a>透视相机(PerspectiveCamera)
 
 这一摄像机使用[perspective projection](https://en.wikipedia.org/wiki/Perspective_(graphical))（透视投影）来进行投影。  这一投影模式被用来模拟人眼所看到的景象，它是3D场景的渲染中使用得最普遍的投影模式。 
+
+https://en.wikipedia.org/wiki/Perspective_(graphical)
 
 查看**[源码](https://github.com/mrdoob/three.js/blob/master/src/cameras/PerspectiveCamera.js)**
 
