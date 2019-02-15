@@ -2,6 +2,12 @@
 
 相机的抽象基类。当我们构建新类型的相机时总是应该继承这个类。 
 
+学习Camera之前我们先了解一下THREE.js中使用的坐标系。THREE.js使用的是右手坐标系，想象一下右手握空心拳，手指完全的方向就是从x轴到y轴的方向，而z轴则垂直于手指弯曲的方向从  拳头中心穿过。 
+
+![](http://static.oschina.net/uploads/space/2014/1219/150629_NFJt_1443646.jpg)
+
+
+
 查看**[源码](https://github.com/mrdoob/three.js/blob/master/src/cameras/Camera.js)**
 
 ### 构造器（Constructor）
@@ -55,8 +61,15 @@
 
 
 
-
 three.js中相机分为[立方体相机(CubeCamera)](#CubeCamera)、[正交相机(OrthographicCamera)](#OrthographicCamera)和[透视相机(PerspectiveCamera)](#PerspectiveCamera)
+
+![](http://www.daimami.com/img/2016/04/30/180835237.jpg)
+
+![](http://www.daimami.com/img/2016/04/30/180835238.jpg)
+
+我们先从上面的两种图来理解正交投影与透视投影，我觉得我们可以把正交投影理解为到面的投影，投影线垂直于投影面进行投影，因此物体投影之后的比例是保持不变的。而对于透视  投影我们可以理解为到点的投影，所有的投影线最后都将汇聚于一点，透视投影的特点就是近大远小。 
+
+
 
 ## <a id="CubeCamera"></a>立方体相机(CubeCamera)
 
@@ -116,11 +129,36 @@ renderer.render( scene, camera );
 
 这一摄像机使用[orthographic projection](https://en.wikipedia.org/wiki/Orthographic_projection)（正交投影）来进行投影。 
 
+查看**[源码](https://github.com/mrdoob/three.js/blob/master/src/cameras/OrthographicCamera.js)**
+
  在这种投影模式下，无论物体距离相机距离远或者近，在最终渲染的图片中物体的大小都保持不变。   
 
 这对于渲染2D场景或者UI元素是非常有用的。 
 
-查看**[源码](https://github.com/mrdoob/three.js/blob/master/src/cameras/OrthographicCamera.js)**
+在上面正交投影的图中，我们想象一样，相机所在的地方有个平面，而相机所在的地点默认是平面的中心点。  那么：left就是视锥左侧面，right就是视锥右侧面，top就是视锥上侧面，而bottom就是视锥下侧面。  near是到距离相机较近的那一面的距离，far是离距离相机较远的那一面的距离，这六个投影面围成的区域就是相机投影的可见区域。  三维空间内，只有在这个区域内的物体才会被相机看到。 
+
+首先我们实例化一个相机正交相机对象，相机的默认坐标是原点，和立方体重叠无法看到立方体，这里我们设置一下相机的坐标(x,y,z)=(0,0,5)。  
+
+[示例](https://sogrey.github.io/Three.js-start/example/camera/OrthographicCamera.html)
+
+采用正交投影的时候，我们发现立方体的前端完全被后端遮盖了，这就是正交投影和透视投影的区别，如果使用透视投影，那么根据近大远小的原则，靠近摄像机的一端的投影面积小于远离相机一端的投影面积。 
+
+但是这里有一个很奇怪的问题，命名创建的是一个长度为1的正方体，为啥投影是长方体？这里canvas面板的长宽比是2:1，但是相机的（right-left）/(top-bottom)比例是4：3，因此 
+垂直方向上面被压缩了，所以显示的是一个长方体。
+
+将（right-left）/(top-bottom)的比例同样调整为2:1
+
+``` html
+<div id="box" style="width: 400px;height: 200px;"></div>
+```
+
+``` javascript
+ camera = new THREE.OrthographicCamera(-2, 2, 1, -1, 1, 10)
+```
+
+这样就显示为正方体了。
+
+
 
 ``` javascript
 var camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 ); 
