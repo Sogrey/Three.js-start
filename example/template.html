@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>立方体</title>
+    <title>模板</title>
     <style type="text/css">
         html,
         body {
@@ -33,7 +33,7 @@
             width = document.getElementById("box").clientWidth;
             height = document.getElementById("box").clientHeight;
             renderer = new THREE.WebGLRenderer({
-                antialias: true
+                antialias: true  //抗锯齿
             }); /*生成渲染器对象（属性：抗锯齿效果为设置有效）*/
             renderer.setSize(width, height);
             document.getElementById("box").appendChild(renderer.domElement);

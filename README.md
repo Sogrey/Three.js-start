@@ -26,3 +26,5 @@ gitbook install
 gitbook serve
 
 gitbook build
+
+gitbook build --output=/book 
