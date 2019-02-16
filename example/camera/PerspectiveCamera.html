@@ -25,6 +25,7 @@
         Fov:<input type="text" value="45" id="txtFov" />(0到180的值)
     </div>
     <script src="../js/threejs/three.js"></script>
+    <script src="../js/stats.js"></script>
     <script>
         var renderer, scene, camera, light;
         var width, height;
@@ -59,8 +60,9 @@
             light.position.set(100, 100, 200); //设置光源位置
             scene.add(light); //将官员添加到场景
         }
-
+       
         function threeExcute() {
+
             //初始化渲染器
             initRenderer();
             //初始化场景
@@ -78,8 +80,6 @@
             });
             var cube = new THREE.Mesh(cubeGeometry, material);
             scene.add(cube);
-
-            renderer.render(scene, camera);
 
             animation();
         }

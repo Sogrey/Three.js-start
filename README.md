@@ -1,7 +1,7 @@
 # Three.js-start
 Three.js学习
 
-
+资料来源于网络，仅供学习交流。
 
 
 

@@ -231,12 +231,13 @@ scene.add( camera );
 
 - .setViewOffset ( fullWidth : Float, fullHeight : Float, x : Float, y : Float, width : Float, height : Float ) : null
 
-fullWidth — 多视图的全宽设置
-fullHeight — 多视图的全高设置
-x — 副摄像机的水平偏移
-y — 副摄像机的垂直偏移
-width — 副摄像机的宽度
-height — 副摄像机的高度
+> - fullWidth — 多视图的全宽设置
+> - fullHeight — 多视图的全高设置
+> - x — 副摄像机的水平偏移
+> - y — 副摄像机的垂直偏移
+> - width — 副摄像机的宽度
+> - height — 副摄像机的高度
+
 在较大的[viewing frustum](https://en.wikipedia.org/wiki/Viewing_frustum)（视锥体）中设置偏移量，对于多窗口或者多显示器的设置是很有用的。 对于如何使用它，请查看PerspectiveCamera中的示例。
 
 - .clearViewOffset () : null
