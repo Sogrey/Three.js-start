@@ -357,7 +357,7 @@ var material = new THREE.LineDashedMaterial( {
 
 一个以简单着色（平面或线框）方式来绘制几何体的材质。
 
-这种材质不受光照的影响。
+这种材质不受光照的影响， 没有棱角感 。
 
 [示例](https://threejs.org/docs/scenes/material-browser.html#MeshBasicMaterial)
 
@@ -1290,29 +1290,114 @@ WebGLRenderer使用它来选择shaders。
 
 ## <a id="MeshToonMaterial"></a>卡通网格材质(MeshToonMaterial)
 
+[MeshPhongMaterial](MeshPhongMaterial )卡通着色的扩展。 
 
+### 构造函数(Constructor)
+
+**MeshToonMaterial( parameters : Object )**
+
+- parameters - (可选)用于定义材质外观的对象，具有一个或多个属性。 材质的任何属性都可以从此处传入(包括从Material和MeshStandardMaterial继承的任何属性)。
+属性color例外，其可以作为十六进制字符串传递，默认情况下为 **0xffffff**（白色），内部调用Color.set(color)。
 
 ### 属性(Properties)
 
-常用属性请参见基类[Material](#top)。 
+常用属性请参见基类[Material](#top)和[MeshPhongMaterial](#MeshPhongMaterial)。 
 
+- .gradientMap : Texture
+
+卡通着色的渐变贴图，默认值为null。
+
+- .isMeshToonMaterial : Boolean
+
+用于检查此类或派生类是否为卡通网格材质。默认值为 true。
+
+因为其通常用在内部优化，所以不应该更改该属性值。
+
+- .defines : Object
+
+如下形式的对象:
+``` json
+{ 'TOON': '' };
+```
+WebGLRenderer使用它来选择shaders。
 
 
 ### 方法(Methods)
 
-常用方法请参见基类[Material](#top)。
+常用方法请参见基类[Material](#top)和[MeshPhongMaterial](#MeshPhongMaterial)。 
 
 
 
-## <a id="PointsMaterial"></a>点材料(PointsMaterial)
+## <a id="PointsMaterial"></a>点材质(PointsMaterial)
+
+Points使用的默认材质。
+
+例子：
+
+``` javascript
+/**
+     * 创建场景对象Scene
+     */
+    var scene = new THREE.Scene();
+    /**
+     * 创建网格模型
+     */
+    var geometry = new THREE.SphereGeometry(100, 25, 25); //创建一个球体几何对象
+    // 创建一个点材质对象
+    var material = new THREE.PointsMaterial({
+      color: 0x0000ff, //颜色
+      size: 3, //点渲染尺寸
+    });
+    //点模型对象  参数：几何体  点材质
+    var point = new THREE.Points(geometry, material);
+    scene.add(point); //网格模型添加到场景中
+```
+
+### 构造函数(Constructor)
+
+**PointsMaterial( parameters : Object )**
+
+parameters - (可选)用于定义材质外观的对象，具有一个或多个属性。 材质的任何属性都可以从此处传入(包括从Material继承的任何属性)。
+
+属性color例外，其可以作为十六进制字符串传递，默认情况下为 0xffffff（白色），内部调用Color.set(color)。
 
 
+
+- color — 16进制的粒子颜色。默认为 0xffffff.
+-  map — 一个 [texture](javascript:window.parent.goTo('%E7%BA%B9%E7%90%86(Texture)'))。如果被定义，那么一个点（point）从纹理中获取颜色数据。缺省为null。 
+- size — 定义粒子的大小。默认为1.0。
+-  sizeAttenuation — 启用/禁用随距离而发生尺寸衰减。 
+- vertexColors — 定义材料是否使用顶点颜色。默认是false。
+-  fog — 定义材质颜色是否受全局雾设置的影响。默认是true。 
 
 ### 属性(Properties)
 
 常用属性请参见基类[Material](#top)。 
 
+- .color : Color
+材质的颜色(Color)，默认值为白色 (0xffffff)。
 
+- .isPointsMaterial : Boolean
+
+用于检查此类或派生类是否为点材质。默认值为 true。
+
+因为其通常用在内部优化，所以不应该更改该属性值。
+
+- .map : Texture
+
+使用Texture中的数据设置点的颜色。
+
+- .morphTargets : Boolean
+
+材质是否使用morphTargets。默认值为false。
+
+- .size : Number
+
+设置点的大小。默认值为1.0。
+
+- .sizeAttenuation : Boolean
+
+指定点的大小是否因相机深度而衰减。（仅限透视摄像头。）默认为true。
 
 ### 方法(Methods)
 
@@ -1323,66 +1408,310 @@ WebGLRenderer使用它来选择shaders。
 
 ## <a id="RawShaderMaterial"></a>原始着色器材料(RawShaderMaterial)
 
+此类的工作方式与[ShaderMaterial](#ShaderMaterial)类似，不同之处在于内置的uniforms和attributes的定义不会自动添加到GLSL shader代码中。
 
+### 构造函数(Constructor)
+
+``` javascript
+var material = new THREE.RawShaderMaterial( {
+
+    uniforms: {
+        time: { value: 1.0 }
+    },
+    vertexShader: document.getElementById( 'vertexShader' ).textContent,
+    fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+
+} );
+```
+**RawShaderMaterial( parameters : Object )**
+
+parameters - (可选)用于定义材质外观的对象，具有一个或多个属性。 材质的任何属性都可以从此处传入(包括从Material 和 ShaderMaterial继承的任何属性)。
 
 ### 属性(Properties)
 
-常用属性请参见基类[Material](#top)。 
+常用属性请参见基类[Material](#top)和[ShaderMaterial](#ShaderMaterial)。
 
+- .isRawShaderMaterial : Boolean
 
+用于检查此类或派生类是否为点材质。默认值为 true。
+
+因为其通常用在内部优化，所以不应该更改该属性值。
 
 ### 方法(Methods)
 
-常用方法请参见基类[Material](#top)。
-
-
+常用方法请参见基类[Material](#top)和[ShaderMaterial](#ShaderMaterial)。
 
 
 ## <a id="ShaderMaterial"></a>着色器材料(ShaderMaterial)
 
+使用自定义shader渲染的材质。 shader是一个用GLSL编写的小程序 ，在GPU上运行。 您可能需要使用自定义shader，如果你要：
 
+- 要实现内置 materials 之外的效果。
+- 将许多对象组合成单个Geometry或BufferGeometry以提高性能。
+
+使用ShaderMaterial时需要注意以下注意事项：
+
+- ShaderMaterial 只有使用 WebGLRenderer 才可以绘制正常， 因为 vertexShader 和 fragmentShader 属性中GLSL代码必须使用WebGL来编译并运行在GPU中。
+- 从 THREE r72开始，不再支持在ShaderMaterial中直接分配属性。 必须使用 BufferGeometry实例 (而不是 Geometry 实例)，使用BufferAttribute实例来定义自定义属性。
+- 从 THREE r77开始，WebGLRenderTarget 或 WebGLRenderTargetCube 实例不再被用作uniforms。 必须使用它们的texture 属性。
+- 内置attributes和uniforms与代码一起传递到shaders。 如果您不希望WebGLProgram向shader代码添加任何内容，则可以使用RawShaderMaterial而不是此类。
+- 您可以使用指令#pragma unroll_loop，以便通过shader预处理器在GLSL中展开for循环。 该指令必须放在循环的正上方。循环格式必须与定义的标准相对应。
+    - 循环必须标准化normalized。
+    - 循环变量必须是i。
+    - 循环必须使用某种空格格式。
+
+### 构造函数(Constructor)
+``` javascript
+var material = new THREE.ShaderMaterial( {
+
+	uniforms: {
+
+		time: { value: 1.0 },
+		resolution: { value: new THREE.Vector2() }
+
+	},
+
+	vertexShader: document.getElementById( 'vertexShader' ).textContent,
+
+	fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+
+} );
+```
+**ShaderMaterial( parameters : Object )**
+
+- parameters - (可选)用于定义材质外观的对象，具有一个或多个属性。 材质的任何属性都可以从此处传入(包括从Material继承的任何属性)。
 
 ### 属性(Properties)
 
 常用属性请参见基类[Material](#top)。 
 
+.clipping : Boolean
+定义此材质是否支持剪裁; 如果渲染器传递clippingPlanes uniform，则为true。默认值为false。
+
+- .defaultAttributeValues : Object
+
+当渲染的几何体不包含这些属性但材质包含这些属性时，这些默认值将传递给shaders。这可以避免在缓冲区数据丢失时出错。
+this.defaultAttributeValues = {
+	'color': [ 1, 1, 1 ],
+	'uv': [ 0, 0 ],
+	'uv2': [ 0, 0 ]
+};
+
+- .defines : Object
+
+使用 #define 指令在GLSL代码为顶点着色器和片段着色器定义自定义常量；每个键/值对产生一行定义语句：
+defines: {
+	FOO: 15,
+	BAR: true
+} 这将在GLSL代码中产生如下定义语句：
+
+``` c
+#define FOO 15
+#define BAR true
+```
+
+- .extensions : Object
+
+一个有如下属性的对象：
+this.extensions = {
+	derivatives: false, // set to use derivatives
+	fragDepth: false, // set to use fragment depth values
+	drawBuffers: false, // set to use draw buffers
+	shaderTextureLOD: false // set to use shader texture LOD
+};
+
+- .fog : Boolean
+
+定义材质颜色是否受全局雾设置的影响; 如果将fog uniforms传递给shader，则为true。默认值为false。
+
+- .fragmentShader : String
+
+片元着色器的GLSL代码。这是shader程序的实际代码。在上面的例子中， vertexShader 和 fragmentShader 代码是从DOM（HTML文档）中获取的； 它也可以作为一个字符串直接传递或者通过AJAX加载。
+
+- .index0AttributeName : String
+
+如果设置，则调用gl.bindAttribLocation 将通用顶点索引绑定到属性变量。默认值未定义。
+
+- .isShaderMaterial : Boolean
+
+用于检查此类或派生类是否为着色器材质。默认值为 true。
+
+因为其通常用在内部优化，所以不应该更改该属性值。
+
+- .lights : Boolean
+
+材质是否受到光照的影响。默认值为 false。如果传递与光照相关的uniform数据到这个材质，则为true。默认是false。
+
+- .linewidth : Float
+
+控制线框宽度。默认值为1。
+
+由于OpenGL Core Profile与大多数平台上WebGL渲染器的限制，无论如何设置该值，线宽始终为1。
+
+- .morphTargets : Boolean
+
+定义材质是否使用 morphTargets。如果将morphTarget attributes传递到此shader，则为true。
+
+- .morphNormals : boolean
+
+定义材质是否使用 morphNormals。设置为true，将从Geometry传递morphNormal属性给shader。默认值是false。
+
+- .program : WebGLProgram
+
+与此材质相关联的编译后的shader程序，由WebGLRenderer生成。您应该不需要访问此属性。
+
+- .flatShading : Boolean
+
+定义材质是否使用平面着色进行渲染。默认值为false。
+
+- .skinning : Boolean
+
+定义材质是否使用蒙皮; 如果将蒙皮属性传递给shader，则为true。默认值为false。
+
+- .uniforms : Object
+
+如下形式的对象：
+
+``` json
+{ "uniform1": { value: 1.0 }, "uniform2": { value: 2 } }
+```
+
+指定要传递给shader代码的uniforms；键为uniform的名称，值(value)是如下形式：
+{ value: 1.0 } 这里 value 是uniform的值。名称必须匹配 uniform 的name，和GLSL代码中的定义一样。 注意，uniforms逐帧被刷新，所以更新uniform值将立即更新GLSL代码中的相应值。
+
+- .vertexColors : Number
+
+通过定义colors属性的生成方式来定义顶点是如何着色的。 可选值为THREE.NoColors, THREE.FaceColors 和 THREE.VertexColors。 缺省为 THREE.NoColors。
+
+- .vertexShader : String
+
+顶点着色器的GLSL代码。这是shader程序的实际代码。 在上面的例子中，vertexShader 和 fragmentShader 代码是从DOM（HTML文档）中获取的； 它也可以作为一个字符串直接传递或者通过AJAX加载。
+
+- .wireframe : Boolean
+
+将几何体渲染为线框(通过GL_LINES而不是GL_TRIANGLES)。默认值为false（即渲染为平面多边形）。
+
+- .wireframeLinewidth : Float
+
+控制线框宽度。默认值为1。
+
+由于OpenGL Core Profile与大多数平台上WebGL渲染器的限制，无论如何设置该值，线宽始终为1。
 
 
 ### 方法(Methods)
 
 常用方法请参见基类[Material](#top)。
 
+- .clone () : ShaderMaterial this : ShaderMaterial
 
+创建该材质的一个浅拷贝。需要注意的是，vertexShader和fragmentShader使用引用拷贝； attributes的定义也是如此; 这意味着，克隆的材质将共享相同的编译WebGLProgram； 但是，uniforms 是 值拷贝，这样对不同的材质我们可以有不同的uniforms变量。
 
 ## <a id="ShadowMaterial"></a>阴影材质(ShadowMaterial)
 
+此材质可以接收阴影，但在其他方面完全透明。
+
+例子：
+
+``` javacript
+var planeGeometry = new THREE.PlaneGeometry( 2000, 2000 );
+planeGeometry.rotateX( - Math.PI / 2 );
+
+var planeMaterial = new THREE.ShadowMaterial();
+planeMaterial.opacity = 0.2;
+
+var plane = new THREE.Mesh( planeGeometry, planeMaterial );
+plane.position.y = -200;
+plane.receiveShadow = true;
+scene.add( plane );
+```
+
+### 构造函数(Constructor)
+
+**ShadowMaterial( parameters : Object )**
+
+parameters - (可选)用于定义材质外观的对象，具有一个或多个属性。 材质的任何属性都可以从此处传入(包括从Material 和 ShaderMaterial继承的任何属性)。
 
 
 ### 属性(Properties)
 
-常用属性请参见基类[Material](#top)。 
+常用属性请参见基类[Material](#top)和[ShaderMaterial](ShaderMaterial)。
 
+- .isShadowMaterial : Boolean
 
+用于检查此类或派生类是否为阴影材质。默认值为 true。
+
+因为其通常用在内部优化，所以不应该更改该属性值。
+
+- .lights : Boolean
+
+材质是否受到光照的影响。默认值为 true。
+
+- .transparent : Boolean
+
+定义此材质是否透明。默认值为 true。
 
 ### 方法(Methods)
 
-常用方法请参见基类[Material](#top)。
-
+常用方法请参见基类[Material](#top)和[ShaderMaterial](ShaderMaterial)。
 
 
 ## <a id="SpriteMaterial"></a>精灵材料(SpriteMaterial)
 
+一种使用Sprite的材质。
 
+例子：
+
+``` javascript
+var spriteMap = new THREE.TextureLoader().load( 'textures/sprite.png' );
+
+var spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap, color: 0xffffff } );
+
+var sprite = new THREE.Sprite( spriteMaterial );
+sprite.scale.set(200, 200, 1)
+
+scene.add( sprite );
+```
+
+### 构造函数(Constructor)
+
+**SpriteMaterial( parameters : Object )**
+
+parameters - (可选)用于定义材质外观的对象，具有一个或多个属性。 材质的任何属性都可以从此处传入(包括从Material 和 ShaderMaterial继承的任何属性)。
+
+属性color例外，其可以作为十六进制字符串传递，默认情况下为 0xffffff（白色）， 内部调用Color.set(color)。 SpriteMaterials不会被Material.clippingPlanes裁剪。
 
 ### 属性(Properties)
 
 常用属性请参见基类[Material](#top)。 
 
+- .color : Color
 
+材质的颜色(Color)，默认值为白色 (0xffffff)。 .map会和 color 相乘。
 
+- .fog : boolean
+
+材质是否受场景雾的影响。默认值为false。
+
+- .lights : Boolean
+
+材质是否受到光照的影响。默认值为 false。
+
+- .map : Texture
+
+颜色贴图。默认为null。
+
+- .rotation : Radians
+
+sprite的转动，以弧度为单位。默认值为0。
+
+- .sizeAttenuation : Boolean
+
+精灵的大小是否会被相机深度衰减。（仅限透视摄像头。）默认为true。
 
 
 ### 方法(Methods)
 
 常用方法请参见基类[Material](#top)。
 
+
+```
