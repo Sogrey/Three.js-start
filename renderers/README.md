@@ -63,13 +63,14 @@ WebGL渲染器使用WebGL来绘制您的场景，如果您的设备支持的话�
   - canvas — 一个用来绘制输出的 Canvas 对象。
   - context — 所用的 渲染上下文(RenderingContext) 对象。
   - precision — 着色器的精度。可以是"highp", "mediump" 或 "lowp". 默认为"highp"，如果设备支持的话。
-  - alpha — Boolean, 透明，默认为 false.
+  - alpha — Boolean, 是否可以设置背景色透明，默认为 false.
   - premultipliedAlpha — Boolean, 默认为 true.
-  - antialias — Boolean,抗锯齿, 默认为 false.
+  - antialias — Boolean,是否开启反锯齿，设置为true开启反锯齿, 默认为 false.
   - stencil — Boolean, 默认为 true.
-  - preserveDrawingBuffer — Boolean, 默认为 false.
+  - preserveDrawingBuffer — Boolean,是否保存绘图缓冲，若设为true，则可以提取canvas绘图的缓冲， 默认为 false.
   - depth — Boolean, 默认为 true.
   - logarithmicDepthBuffer — Boolean, 默认为 false.
+  - maxLights — Int ，最大灯光数，我们的场景中最多能够添加多少个灯光。 
 
 ``` javascript
 var renderer = new THREE.WebGLRenderer({
