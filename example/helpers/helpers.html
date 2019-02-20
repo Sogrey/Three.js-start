@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>第一个three.js文件_WebGL三维场景</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            /* 隐藏body窗口区域滚动条 */
+        }
+    </style>
+    <!--引入three.js三维引擎-->
+    <script src="../js/threejs/three.js"></script>
+    <script src="../js/stats.js"></script>
+    <!-- 引入threejs扩展控件OrbitControls.js -->
+    <script src="../js/controls/OrbitControls.js"></script>
+
+    <script src="../js/loaders/BVHLoader.js"></script>
+</head>
+
+<body id="body">
+    <script>
+        var /*场景*/ scene, /*相机*/ camera, /*渲染器*/ renderer, /*手势控制*/ controls;
+        var /*环境光*/ ambient, /*点光源*/ pointLight;
+        var stats; //绘画帧率监测
+        var width = window.innerWidth; //窗口宽度
+        var height = window.innerHeight; //窗口高度
+        var k = width / height; //窗口宽高比
+
+        /**创建场景对象Scene*/
+        function initScene() {
+            scene = new THREE.Scene();
+        }
+        /**光源设置 - 初始化场景之后*/
+        function initLights() {
+            //点光源
+            pointLight = new THREE.PointLight(0xffffff);
+            pointLight.position.set(400, 200, 300); //点光源位置
+            scene.add(pointLight); //点光源添加到场景中
+            //环境光
+            ambient = new THREE.AmbientLight(0x444444);
+            scene.add(ambient);
+        }
+        /**相机设置*/
+        function initCamera() {
+            var s = 150; //三维场景显示范围控制系数，系数越大，显示的范围越大
+            //创建相机对象
+            camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
+            camera.position.set(300, 30, 30); //设置相机位置
+            camera.lookAt(scene.position); //设置相机方向(指向的场景对象)
+        }
+        /**创建控件对象 - 手势*/
+        function initOrbitControls() {
+            controls = new THREE.OrbitControls(camera); //创建控件对象
+            // controls.addEventListener('change', render);//监听鼠标事件，触发渲染函数
+            // 使用requestAnimationFrame实时刷新，就不用再监听THREE.OrbitControls的change事件了
+        }
+        /**创建渲染器对象*/
+        function initRenderer() {
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(width, height); //设置渲染区域尺寸
+            renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
+            document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
+        }
+
+        //添加新的div到body
+        //divId - 要创建的DIV id 
+        function addElementDiv(divId) {
+            var parent = document.getElementById("body");
+            console.log(parent)
+            //添加 div
+            var div = document.createElement("div");
+            //设置 div 属性，如 id
+            div.setAttribute("id", divId);
+            parent.appendChild(div);
+        }
+        //实时监测绘画帧率状态 - 开启动画时
+        function initStats() {
+            // <div id="Stats-output"></div>
+            addElementDiv("Stats-output");
+
+            var stats = new Stats();
+            stats.setMode(0); // 0: fps, 1: ms
+
+            // Align top-left
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.left = '0px';
+            stats.domElement.style.top = '0px';
+            document.getElementById("Stats-output").appendChild(stats.domElement);
+            return stats;
+        }
+
+
+        var clock = new THREE.Clock();
+        var skeletonHelper;
+        var mixer;
+        /** 渲染函数*/
+        function render() {
+            if (null != stats) stats.update();
+            var delta = clock.getDelta();
+            if (mixer) mixer.update(delta);
+            renderer.render(scene, camera); //执行渲染操作
+            requestAnimationFrame(render); //请求再次执行渲染函数render，渲染下一帧
+        }
+
+        var mesh;
+        /**创建网格模型*/
+        function initObjects() {
+            var geometry = new THREE.BoxGeometry(50, 50, 50); //创建一个立方体几何对象Geometry
+            var material = new THREE.MeshLambertMaterial({
+                color: 0x0000ff
+            }); //材质对象Material
+            mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
+            scene.add(mesh); //网格模型添加到场景中
+        }
+
+
+        function main() {
+            //实时监测绘画帧率状态 - 调试时用
+            stats = initStats();
+            //创建场景对象Scene
+            initScene();
+            //相机设置
+            initCamera();
+            //启用手势控制
+            initOrbitControls();
+            //光源设置 - 初始化场景之后
+            initLights();
+            //创建渲染器对象
+            initRenderer()
+
+            //创建网格模型
+            initObjects();
+
+            //辅助
+            helpers();
+
+
+            //渲染
+            render();
+        }
+        main();
+
+        //辅助对象 Helper
+        function helpers() {
+            //ArrowHelper  - 箭头
+            var dir = new THREE.Vector3(1, 1, 1); //箭头方向-矢量
+            //normalize the direction vector (convert to vector of length 1) 规范化方向向量（转换为长度为1的向量）
+            dir.normalize();
+            var origin = new THREE.Vector3(0, 0, 0); //箭头起点（原点）
+            var length = 80; //箭头长度
+            var hex = 0xffff00; //箭头颜色
+            var arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex, 5.0, 5.0);
+            scene.add(arrowHelper);
+
+            //AxesHelper  - 坐标轴辅助
+            scene.add(new THREE.AxesHelper(200));
+
+            //BoxHelper  - 包围盒
+            scene.add(new THREE.BoxHelper(mesh, 0xffff00));
+
+            //Box3Helper  - 模拟3维包围盒
+            var box3 = new THREE.Box3(); //3D空间中表示一个盒子或立方体。这个的主要目的是表示对象的最小边界框
+            box3.setFromCenterAndSize(
+                new THREE.Vector3(1, 1, 1), //表示包围盒的下边界。
+                new THREE.Vector3(60, 70, 80) //表示包围盒的上边界。
+            );
+
+            scene.add(new THREE.Box3Helper(
+                box3, //被模拟的3维包围盒.
+                0xffff00 //色值
+            ));
+
+            //CameraHelper  - 用于模拟相机视锥体的辅助对象
+            var camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            scene.add(new THREE.CameraHelper(camera1));
+
+            // DirectionalLightHelper 
+            var light = new THREE.DirectionalLight(0xFF0000); //平行光
+            scene.add(new THREE.DirectionalLightHelper(
+                light, //被模拟的光源. 
+                200, //平面的尺寸. 默认为 1.
+                0x00ffff //color -- 如果没有设置颜色将使用光源的颜色.
+            ));
+
+            //FaceNormalsHelper  渲染箭头辅助对象 - 仅几何体为 Geometry 类型的对象能正常运行.
+            scene.add(new THREE.FaceNormalsHelper(
+                mesh, //要渲染面法线辅助的对象.
+                60, //(可选的) 箭头的长度. 默认为 1.
+                0x00ff00, //(可选的) 箭头的颜色. 默认为 0xffff00.
+                3 //(可选的) 箭头线段的宽度. 默认为 1.
+            ));
+
+
+            //GridHelper  - 坐标格辅助对象. 坐标格实际上是2维线数组.
+            scene.add(new THREE.GridHelper(
+                600, //坐标格尺寸. 默认为 10. 
+                20, //坐标格细分次数. 默认为 10.
+                0x666666, //中线颜色. 值可以为 Color 类型, 16进制 和 CSS 颜色名. 默认为 0x444444 
+                0x888888 //坐标格网格线颜色. 值可以为 Color 类型, 16进制 和 CSS 颜色名. 默认为 0x888888
+            ));
+
+            //PolarGridHelper - 极坐标格辅助对象. 坐标格实际上是2维线数组.
+            scene.add(new THREE.PolarGridHelper(
+                80, //radius -- 极坐标格半径. 可以为任何正数. 默认为 10.
+                22, //radials -- 径向辐射线数量. 可以为任何正整数. 默认为 16.
+                8, // circles -- 圆圈的数量. 可以为任何正整数. 默认为 8.
+                64, // divisions -- 圆圈细分段数. 可以为任何大于或等于3的正整数. 默认为 64.
+                // color1 -- 极坐标格使用的第一个颜色. 值可以为 Color 类型, 16进制 和 CSS 颜色名. 默认为 0x444444 
+                // color2 -- 极坐标格使用的第二个颜色. 值可以为 Color 类型, 16进制 和 CSS 颜色名. 默认为 0x888888
+            ));
+
+            //HemisphereLightHelper  - 创建一个虚拟的球形网格 Mesh 的辅助对象来模拟 半球形光源 HemisphereLight.
+            var light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+            scene.add(new THREE.HemisphereLightHelper(
+                light, // light -- 被模拟的光源. 
+                80, // size -- 用于模拟光源的网格尺寸.
+                0xff0000 // color -- (可选的) 如果没有赋值辅助对象将使用光源的颜色.
+            ));
+
+            //PlaneHelper  - 用于模拟平面 Plane 的辅助对象.
+            var plane = new THREE.Plane(new THREE.Vector3(1, 1, 0.2), 3);
+            scene.add(new THREE.PlaneHelper(
+                plane, // plane -- 被模拟的平面.
+                80, // size -- (可选的) 辅助对象的单边长度. 默认为 1.
+                0x00ffff // color -- (可选的) 辅助对象的颜色. 默认为 0xffff00.
+            ));
+
+
+            //PointLightHelper  - 创建一个虚拟的球形网格 Mesh 的辅助对象来模拟 点光源 PointLight.
+            scene.add(new THREE.PointLightHelper(
+                pointLight, // light -- 要模拟的光源. 
+                60, // sphereSize -- (可选的) 球形辅助对象的尺寸. 默认为 1.
+                0xf34567 // color -- (可选的) 如果没有赋值辅助对象将使用光源的颜色.
+            ))
+
+            //RectAreaLightHelper  - 创建一个表示 RectAreaLight 的辅助对象.
+            var rectAreaLight = new THREE.RectAreaLight(0xffffbb, 1.0, 90, 90); //区域光源
+            rectAreaLight.position.set(-100, -200, 100); //光源位置
+            rectAreaLight.lookAt(scene.position); //光源照向场景原点
+            scene.add(new THREE.RectAreaLightHelper(
+                rectAreaLight, // light -- 被模拟的光源.
+                0xff0000 // color -- (可选) 如果没有赋值辅助对象将使用光源的颜色.
+            ));
+
+
+            //SkeletonHelper  - 用来模拟骨骼 Skeleton 的辅助对象. 该辅助对象使用 LineBasicMaterial 材质.
+            new THREE.BVHLoader().load("../model/bvh/pirouette.bvh", function (result) {
+                skeletonHelper = new THREE.SkeletonHelper(result.skeleton.bones[0]);
+                skeletonHelper.skeleton = result.skeleton; // allow animation mixer to bind to SkeletonHelper directly
+                var boneContainer = new THREE.Group();
+                boneContainer.add(result.skeleton.bones[0]);
+                scene.add(skeletonHelper);
+                scene.add(boneContainer);
+                // play animation
+                mixer = new THREE.AnimationMixer(skeletonHelper);
+                mixer.clipAction(result.clip).setEffectiveWeight(1.0).play();
+            });
+
+
+            //SpotLightHelper  - 用于模拟聚光灯 SpotLight 的锥形辅助对象.
+            var spotLight = new THREE.SpotLight(0xffffff);
+            spotLight.position.set(200, 200, 200);
+            scene.add(spotLight);
+
+            var spotLightHelper = new THREE.SpotLightHelper(spotLight);
+            scene.add(spotLightHelper);
+
+
+            // VertexNormalsHelper
+            // 渲染箭头辅助对象 arrows 来模拟顶点的法线. 需要定义了法线缓存属性 custom attribute
+            // 或 使用了 computeVertexNormals 方法计算了顶点法线.
+            // 不像面法线辅助对象 FaceNormalsHelper, 该辅助对象在 BufferGeometry 上也能正常运行.
+            scene.add(new THREE.VertexNormalsHelper(
+                mesh, // object -- 要渲染顶点法线辅助的对象.
+                90, // size -- (可选的) 箭头的长度. 默认为 1.
+                0xffffff, // color -- 16进制颜色值. 默认为 0xff0000.
+                5 // linewidth -- (可选的) 箭头线段的宽度. 默认为 1.
+            ));
+        }
+    </script>
+</body>
+
+</html>
