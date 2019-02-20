@@ -83,3 +83,6 @@
 * 实例用法
     * [ThreeJS中的点击与交互——Raycaster的用法](demos/Raycaster-demo-find-object.md)
 
+-----
+* [参考资料](reference/README.md)
+
