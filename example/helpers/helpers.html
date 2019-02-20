@@ -110,7 +110,8 @@
         function initObjects() {
             var geometry = new THREE.BoxGeometry(50, 50, 50); //创建一个立方体几何对象Geometry
             var material = new THREE.MeshLambertMaterial({
-                color: 0x0000ff
+                color: 0x0000ff,
+                side:THREE.DoubleSide,//	双面
             }); //材质对象Material
             mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
             scene.add(mesh); //网格模型添加到场景中

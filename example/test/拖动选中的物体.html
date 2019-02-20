@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ceshi</title>
+    <script type="text/javascript" src="../js/threejs/three.js"></script>
+    <script src="../js/controls/TrackballControls.js"></script>
+    <script src="../js/controls/DragControls.js"></script>
+    <style>
+        body
+        {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <!-- 作为Three.js渲染器输出元素 -->
+    <div id="WebGL-output">
+    </div>
+    <!-- 第一个 Three.js 样例代码 -->
+    <script type="text/javascript">
+
+        var cube = new Array(100);
+        var rotx = new Array(100);
+        var roty = new Array(100);
+        var rotz = new Array(100);
+        var camera, scene, renderer;
+
+        var controls;
+        var objects = [];
+
+        var fov = 45;
+        var near = 0.1;
+        var far = 1000;
+        init();
+        render();
+
+        function init() {
+
+            scene = new THREE.Scene();      //创建场景
+
+            camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, near, far);   //创建摄像机
+            camera.position.x = 100;
+            camera.position.y = 100;
+            camera.position.z = 100;
+            camera.lookAt(scene.position);
+
+            renderer = new THREE.WebGLRenderer();                    //创建一个WebGL渲染器并设置其大小
+            renderer.setClearColor(new THREE.Color(0xf0f0f0));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            var axes = new THREE.AxisHelper(200);               //创建三轴表示
+            scene.add(axes);
+
+            controls = new THREE.TrackballControls(camera);     //创建场景旋转缩放事件
+            controls.rotateSpeed = 2.5;
+            controls.zoomSpeed = 1.2;
+            controls.panSpeed = 0.8;
+            controls.noZoom = false;
+            controls.noPan = false;
+            controls.staticMoving = true;
+            controls.dynamicDampingFactor = 0.3;
+
+            for (var i = 0; i < 100; i++) {             //随机创建100个正方体
+                var geometry = new THREE.BoxGeometry(5, 5, 5);
+                for (var j = 0; j < geometry.faces.length; j += 2) {
+                    var hex = Math.random() * 0xffffff;
+                    geometry.faces[j].color.setHex(hex);
+                    geometry.faces[j + 1].color.setHex(hex);
+                }
+
+                rotx[i] = Math.random() * 0.05;
+                roty[i] = Math.random() * 0.05;
+                rotz[i] = Math.random() * 0.05;
+                var material = new THREE.MeshBasicMaterial({ vertexColors: 0xffffff, transparent: true, opacity: 0.8 });
+                cube[i] = new THREE.Mesh(geometry, material);
+
+                cube[i].position.x = Math.random() * 100 - 50;
+                cube[i].position.y = Math.random() * 100 - 50;
+                cube[i].position.z = Math.random() * 100 - 50;
+
+                scene.add(cube[i]);
+                objects.push(cube[i]);
+            }
+
+            window.addEventListener('resize', onWindowResize, false);
+
+            var dragControls = new THREE.DragControls(objects, camera, renderer.domElement);
+            dragControls.addEventListener('dragstart', function (event) { controls.enabled = false; });
+            dragControls.addEventListener('dragend', function (event) { controls.enabled = true; });
+
+        }
+
+        function onWindowResize() {
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+        }
+
+        function render() {
+            requestAnimationFrame(render);
+
+            controls.update();
+
+            for (var i = 0; i < 100; i++) {
+                cube[i].rotation.x += rotx[i];
+                cube[i].rotation.y += roty[i];
+                cube[i].rotation.z += rotz[i];
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        document.getElementById("WebGL-output").appendChild(renderer.domElement);
+   
+
+    </script>
+</body>
+</html>

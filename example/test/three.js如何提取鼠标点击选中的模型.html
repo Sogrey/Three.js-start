@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>测试</title>
+    <script type="text/javascript" src="../js/threejs/three.js"></script>
+    <script type="text/javascript" src="../js/controls/DragControls.js"></script>
+    <script type="text/javascript" src="../js/controls/TrackballControls.js"></script>
+    <script type="text/javascript" src="../js/stats.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body id="body">
+
+    <div id="WebGL-output">
+    </div>
+
+    <script type="text/javascript">
+        function init() {
+            var stats = initStats(); //绘画帧率监测
+            var scene = new THREE.Scene();
+
+            var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+
+            var controls = new THREE.TrackballControls(camera);
+            controls.rotateSpeed = 1.0;
+            controls.zoomSpeed = 1.2;
+            controls.panSpeed = 0.8;
+            controls.noZoom = false;
+            controls.noPan = false;
+            controls.staticMoving = true;
+            controls.dynamicDampingFactor = 0.3;
+
+
+            var renderer = new THREE.WebGLRenderer();
+
+            renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMapEnabled = true;
+
+            var planeGeometry = new THREE.PlaneGeometry(60, 20);
+            var planeMaterial = new THREE.MeshLambertMaterial({
+                color: 0xffffff,
+                side:THREE.DoubleSide,//	双面
+            });
+            var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+            plane.receiveShadow = true;
+
+            plane.rotation.x = -0.5 * Math.PI;
+            plane.position.x = 15;
+            plane.position.y = 0;
+            plane.position.z = 0;
+
+            scene.add(plane);
+
+            var cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
+            var cubeMaterial = new THREE.MeshLambertMaterial({
+                color: 0xff0000
+            });
+            var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+            cube.castShadow = true;
+
+            cube.position.x = -4;
+            cube.position.y = 3;
+            cube.position.z = 0;
+
+            scene.add(cube);
+
+            var dragControlsCube = new THREE.DragControls(cube, camera, renderer.domElement);
+            dragControlsCube.addEventListener('dragstart', function () {
+                controls.enabled = false;
+            });
+            dragControlsCube.addEventListener('dragend', function () {
+                controls.enabled = true;
+            });
+
+
+            var sphereGeometry = new THREE.SphereGeometry(4, 20, 20);
+            var sphereMaterial = new THREE.MeshLambertMaterial({
+                color: 0x7777ff
+            });
+            var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+            sphere.position.x = 20;
+            sphere.position.y = 4;
+            sphere.position.z = 2;
+            sphere.castShadow = true;
+
+            scene.add(sphere);
+
+            var dragControlsSphere = new THREE.DragControls(sphere, camera, renderer.domElement);
+            dragControlsSphere.addEventListener('dragstart', function () {
+                controls.enabled = false;
+            });
+            dragControlsSphere.addEventListener('dragend', function () {
+                controls.enabled = true;
+            });
+
+            camera.position.x = -30;
+            camera.position.y = 40;
+            camera.position.z = 30;
+            camera.lookAt(scene.position);
+
+            var spotLight = new THREE.SpotLight(0xffffff);
+            spotLight.position.set(-40, 60, -10);
+            spotLight.castShadow = true;
+            scene.add(spotLight);
+
+            document.getElementById("WebGL-output").appendChild(renderer.domElement);
+
+
+            function animate() {
+				requestAnimationFrame( animate );
+				render();
+				stats.update();
+			}
+
+			function render() {
+				controls.update();
+				renderer.render( scene, camera );
+			}
+            animate();
+
+
+
+
+
+
+
+
+
+
+                    //添加新的div到body
+        //divId - 要创建的DIV id 
+        function addElementDiv(divId) {
+            var parent = document.getElementById("body");
+            console.log(parent)
+            //添加 div
+            var div = document.createElement("div");
+            //设置 div 属性，如 id
+            div.setAttribute("id", divId);
+            parent.appendChild(div);
+        }
+        //实时监测绘画帧率状态 - 开启动画时
+        function initStats() {
+            // <div id="Stats-output"></div>
+            addElementDiv("Stats-output");
+
+            var stats = new Stats();
+            stats.setMode(0); // 0: fps, 1: ms
+
+            // Align top-left
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.left = '0px';
+            stats.domElement.style.top = '0px';
+            document.getElementById("Stats-output").appendChild(stats.domElement);
+            return stats;
+        }
+        }
+        window.onload = init;
+    </script>
+</body>
+
+</html>
