@@ -14,8 +14,11 @@
     <!--引入three.js三维引擎-->
     <script src="./js/threejs/three.js"></script>
     <script src="./js/libs/stats.min.js"></script>
+
+    <!-- <script src="./js/controls/TrackballControls.js"></script> -->
     <!-- 引入threejs扩展控件OrbitControls.js -->
     <script src="./js/controls/OrbitControls.js"></script>
+    <!-- <script src="./js/controls/TransformControls.js"></script> -->
 </head>
 
 <body id="body">
@@ -63,33 +66,6 @@
             document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
         }
 
-        // //添加新的div到body
-        // //divId - 要创建的DIV id 
-        // function addElementDiv(divId) {
-        //     var parent = document.getElementById("body");
-        //     console.log(parent)
-        //     //添加 div
-        //     var div = document.createElement("div");
-        //     //设置 div 属性，如 id
-        //     div.setAttribute("id", divId);
-        //     parent.appendChild(div);
-        // }
-        // //实时监测绘画帧率状态 - 开启动画时
-        // function initStats() {
-        //     // <div id="Stats-output"></div>
-        //     addElementDiv("Stats-output");
-
-        //     var stats = new Stats();
-        //     stats.setMode(0); // 0: fps, 1: ms
-
-        //     // Align top-left
-        //     stats.domElement.style.position = 'absolute';
-        //     stats.domElement.style.left = '0px';
-        //     stats.domElement.style.top = '0px';
-        //     document.getElementById("Stats-output").appendChild(stats.domElement);
-        //     return stats;
-        // }
-
         //实时监测绘画帧率状态 - 开启动画时
         function initStats() {
             stats = new Stats();
@@ -105,6 +81,12 @@
             requestAnimationFrame(render); //请求再次执行渲染函数render，渲染下一帧
         }
 
+        /** 窗口变动触发的方法 */
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
 
         var mesh;
         /**创建网格模型*/
@@ -132,8 +114,6 @@
             initScene();
             //相机设置
             initCamera();
-            //启用手势控制
-            initOrbitControls();
             //光源设置 - 初始化场景之后
             initLights();
             //创建渲染器对象
@@ -141,8 +121,12 @@
 
             //创建网格模型
             initObjects();
+            //启用手势控制
+            initOrbitControls();
             //辅助
             helpers();
+            //窗口变动触发的方法
+            window.addEventListener('resize', onWindowResize, false);
             //渲染
             render();
         }

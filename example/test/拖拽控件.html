@@ -1,0 +1,126 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title>拖拽控件</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+    <script src="../js/threejs/three.js"></script>
+    <script src="../js/controls/TrackballControls.js"></script>
+    <!--拖拽控件-->
+    <script src="../js/controls/DragControls.js"></script>
+    <!--可视化平移控件-->
+    <script src="../js/controls/TransformControls.js"></script>
+</head>
+<body>
+<script>
+
+    var scene, camera, renderer, controls, light;
+
+    // 场景
+    function initScene() {
+        scene = new THREE.Scene();
+    }
+
+    // 相机
+    function initCamera() {
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
+        camera.position.set(0, 400, 600);
+        camera.lookAt(new THREE.Vector3(0, 0, 0));
+    }
+
+    // 渲染器
+    function initRenderer() {
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+    }
+
+    // 初始化模型
+    function initContent() {
+        var helper = new THREE.GridHelper(1200, 50, 0xCD3700, 0x4A4A4A);
+        scene.add(helper);
+
+        var cubeGeometry = new THREE.BoxGeometry(100, 100, 100);
+        var cubeMaterial = new THREE.MeshLambertMaterial({color: 0x9370DB});
+        var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        scene.add(cube);
+    }
+
+    // 窗口变动触发的方法
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    // 初始化轨迹球控件
+    function initControls() {
+        controls = new THREE.TrackballControls(camera, renderer.domElement);
+    }
+
+    // 添加拖拽控件
+    function initDragControls() {
+        // 添加平移控件
+        var transformControls = new THREE.TransformControls(camera, renderer.domElement);
+        scene.add(transformControls);
+
+        // 过滤不是 Mesh 的物体,例如辅助网格
+        var objects = [];
+        for (let i = 0; i < scene.children.length; i++) {
+            if (scene.children[i].isMesh) {
+                objects.push(scene.children[i]);
+            }
+        }
+        // 初始化拖拽控件
+        var dragControls = new THREE.DragControls(objects, camera, renderer.domElement);
+
+        // 鼠标略过
+        dragControls.addEventListener('hoveron', function (event) {
+            transformControls.attach(event.object);
+        });
+        // 开始拖拽
+        dragControls.addEventListener('dragstart', function (event) {
+            controls.enabled = false;
+        });
+        // 拖拽结束
+        dragControls.addEventListener('dragend', function (event) {
+            controls.enabled = true;
+        });
+    }
+
+    // 初始化灯光
+    function initLight() {
+        light = new THREE.SpotLight(0xffffff);
+        light.position.set(-300, 600, -400);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x5C5C5C));
+    }
+
+    // 初始化
+    function init() {
+        initScene();
+        initCamera();
+        initRenderer();
+        initContent();
+        initLight();
+        initControls();
+        initDragControls();
+        window.addEventListener('resize', onWindowResize, false);
+    }
+
+    function animate() {
+
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+        controls.update();
+    }
+
+    init();
+    animate();
+
+</script><canvas width="790" height="756" style="width: 790px; height: 756px; cursor: auto;"></canvas>
+
+</body></html>

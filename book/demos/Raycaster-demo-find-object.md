@@ -8,7 +8,7 @@
 
 ## 找到点击物体的大致思路
 
-![](https://segmentfault.com/img/bVR64B?w=517&h=423)
+![](https://image-static.segmentfault.com/172/167/1721675832-5981d7265c8f2_articlex)
 
 鼠标在屏幕上点击的时候，得到二维坐标p(x, y),再加上深度坐标的范围(0, 1), 就可以形成两个三位坐标A(x1, y1, 0), B(x2, y, 1), 由于它们的Z轴坐标是0和1，则转变到投影坐标系的话，一定分别是前剪切平面上的点和后剪切平面上的点，也就是说，在投影坐标系中，A点一定在能看见的所有模型的最前面，B点一定在能看见的所有的模型的最后边，将AB点连成线，AB线穿过的物体就是被点击的物体。而 Three.js提供一个射线类Raycasting来拾取场景里面的物体。更方便的使用鼠标来操作3D场景。（不过在实际代码中我们组成射线的两个点是摄像机所在视点与屏幕上点击的点连接而成的射线） 
 
@@ -43,7 +43,7 @@ function onDocumentMouseDown(e) {
 
 ## 代码释义
 
-![](https://segmentfault.com/img/bVSazW?w=667&h=353)
+![](https://image-static.segmentfault.com/309/116/3091167779-5982d816c8bb2_articlex)
 
 
   //得到
