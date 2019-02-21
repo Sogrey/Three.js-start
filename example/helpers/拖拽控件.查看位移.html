@@ -27,6 +27,9 @@
     <script>
         var /*场景*/ scene, /*相机*/ camera, /*渲染器*/ renderer, /*光源-非环境光，PointLight*/ light;
         var /*轨迹球控件*/ trackballControls;
+
+        var cubeVector3Start = new THREE.Vector3(), //长方体起始位置
+            cubeVector3End = new THREE.Vector3(); //长方体最后位置
         // 场景
         function initScene() {
             scene = new THREE.Scene();
@@ -59,17 +62,24 @@
             var cubeGeometry = new THREE.BoxGeometry(100, 100, 100);
             var cubeMaterial = new THREE.MeshLambertMaterial({ //
                 color: 0x9370DB,
-                side: THREE.DoubleSide, //	双面F
+                side: THREE.DoubleSide, //	双面
+                transparent:true,
+                opacity:.6,
             });
 
             cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
             cube.position.set(200, 0, 0)
+            cubeVector3Start.copy(cube.position);
+            // console.log(cubeVector3Start);//Vector3 {x: 200, y: 0, z: 0}
+            cubeVector3End.copy(cube.position);
             scene.add(cube);
             //球体
             var geometry = new THREE.SphereGeometry(100, 50, 50);
             var material = new THREE.MeshPhongMaterial({
                 color: 0x345678,
                 side: THREE.DoubleSide, //	双面
+                transparent:true,
+                opacity:.6,
             });
             sphere = new THREE.Mesh(geometry, material);
             sphere.position.set(-200, 0, 0);
@@ -121,13 +131,13 @@
             dragControls.addEventListener('dragstart', function (event) {
                 trackballControls.enabled = false; // false 禁止场景旋转平移，适合于鼠标拖动场景中的物体，
                 console.log("开始拖拽")
-                console.log(event.object.position)
+                // console.log(event.object.position)
             });
             // 拖拽结束
             dragControls.addEventListener('dragend', function (event) {
                 trackballControls.enabled = true; // true 开启场景的旋转平移,此时如果拖拽场景中的物体，场景也会随之发生旋转
                 console.log("拖拽结束")
-                console.log(event.object.position)
+                // console.log(event.object.position)
 
 
                 // updataTmp();
@@ -164,7 +174,12 @@
         function animate() {
             if (null != stats) stats.update();
 
-            updateHelpers();updataTmp();
+            updateHelpers();
+            updataTmp();
+
+            cubeVector3End.copy(cube.position);
+
+            checkCubePosition();
 
             requestAnimationFrame(animate);
             renderer.render(scene, camera);
@@ -204,7 +219,6 @@
                 scene.add(arrowTMP);
             }
 
-
             // console.log({
             //     spherePosition: sphere.position,
             //     cubePosition: cube.position,
@@ -233,7 +247,7 @@
             directionTmp.copy(direction);
             arrowz.setDirection(directionTmp.normalize()); ////设置箭头方向，必须是单位向量
             arrowz.position.copy(cube.position); //设置箭头原点（起点）
-            arrowz.setLength(direction.length() - 100); //设置箭头长度
+            arrowz.setLength(direction.length()); //设置箭头长度
             // console.log(arrowz.position);
             // console.log({
             //     spherePosition: sphere.position,
@@ -246,13 +260,63 @@
         function updataTmp() {
             var v = new THREE.Vector3();
             v.subVectors(sphere.position, cube.position); //两个向量相减
-            console.log(v);
-            console.log(sphere.position.distanceTo(cube.position)); //距离
-            console.log(v.length()); //距离
+            // console.log(v);
+            // console.log(sphere.position.distanceTo(cube.position)); //距离
+            // console.log(v.length()); //距离
 
             var arrowPosition1 = new THREE.Vector3(0, 0, 0); //设置箭头起点为原点
             arrowTMP.setDirection(v.normalize()); ////设置箭头方向，必须是单位向量
             arrowTMP.position.copy(arrowPosition1); //设置箭头原点（起点）
+        }
+
+        var arrowCudeVector3; //长方体位移
+        var fontLoader;
+        var fontGeometry;
+
+        function checkCubePosition() {
+            // cubeVector3Start 起点
+            // console.log(cubeVector3End)    //终点
+            if (cubeVector3Start.equals(cubeVector3End)) { //起点终点一致-没有位移
+                scene.remove(arrowCudeVector3);
+            } else {
+                if (null == arrowCudeVector3) {
+                    var arrowDirection = new THREE.Vector3().subVectors(cube.position, cubeVector3Start).normalize(), //箭头方向
+                        arrowPosition1 = new THREE.Vector3();
+                    arrowPosition1.copy(cubeVector3Start);
+                    arrowCudeVector3 = new THREE.ArrowHelper(arrowDirection, arrowPosition1, 300, 0xffff00);
+                    scene.add(arrowCudeVector3);
+                } else {
+                    var direction = new THREE.Vector3().subVectors(cube.position, cubeVector3Start);
+                    var lenght = direction.length();
+                    console.log(direction.length()); //距离
+                    console.log(direction); //距离
+                    var directionTmp = new THREE.Vector3();
+                    directionTmp.copy(direction);
+                    arrowCudeVector3.setDirection(directionTmp.normalize()); ////设置箭头方向，必须是单位向量
+                    arrowCudeVector3.position.copy(cubeVector3Start); //设置箭头原点（起点）
+                    arrowCudeVector3.setLength(direction.length()); //设置箭头长度
+
+                    // if (null == fontLoader) {
+                    //     fontLoader = new THREE.FontLoader();
+                    //     fontLoader.load('../fonts/helvetiker_regular.typeface.json', function (font) {
+                    //         if (null == fontGeometry)
+                    //              fontGeometry = new THREE.TextGeometry(""+lenght, {
+                    //                 font: font,
+                    //                 size: 80,
+                    //                 height: 5,
+                    //                 curveSegments: 12,
+                    //                 bevelEnabled: true,
+                    //                 bevelThickness: 10,
+                    //                 bevelSize: 8,
+                    //                 bevelSegments: 5
+                    //             });
+                    //             scene.add(fontGeometry)
+                    //     });
+                    // }else{
+                    //     fontGeometry.parameters.text = ""+lenght;
+                    // }
+                }
+            }
         }
     </script>
 </body>
