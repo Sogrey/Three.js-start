@@ -2,7 +2,7 @@
 
 [示例](https://sogrey.github.io/Three.js-start/example/helpers/helpers.html)
 
-- [ArrowHelper](https://threejs.org/docs/api/zh/helpers/ArrowHelper.html)
+- [ArrowHelper](https://threejs.org/docs/api/zh/helpers/ArrowHelper.html)  [例子](https://sogrey.github.io/Three.js-start/example/helpers/test/拖拽控件.html)
 - [AxesHelper](https://threejs.org/docs/api/zh/helpers/AxesHelper.html)
 - [BoxHelper](https://threejs.org/docs/api/zh/helpers/BoxHelper.html)
 - [Box3Helper](https://threejs.org/docs/api/zh/helpers/Box3Helper.html)

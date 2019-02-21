@@ -10,17 +10,23 @@
         }
     </style>
     <script src="../js/threejs/three.js"></script>
+
+    <!--旋转控制 - 旋转相机位置-->
+    <!-- <script src="../js/controls/OrbitControls.js"></script> -->
+    <!--轨迹球控制-->
     <script src="../js/controls/TrackballControls.js"></script>
     <!--拖拽控件-->
     <script src="../js/controls/DragControls.js"></script>
     <!--可视化平移控件-->
     <script src="../js/controls/TransformControls.js"></script>
+
+    <script src="../js/libs/stats.min.js"></script>
 </head>
 
 <body>
     <script>
-        var scene, camera, renderer, controls, light;
-
+        var /*场景*/ scene, /*相机*/ camera, /*渲染器*/ renderer, /*光源-非环境光，PointLight*/ light;
+        var /*轨迹球控件*/ trackballControls;
         // 场景
         function initScene() {
             scene = new THREE.Scene();
@@ -40,6 +46,7 @@
             document.body.appendChild(renderer.domElement);
         }
 
+        var cube, sphere;
         // 初始化模型
         function initContent() {
             var axesHelper = new THREE.AxesHelper(10000);
@@ -48,22 +55,24 @@
             var helper = new THREE.GridHelper(1200, 50, 0xCD3700, 0x4A4A4A);
             scene.add(helper);
 
+            //长方体
             var cubeGeometry = new THREE.BoxGeometry(100, 100, 100);
-            var cubeMaterial = new THREE.MeshLambertMaterial({
+            var cubeMaterial = new THREE.MeshLambertMaterial({ //
                 color: 0x9370DB,
-                side: THREE.DoubleSide, //	双面
+                side: THREE.DoubleSide, //	双面F
             });
-            var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-            cube.position.set(200,0,0)
-            scene.add(cube);
 
-            var geometry = new THREE.SphereGeometry(100,50, 50);
-            var material = new THREE.MeshBasicMaterial({
+            cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+            cube.position.set(200, 0, 0)
+            scene.add(cube);
+            //球体
+            var geometry = new THREE.SphereGeometry(100, 50, 50);
+            var material = new THREE.MeshPhongMaterial({
                 color: 0x345678,
                 side: THREE.DoubleSide, //	双面
             });
-            var sphere = new THREE.Mesh(geometry, material);
-            sphere.position.set(-200,0,0);
+            sphere = new THREE.Mesh(geometry, material);
+            sphere.position.set(-200, 0, 0);
             scene.add(sphere);
         }
 
@@ -74,9 +83,17 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
+        //实时监测绘画帧率状态 - 开启动画时
+        function initStats() {
+            stats = new Stats();
+            var container = document.createElement('div');
+            document.body.appendChild(container);
+            container.appendChild(stats.dom);
+        }
+
         // 初始化轨迹球控件
         function initControls() {
-            controls = new THREE.TrackballControls(camera, renderer.domElement);
+            trackballControls = new THREE.TrackballControls(camera, renderer.domElement);
         }
 
         // 添加拖拽控件
@@ -92,6 +109,7 @@
                     objects.push(scene.children[i]);
                 }
             }
+
             // 初始化拖拽控件
             var dragControls = new THREE.DragControls(objects, camera, renderer.domElement);
 
@@ -101,19 +119,32 @@
             });
             // 开始拖拽
             dragControls.addEventListener('dragstart', function (event) {
-                controls.enabled = false;
+                trackballControls.enabled = false; // false 禁止场景旋转平移，适合于鼠标拖动场景中的物体，
+                console.log("开始拖拽")
+                console.log(event.object.position)
             });
             // 拖拽结束
             dragControls.addEventListener('dragend', function (event) {
-                controls.enabled = true;
+                trackballControls.enabled = true; // true 开启场景的旋转平移,此时如果拖拽场景中的物体，场景也会随之发生旋转
+                console.log("拖拽结束")
+                console.log(event.object.position)
+
+
+                // updataTmp();
+            });
+            // 拖拽中...
+            dragControls.addEventListener('drag', function (event) {
+                console.log("拖拽中...")
+                // console.log(event.object.position)
             });
         }
 
         // 初始化灯光
         function initLight() {
-            light = new THREE.SpotLight(0xffffff);
-            light.position.set(-300, 600, -400);
+            light = new THREE.PointLight(0xffffff, 1, 10000);
+            light.position.set(300, 600, 400);
             scene.add(light);
+
             scene.add(new THREE.AmbientLight(0x5C5C5C));
         }
 
@@ -124,22 +155,106 @@
             initRenderer();
             initContent();
             initLight();
+            initStats();
             initControls();
             initDragControls();
             window.addEventListener('resize', onWindowResize, false);
         }
 
         function animate() {
+            if (null != stats) stats.update();
+
+            updateHelpers();updataTmp();
 
             requestAnimationFrame(animate);
             renderer.render(scene, camera);
-            controls.update();
+            trackballControls.update();
         }
 
         init();
+        helpers();
         animate();
-    </script><canvas width="790" height="756" style="width: 790px; height: 756px; cursor: auto;"></canvas>
 
+        var arrowz, arrowTMP;
+
+        function helpers() {
+            // //ArrowHelper  - 箭头
+            // var dirVector3 = new THREE.Vector3(-3, -3, -3); //箭头方向-矢量
+            // //normalize the direction vector (convert to vector of length 1) 规范化方向向量（转换为长度为1的向量）
+            // dirVector3.normalize();
+            // var originVector3 = new THREE.Vector3(4, 5, 6); //箭头起点（原点）
+            // var length = 50; //箭头长度
+            // var hex = 0xffff00; //箭头颜色
+            // var arrowHelper = new THREE.ArrowHelper(dirVector3, originVector3, length, hex, 5.0, 5.0);
+            // scene.add(arrowHelper);
+            {
+                var directionz = new THREE.Vector3().subVectors(sphere.position, cube.position).normalize(); //箭头方向
+                var arrowDirection = directionz,
+                    arrowPosition1 = new THREE.Vector3();
+                arrowPosition1.copy(cube.position);
+                arrowz = new THREE.ArrowHelper(arrowDirection, arrowPosition1, 300, 0xffff00);
+                scene.add(arrowz);
+            }
+
+            {
+                var arrowPosition1 = new THREE.Vector3(0, 0, 0);
+                var directionz = new THREE.Vector3().subVectors(sphere.position, arrowPosition1).normalize(); //箭头方向
+                var arrowDirection = directionz;
+                arrowTMP = new THREE.ArrowHelper(arrowDirection, arrowPosition1, 100, 0xff0000);
+                scene.add(arrowTMP);
+            }
+
+
+            // console.log({
+            //     spherePosition: sphere.position,
+            //     cubePosition: cube.position,
+            //     lenght: directionz.length()
+            // })
+
+            // // new arrowHelper
+            // var sourcePos = new THREE.Vector3(30, -50, 0);
+            // var targetPos = new THREE.Vector3(0, 50, 0);
+            // var direction = new THREE.Vector3().subVectors(targetPos, sourcePos);
+            // var arrow = new THREE.ArrowHelper(direction.clone().normalize(), sourcePos, direction.length(), 0x00ff00);
+            // scene.add(arrow);
+
+            // // update the arrow
+            // var newSourcePos = new THREE.Vector3(0, 50, 0);
+            // var newTargetPos = new THREE.Vector3(40, 50, 80);
+            // // arrow.position.set(newSourcePos);
+            // direction = new THREE.Vector3().subVectors(newTargetPos, newSourcePos, 200, 0xff0000);
+            // arrow.setDirection(direction.normalize());
+            // // arrow.setLength(direction.length());
+        }
+        /**update the arrow*/
+        function updateHelpers() {
+            var direction = new THREE.Vector3().subVectors(sphere.position, cube.position);
+            var directionTmp = new THREE.Vector3();
+            directionTmp.copy(direction);
+            arrowz.setDirection(directionTmp.normalize()); ////设置箭头方向，必须是单位向量
+            arrowz.position.copy(cube.position); //设置箭头原点（起点）
+            arrowz.setLength(direction.length() - 100); //设置箭头长度
+            // console.log(arrowz.position);
+            // console.log({
+            //     spherePosition: sphere.position,
+            //     cubePosition: cube.position,
+            //     lenght: direction.length()
+            // });
+        }
+
+        /**arrowTMP 与 arrowz 方向一致(平行)，用来查看移动物体前后，向量变化后方向是否一致*/
+        function updataTmp() {
+            var v = new THREE.Vector3();
+            v.subVectors(sphere.position, cube.position); //两个向量相减
+            console.log(v);
+            console.log(sphere.position.distanceTo(cube.position)); //距离
+            console.log(v.length()); //距离
+
+            var arrowPosition1 = new THREE.Vector3(0, 0, 0); //设置箭头起点为原点
+            arrowTMP.setDirection(v.normalize()); ////设置箭头方向，必须是单位向量
+            arrowTMP.position.copy(arrowPosition1); //设置箭头原点（起点）
+        }
+    </script>
 </body>
 
 </html>
