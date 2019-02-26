@@ -2,6 +2,8 @@
 
 JavaScript性能监控器，可以测试webgl代码的渲染性能。 
 
+[github](https://github.com/dataarts/dat.gui) [Usage](http://workshop.chromeexperiments.com/examples/gui/)
+
 ## 构造函数
 
 ```javascript
