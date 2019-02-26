@@ -45,10 +45,11 @@ function onDocumentMouseDown(e) {
 
 ![](https://image-static.segmentfault.com/309/116/3091167779-5982d816c8bb2_articlex)
 
-
-  //得到
+```  javascript
+ //得到
  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+```
 
  推导过程：
  设A点为点击点(x1,y1),x1=e.clintX, y1=e.clientY

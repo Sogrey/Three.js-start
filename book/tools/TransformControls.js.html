@@ -47,6 +47,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="stats.js.html" />
+    
+    
+    <link rel="prev" href="DragControls.js.html" />
     
 
     </head>
@@ -1179,12 +1183,38 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="2.1.1" data-path="TransformControls.js.html">
+        <li class="chapter " data-level="2.1.1" data-path="DragControls.js.html">
+            
+                <a href="DragControls.js.html">
+            
+                    
+                    DragControls.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.1.2" data-path="TransformControls.js.html">
             
                 <a href="TransformControls.js.html">
             
                     
                     TransformControls.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3" data-path="stats.js.html">
+            
+                <a href="stats.js.html">
+            
+                    
+                    stats.js
             
                 </a>
             
@@ -1311,16 +1341,25 @@
 <h2 id="&#x6784;&#x9020;&#x51FD;&#x6570;">&#x6784;&#x9020;&#x51FD;&#x6570;</h2>
 <p><strong>THREE.TransformControls(camera, renderer.domElement)</strong></p>
 <p>&#x4E3E;&#x4F8B;&#xFF1A;</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> trackballControls = <span class="hljs-keyword">new</span> THREE.TrackballControls(camera, renderer.domElement);
-<span class="hljs-comment">// &#x6DFB;&#x52A0;&#x5E73;&#x79FB;&#x63A7;&#x4EF6;</span>
-<span class="hljs-keyword">var</span> transformControls = <span class="hljs-keyword">new</span> THREE.TransformControls(camera, renderer.domElement);
-transformControls.addEventListener(<span class="hljs-string">&apos;dragging-changed&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>{
-     trackballControls.enabled = !event.value
-});
-transformControls.attach(DeletsChildren);
-transformControls.setMode(<span class="hljs-string">&apos;scale&apos;</span>);
-trackballControls.enabled = <span class="hljs-literal">false</span>;
-scene.add(transformControls);
+<pre><code class="lang-javascript">    <span class="hljs-comment">//&#x53EF;&#x89C6;&#x5316;&#x53D8;&#x6362;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;</span>
+    transformControl = <span class="hljs-keyword">new</span> THREE.TransformControls( camera,renderer.domElement );
+    scene.add( transformControl );<span class="hljs-comment">//&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;&#x6DFB;&#x52A0;&#x5230;&#x573A;&#x666F;&#x5BF9;&#x8C61;</span>
+
+<span class="hljs-comment">//&#x9700;&#x5F15;&#x5165;&#x62D6;&#x62FD;&#x63A7;&#x4EF6;DragControls.js</span>
+    <span class="hljs-comment">//&#x62D6;&#x62FD;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;</span>
+    <span class="hljs-keyword">var</span> dragcontrols = <span class="hljs-keyword">new</span> THREE.DragControls(scene.children,camera,renderer.domElement );
+    <span class="hljs-comment">//&#x62D6;&#x62FD;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;&#x8BBE;&#x7F6E;&#x9F20;&#x6807;&#x4E8B;&#x4EF6;</span>
+    dragcontrols.addEventListener( <span class="hljs-string">&apos;hoveron&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"> event </span>)     </span>{
+        <span class="hljs-comment">//&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;transformControl&#x4E0E;&#x9009;&#x4E2D;&#x7684;&#x5BF9;&#x8C61;object&#x7ED1;&#x5B9A;</span>
+        transformControl.attach( event.object );
+    } );
+</code></pre>
+<p>&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;TransformControls&#x7684;&#x4F5C;&#x7528;&#x662F;&#x53EF;&#x89C6;&#x5316;&#x64CD;&#x4F5C;&#xFF0C;&#x9ED8;&#x8BA4;&#x663E;&#x793A;&#x4E00;&#x4E2A;&#x4E09;&#x7EF4;&#x5750;&#x6807;&#x8F74;&#xFF0C;&#x8BE5;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x6267;&#x884C;&#x8BED;&#x53E5;scene.add( transformControl )&#xFF0C;&#x628A;&#x8BE5;&#x63A7;&#x4EF6;&#x6DFB;&#x52A0;&#x5230;&#x4E09;&#x7EF4;&#x573A;&#x666F;&#x4E2D;&#x3002; &#x63A7;&#x4EF6;&#x5BF9;&#x8C61;<a href="DragControls.js.html">DragControls</a>&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#x662F;&#x5F53;&#x4F60;&#x901A;&#x8FC7;&#x9F20;&#x6807;&#x4E8B;&#x4EF6;&#x9009;&#x4E2D;&#x4E00;&#x4E2A;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#x5BF9;&#x8C61;&#xFF0C;&#x5C31;&#x4F1A;&#x663E;&#x793A;&#x8BE5;&#x6A21;&#x578B;&#x5BF9;&#x5E94;&#x7684;&#x4E09;&#x7EF4;&#x5750;&#x6807;&#x8F74;&#x3002;</p>
+<p>  addEventListener&#x65B9;&#x6CD5;&#x7684;&#x53C2;&#x6570;&apos;hoveron&apos;&#x8868;&#x793A;&#x9F20;&#x6807;&#x5E73;&#x79FB;&#x5230;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#x4E8B;&#x4EF6;&#xFF0C;&#x5F53;&#x9F20;&#x6807;&#x5E73;&#x79FB;&#x5230;&#x4E00;&#x4E2A;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#x4E0A;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x5F39;&#x51FA;&#x8BE5;&#x6A21;&#x578B;&#x5BF9;&#x5E94;&#x7684;&#x4E00;&#x4E2A;&#x4E09;&#x7EF4;&#x5750;&#x6807;&#x8F74;&#x3002;</p>
+<p>  &#x4EE3;&#x7801;transformControl.attach( event.object )&#x7684;&#x4F5C;&#x7528;&#x662F;&#x5B9E;&#x73B0;&#x4E24;&#x4E2A;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;&#x7684;&#x7ED1;&#x5B9A;&#xFF0C;&#x5982;&#x679C;&#x62D6;&#x62FD;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;DragControls&#x4E0D;&#x7ED1;&#x5B9A;&#x53D8;&#x6362;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;TransformControls&#xFF0C; &apos;hoveron&apos;&#x9F20;&#x6807;&#x4E8B;&#x4EF6;&#x6267;&#x884C;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x4E0D;&#x4F1A;&#x5F39;&#x51FA;&#x4E00;&#x4E2A;&#x4E09;&#x7EF4;&#x5750;&#x6807;&#x8F74;&#xFF0C;&#x53D8;&#x6362;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;TransformControls&#x672C;&#x8D28;&#x4E0A;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x7F51;&#x683C;&#x6A21;&#x578B;&#x5BF9;&#x8C61;&#xFF0C;&#x6267;&#x884C;&#x65B9;&#x6CD5;attach()&#x7ED1;&#x5B9A;&#x7684;&#x65F6;&#x5019;&#xFF0C; &#x672C;&#x8D28;&#x4E0A;&#x5C31;&#x76F8;&#x5F53;&#x4E8E;&#x628A;&#x4E00;&#x4E2A;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#x7684;position&#x5C5E;&#x6027;&#x4E0E;&#x4E09;&#x7EF4;&#x5750;&#x6807;&#x8F74;&#x7684;position&#x5C5E;&#x6027;&#x8FDB;&#x884C;&#x4E86;&#x5173;&#x8054;&#xFF0C;&#x53EA;&#x8981;&#x5750;&#x6807;&#x8F74;&#x5E73;&#x79FB;&#xFF0C;&#x5750;&#x6807;&#x8F74;&#x5BF9;&#x5E94;&#x7684;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#x5C31;&#x4F1A;&#x5E73;&#x79FB;&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x5728;&#x4E0A;&#x9762;&#x4EE3;&#x7801;&#x7684;&#x57FA;&#x7840;&#x4E0A;&#x589E;&#x52A0;&#x4E00;&#x4E2A;OrbitControls&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;&#xFF0C;&#x8BE5;&#x63A7;&#x4EF6;&#x5728;&#x7B2C;&#x4E00;&#x7AE0;&#x8BFE;&#x7A0B;&#x4E2D;&#x5C31;&#x8BB2;&#x89E3;&#x8FC7;&#x3002; &#x901A;&#x8FC7;&#x4E0A;&#x9762;&#x7684;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#x7684;&#x53EF;&#x89C6;&#x5316;&#x64CD;&#x4F5C;&#xFF0C;&#x901A;&#x8FC7;OrbitControls&#x63A7;&#x4EF6;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x64CD;&#x4F5C;&#x76F8;&#x673A;&#x5BF9;&#x8C61;&#x6765;&#x5B9E;&#x73B0;&#x4E09;&#x7EF4;&#x573A;&#x666F;&#x4E2D;&#x6240;&#x6709;&#x7F51;&#x683C;&#x6A21;&#x578B;&#x7684;&#x65CB;&#x8F6C;&#x3001;&#x5E73;&#x79FB;&#x548C;&#x7F29;&#x653E;&#x53D8;&#x6362;&#x3002; </p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">//&#x8F68;&#x9053;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;(&#x76F8;&#x673A;&#x5BF9;&#x8C61;&#x65CB;&#x8F6C;&#x3001;&#x5E73;&#x79FB;&#x3001;&#x7F29;&#x653E;)</span>
+controls = <span class="hljs-keyword">new</span> THREE.OrbitControls( camera,renderer.domElement);
 </code></pre>
 <p>&#x5173;&#x95ED;&#x7269;&#x4F53;&#x63A7;&#x4EF6;</p>
 <pre><code class="lang-javascript">transformControls.detach();
@@ -1328,6 +1367,30 @@ trackballControls.enabled = <span class="hljs-literal">true</span>;
 scene.remove(transformControls);
 </code></pre>
 <p><a href="https://sogrey.github.io/Three.js-start/example/controls/transformControls.html" target="_blank">https://sogrey.github.io/Three.js-start/example/controls/transformControls.html</a></p>
+<h2 id="&#x5C5E;&#x6027;">&#x5C5E;&#x6027;</h2>
+<ul>
+<li>object</li>
+</ul>
+<p>&#x63A7;&#x5236;&#x7684;&#x5BF9;&#x8C61;</p>
+<ul>
+<li>visible -[boolean] true of false,default false  </li>
+</ul>
+<p>&#x662F;&#x5426;&#x542F;&#x7528;&#x63A7;&#x5236;</p>
+<ul>
+<li>translationSnap</li>
+</ul>
+<ul>
+<li>rotationSnap</li>
+</ul>
+<ul>
+<li>space</li>
+</ul>
+<ul>
+<li>size</li>
+</ul>
+<ul>
+<li>axis</li>
+</ul>
 <h2 id="&#x65B9;&#x6CD5;">&#x65B9;&#x6CD5;</h2>
 <ul>
 <li>dispose() </li>
@@ -1397,6 +1460,14 @@ transformControl.setMode(<span class="hljs-string">&apos;scale&apos;</span>);<sp
 
             
                 
+                <a href="DragControls.js.html" class="navigation navigation-prev " aria-label="Previous page: DragControls.js">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="stats.js.html" class="navigation navigation-next " aria-label="Next page: stats.js">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -1405,7 +1476,7 @@ transformControl.setMode(<span class="hljs-string">&apos;scale&apos;</span>);<sp
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"TransformControls.js","level":"2.1.1","depth":2,"next":{"title":"实例用法","level":"3.1","depth":1,"ref":"","articles":[{"title":"ThreeJS中的点击与交互——Raycaster的用法","level":"3.1.1","depth":2,"path":"demos/Raycaster-demo-find-object.md","ref":"demos/Raycaster-demo-find-object.md","articles":[]}]},"previous":{"title":"工具(Tools)","level":"2.1","depth":1,"ref":"","articles":[{"title":"TransformControls.js","level":"2.1.1","depth":2,"path":"tools/TransformControls.js.md","ref":"tools/TransformControls.js.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-favicon","-github","-tbfed-pagefooter","-donate@^1.0.2"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy <b><a target='view_window' href='https://sogrey.github.io/'>Sogrey</a></b> 2018,","modify_label":"    使用中遇到问题？<b><a target='view_window' href='https://github.com/Sogrey/Three.js-start/issues/new'>提个Issue</a></b>,最后修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/Sogrey"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"donate":{"wechat":"https://sogrey.github.io/img/wechatPay.png","alipay":"https://sogrey.github.io/img/alipay.jpg","title":"","button":"赏","alipayText":"支付宝打赏","wechatText":"微信打赏"},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Sogrey","pdf":{"pageBreaksBefore":"/","headerTemplate":null,"paperSize":"a4","margin":{"right":62,"left":62,"top":36,"bottom":36},"fontSize":12,"fontFamily":"Arial","footerTemplate":null,"chapterMark":"pagebreak","pageNumbers":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"isbn":"","variables":{},"title":"Three.js 入门","links":{"sharing":{"all":null,"facebook":null,"google":null,"twitter":null,"weibo":null},"sidebar":{"Sogrey's Blog":"https://sogrey.github.io"}},"gitbook":"*","description":"Three.js 入门笔记","extension":null},"file":{"path":"tools/TransformControls.js.md","mtime":"2019-02-26T02:55:25.500Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T02:55:44.538Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"TransformControls.js","level":"2.1.2","depth":2,"next":{"title":"stats.js","level":"2.1.3","depth":2,"path":"tools/stats.js.md","ref":"tools/stats.js.md","articles":[]},"previous":{"title":"DragControls.js","level":"2.1.1","depth":2,"path":"tools/DragControls.js.md","ref":"tools/DragControls.js.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-favicon","-github","-tbfed-pagefooter","-donate@^1.0.2"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy <b><a target='view_window' href='https://sogrey.github.io/'>Sogrey</a></b> 2018,","modify_label":"    使用中遇到问题？<b><a target='view_window' href='https://github.com/Sogrey/Three.js-start/issues/new'>提个Issue</a></b>,最后修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/Sogrey"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"donate":{"wechat":"https://sogrey.github.io/img/wechatPay.png","alipay":"https://sogrey.github.io/img/alipay.jpg","title":"","button":"赏","alipayText":"支付宝打赏","wechatText":"微信打赏"},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Sogrey","pdf":{"pageBreaksBefore":"/","headerTemplate":null,"paperSize":"a4","margin":{"right":62,"left":62,"top":36,"bottom":36},"fontSize":12,"fontFamily":"Arial","footerTemplate":null,"chapterMark":"pagebreak","pageNumbers":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"isbn":"","variables":{},"title":"Three.js 入门","links":{"sharing":{"all":null,"facebook":null,"google":null,"twitter":null,"weibo":null},"sidebar":{"Sogrey's Blog":"https://sogrey.github.io"}},"gitbook":"*","description":"Three.js 入门笔记","extension":null},"file":{"path":"tools/TransformControls.js.md","mtime":"2019-02-26T04:03:58.037Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T04:12:30.191Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -19,17 +19,34 @@ import TransformControls from 'three/examples/js/controls/TransformControls';
 举例：
 
 ``` javascript
-var trackballControls = new THREE.TrackballControls(camera, renderer.domElement);
-// 添加平移控件
-var transformControls = new THREE.TransformControls(camera, renderer.domElement);
-transformControls.addEventListener('dragging-changed', function (event) {
-     trackballControls.enabled = !event.value
-});
-transformControls.attach(DeletsChildren);
-transformControls.setMode('scale');
-trackballControls.enabled = false;
-scene.add(transformControls);
+    //可视化变换控件对象
+    transformControl = new THREE.TransformControls( camera,renderer.domElement );
+    scene.add( transformControl );//控件对象添加到场景对象
+
+//需引入拖拽控件DragControls.js
+    //拖拽控件对象
+    var dragcontrols = new THREE.DragControls(scene.children,camera,renderer.domElement );
+    //拖拽控件对象设置鼠标事件
+    dragcontrols.addEventListener( 'hoveron', function ( event )     {
+        //控件对象transformControl与选中的对象object绑定
+        transformControl.attach( event.object );
+    } );
 ```
+
+控件对象TransformControls的作用是可视化操作，默认显示一个三维坐标轴，该控件对象就是一个三维模型，所以需要执行语句scene.add( transformControl )，把该控件添加到三维场景中。 控件对象[DragControls](DragControls.js.md)主要作用是当你通过鼠标事件选中一个三维模型对象，就会显示该模型对应的三维坐标轴。
+
+  addEventListener方法的参数'hoveron'表示鼠标平移到三维模型事件，当鼠标平移到一个三维模型上的时候，会弹出该模型对应的一个三维坐标轴。
+
+  代码transformControl.attach( event.object )的作用是实现两个控件对象的绑定，如果拖拽控件对象DragControls不绑定变换控件对象TransformControls， 'hoveron'鼠标事件执行的时候，就不会弹出一个三维坐标轴，变换控件对象TransformControls本质上就是一个网格模型对象，执行方法attach()绑定的时候， 本质上就相当于把一个三维模型的position属性与三维坐标轴的position属性进行了关联，只要坐标轴平移，坐标轴对应的三维模型就会平移。
+
+可以在上面代码的基础上增加一个OrbitControls控件对象，该控件在第一章课程中就讲解过。 通过上面的控件对象可以实现一个三维模型的可视化操作，通过OrbitControls控件可以通过操作相机对象来实现三维场景中所有网格模型的旋转、平移和缩放变换。 
+
+``` javascript
+    //轨道控件对象(相机对象旋转、平移、缩放)
+controls = new THREE.OrbitControls( camera,renderer.domElement);
+```
+
+
 
 关闭物体控件
 
@@ -40,6 +57,32 @@ scene.remove(transformControls);
 ```
 
 https://sogrey.github.io/Three.js-start/example/controls/transformControls.html
+
+## 属性
+
+- object
+
+控制的对象
+
+- visible -[boolean] true of false,default false  
+
+是否启用控制
+
+- translationSnap
+
+
+- rotationSnap
+
+
+- space
+
+
+- size
+
+
+- axis
+
+
 
 ## 方法
 

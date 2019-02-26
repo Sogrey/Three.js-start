@@ -81,7 +81,9 @@
 
 -----
 * 工具(Tools)
+    * [DragControls.js](tools/DragControls.js.md)
     * [TransformControls.js](tools/TransformControls.js.md)
+    * [stats.js](tools/stats.js.md)
 
 -----
 * 实例用法
