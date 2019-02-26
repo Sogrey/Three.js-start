@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>第一个three.js文件_WebGL三维场景</title>
+    <title>TransformControls 使用</title>
     <style>
         body {
             margin: 0;
@@ -12,11 +12,17 @@
         }
     </style>
     <!--引入three.js三维引擎-->
-    <script src="./js/threejs/three.js"></script>
-    <script src="./js/libs/stats.min.js"></script>
+    <script src="../js/threejs/three.js"></script>
+    <script src="../js/libs/stats.min.js"></script>
 
     <!-- 引入threejs扩展控件OrbitControls.js -->
-    <script src="./js/controls/OrbitControls.js"></script>
+    <script src="../js/controls/OrbitControls.js"></script>
+    <!--可视化平移缩放控件-->
+    <script src="../js/controls/TransformControls.js"></script>
+    <!--拖拽控件-->
+    <script src="../js/controls/DragControls.js"></script>
+    <!--轨迹球控制-->
+    <script src="../js/controls/TrackballControls.js"></script>
 </head>
 
 <body id="body">
@@ -27,7 +33,7 @@
         var width = window.innerWidth; //窗口宽度
         var height = window.innerHeight; //窗口高度
         var k = width / height; //窗口宽高比
-        var s = 150; //三维场景显示范围控制系数，系数越大，显示的范围越大
+        var trackballControls;
 
         /**创建场景对象Scene*/
         function initScene() {
@@ -57,6 +63,55 @@
             // controls.addEventListener('change', render);//监听鼠标事件，触发渲染函数
             // 使用requestAnimationFrame实时刷新，就不用再监听THREE.OrbitControls的change事件了
         }
+        // 添加拖拽控件
+        function initDragControls() {
+            trackballControls = new THREE.TrackballControls(camera, renderer.domElement);
+            // 添加平移控件
+            var transformControls = new THREE.TransformControls(camera, renderer.domElement);
+            transformControls.addEventListener('dragging-changed', function (event) {
+                trackballControls.enabled = !event.value
+            });
+            transformControls.attach(mesh);
+            transformControls.setMode('scale');
+            trackballControls.enabled = false;
+            scene.add(transformControls);
+
+            // 过滤不是 Mesh 的物体,例如辅助网格
+            var objects = [];
+            for (let i = 0; i < scene.children.length; i++) {
+                if (scene.children[i].isMesh) {
+                    objects.push(scene.children[i]);
+                }
+            }
+
+            // 初始化拖拽控件
+            var dragControls = new THREE.DragControls(objects, camera, renderer.domElement);
+
+            // 鼠标略过
+            dragControls.addEventListener('hoveron', function (event) {
+                transformControls.attach(event.object);
+            });
+            // 开始拖拽
+            dragControls.addEventListener('dragstart', function (event) {
+                trackballControls.enabled = false; // false 禁止场景旋转平移，适合于鼠标拖动场景中的物体，
+                console.log("开始拖拽")
+                // console.log(event.object.position)
+            });
+            // 拖拽结束
+            dragControls.addEventListener('dragend', function (event) {
+                trackballControls.enabled = true; // true 开启场景的旋转平移,此时如果拖拽场景中的物体，场景也会随之发生旋转
+                console.log("拖拽结束")
+                // console.log(event.object.position)
+
+
+                // updataTmp();
+            });
+            // 拖拽中...
+            dragControls.addEventListener('drag', function (event) {
+                console.log("拖拽中...")
+                // console.log(event.object.position)
+            });
+        }
         /**创建渲染器对象*/
         function initRenderer() {
             renderer = new THREE.WebGLRenderer();
@@ -78,20 +133,12 @@
             if (null != stats) stats.update();
             renderer.render(scene, camera); //执行渲染操作
             requestAnimationFrame(render); //请求再次执行渲染函数render，渲染下一帧
+            if (null != trackballControls) trackballControls.update();
         }
 
         /** 窗口变动触发的方法 */
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
-            // 重置相机投影的相关参数
-            k = window.innerWidth / window.innerHeight; //窗口宽高比
-            camera.left = -s * k;
-            camera.right = s * k;
-            camera.top = s;
-            camera.bottom = -s;
-            // 渲染器执行render方法的时候会读取相机对象的投影矩阵属性projectionMatrix
-            // 但是不会每渲染一帧，就通过相机的属性计算投影矩阵(节约计算资源)
-            // 如果相机的一些属性发生了变化，需要执行updateProjectionMatrix ()方法更新相机的投影矩阵
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
@@ -99,7 +146,7 @@
         var mesh;
         /**创建网格模型*/
         function initObjects() {
-            geometry = new THREE.BoxGeometry(50, 50, 50); //创建一个立方体几何对象Geometry
+            var geometry = new THREE.BoxGeometry(10, 10, 10); //创建一个立方体几何对象Geometry
             var material = new THREE.MeshLambertMaterial({
                 color: 0x0000ff,
                 side: THREE.DoubleSide, //	双面
@@ -112,6 +159,7 @@
         function helpers() {
             //AxesHelper  - 坐标轴辅助
             scene.add(new THREE.AxesHelper(200));
+            scene.add(new THREE.GridHelper(200, 10));
         }
 
         function main() {
@@ -131,6 +179,7 @@
             initObjects();
             //启用手势控制
             initOrbitControls();
+            initDragControls();
             //辅助
             helpers();
             //窗口变动触发的方法

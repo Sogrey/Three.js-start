@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vector3Utils</title>
+
+</head>
+
+<body>
+
+    <script type="text/javascript" src="../js/threejs/three.js"></script>
+    <script type="text/javascript" src="../js/utils/Vector3Utils.js"></script>
+
+    <script>
+        // geometry.vertices
+
+        // GetPosById("1001_194192712");
+        var positions =
+            // "-6.77839994430542,-3,-10.115400314331055,606.7783813476562,-3,-10.115400314331055,606.7783813476562,851.6824951171875,-10.115400314331055,-6.77839994430542,851.6824951171875,-10.115400314331055,-6.77839994430542,-3,2002.7789306640625,606.7783813476562,-3,2002.7789306640625,606.7783813476562,851.6824951171875,2002.7789306640625,-6.77839994430542,851.6824951171875,2002.7789306640625,299.9999907016754,424.34124755859375,996.3317651748657";
+            "-3.77839994430542,0,41.17789840698242,603,0,41.17789840698242,603,847.9039916992188,41.17789840698242,-3.77839994430542,847.9039916992188,41.17789840698242,-3.77839994430542,0,1999.00048828125,603,0,1999.00048828125,603,847.9039916992188,1999.00048828125,-3.77839994430542,847.9039916992188,1999.00048828125,299.6108000278473,423.9519958496094,1020.0891933441162";
+        var positionVector3Array = getPointVector3(positions);
+        // console.log(positionVector3Array);
+
+        //中心点
+        console.log(positionVector3Array[8]);
+        // geometry.translate(100,200,300);
+        // # .translate ( x : Float, y : Float, z : Float ) : Geometry
+        // 移动当前几何体。该操作通常在一次处理中完成，但不会在渲染过程中处理。
+        // 使用 Object3D.position 对模型面片进行实时移动处理。
+
+        //计算长宽高
+        var resultXYZ = getXYZByPointVector3s(positionVector3Array);
+        console.log("xyz");
+        console.log(resultXYZ);
+
+        // geometry mesh获取
+
+        //构件长宽高的设置 ？
+
+        // # .applyMatrix ( matrix : Matrix4 ) : null
+        // 将矩阵信息直接应用于几何体顶点坐标。
+        // # .scale ( x : Float, y : Float, z : Float ) : Geometry
+        // 缩放几何体大小。该操作通常在一次处理中完成，但不会在渲染过程中处理。
+        // 使用 Object3D.scale 对模型面片进行实时缩放处理。
+
+        //默认旋转角度0 设置？
+        // geometry.rotateX(45);
+        // mesh.rotateX(45);
+        // # .rotateX ( radians : Float ) : Geometry
+        // 将几何体绕 X 轴旋转参数指定度数。该操作通常在一次处理中完成，但不会在渲染过程中处理。
+        // 使用 Object3D.rotation 对模型面片进行实时旋转处理。
+
+        // # .rotateY ( radians : Float ) : Geometry
+        // 将几何体绕 Y 轴旋转参数指定度数。该操作通常在一次处理中完成，但不会在渲染过程中处理。
+        // 使用 Object3D.rotation 对模型面片进行实时旋转处理。
+
+        // # .rotateZ ( radians : Float ) : Geometry
+        // 将几何体绕 Z 轴旋转参数指定度数。该操作通常在一次处理中完成，但不会在渲染过程中处理。
+        // 使用 Object3D.rotation 对模型面片进行实时旋转处理。
+
+        //默认缩放0  设置？
+        // geometry.scale(2,1,4)
+        // # .scale ( x : Float, y : Float, z : Float ) : Geometry
+        // 缩放几何体大小。该操作通常在一次处理中完成，但不会在渲染过程中处理。
+        // 使用 Object3D.scale 对模型面片进行实时缩放处理。
+
+        //设置透明度 默认1.00不透明
+        // var ALPHA = 1.00;
+        //开启/关闭透明
+        // SetActorAlpha("1001_194192712",ALPHA);//开启透明
+        // SetActorAlpha("1001_194192712",1.00);//关闭透明
+        //设置可视状态（隐藏/显示）
+        // SetActorVisible(GUIDS,false);//隐藏 
+        // SetActorVisible(GUIDS,true);//显示
+
+
+
+        // 已知某个构件ID，怎么设置他的长宽高和旋转角度
+        // 找到该构件几何体
+    </script>
+
+</body>
+
+</html>

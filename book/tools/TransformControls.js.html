@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>数学/插值 · Three.js 入门</title>
+        <title>TransformControls.js · Three.js 入门</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -47,10 +47,6 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../others/" />
-    
-    
-    <link rel="prev" href="../maths/" />
     
 
     </head>
@@ -1136,9 +1132,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.21" data-path="./">
+        <li class="chapter " data-level="1.21" data-path="../math-interpolants/">
             
-                <a href="./">
+                <a href="../math-interpolants/">
             
                     
                     数学/插值
@@ -1183,9 +1179,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.1" data-path="../tools/TransformControls.js.html">
+        <li class="chapter active" data-level="2.1.1" data-path="TransformControls.js.html">
             
-                <a href="../tools/TransformControls.js.html">
+                <a href="TransformControls.js.html">
             
                     
                     TransformControls.js
@@ -1290,7 +1286,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >数学/插值</a>
+        <a href=".." >TransformControls.js</a>
     </h1>
 </div>
 
@@ -1305,7 +1301,75 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x6570;&#x5B66;&#x63D2;&#x503C;">&#x6570;&#x5B66;/&#x63D2;&#x503C;</h1>
+                                <h1 id="threejs-&#x53D8;&#x6362;&#x5927;&#x5C0F;&#x3001;&#x89D2;&#x5EA6;&#x3001;&#x4F4D;&#x79FB;&#x63A7;&#x4EF6;-transformcontrolsjs">three.js &#x53D8;&#x6362;&#x5927;&#x5C0F;&#x3001;&#x89D2;&#x5EA6;&#x3001;&#x4F4D;&#x79FB;&#x63A7;&#x4EF6; TransformControls.js</h1>
+<p><a href="https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/TransformControls.js" target="_blank">&#x6E90;&#x7801;</a></p>
+<p>TransformControls.js&#xFF1A;&#x9F20;&#x6807;&#x64CD;&#x63A7;&#x7269;&#x4F53;&#x79FB;&#x52A8;&#x3001;&#x7F29;&#x653E;&#x3001;&#x65CB;&#x8F6C;&#x7684;&#x63A7;&#x4EF6;&#xFF08;&#x7269;&#x4F53;&#x64CD;&#x4F5C;&#x5DE5;&#x5177;&#xFF09;</p>
+<p>&#x8BE5;&#x63A7;&#x4EF6;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x53EF;&#x89C6;&#x5316;&#x64CD;&#x4F5C;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#xFF0C;&#x901A;&#x8FC7;&#x9009;&#x4E2D;&#x4E00;&#x4E2A;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#xFF0C;&#x7136;&#x540E;&#x901A;&#x8FC7;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;&#x7684;&#x65B9;&#x6CD5;attach()&#x53EF;&#x4EE5;&#x628A;&#x9009;&#x4E2D;&#x7684;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#x4E0E;&#x63A7;&#x4EF6;TransformControls&#x7ED1;&#x5B9A;&#xFF0C; &#x4F60;&#x53EF;&#x4EE5;&#x628A;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;TransformControls&#x7406;&#x89E3;&#x4E3A;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x7684;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#xFF0C;&#x6BD4;&#x5982;&#x5E73;&#x79FB;&#x72B6;&#x6001;&#xFF0C;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;TransformControls&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x4E09;&#x7EF4;&#x5750;&#x6807;&#x8F74;&#xFF0C;&#x901A;&#x8FC7;&#x62D6;&#x52A8;&#x5750;&#x6807;&#x8F74;&#x5C31;&#x53EF;&#x4EE5;&#x79FB;&#x52A8;&#x4E0E;&#x5750;&#x6807;&#x8F74;&#x7ED1;&#x5B9A;&#x7684;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#x3002;</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> TransformControls <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;three/examples/js/controls/TransformControls&apos;</span>;
+</code></pre>
+<p>&#x901A;&#x8FC7;&#x8BE5;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;&#x65B9;&#x6CD5;setMode&#x7684;&#x503C;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x4E09;&#x7EF4;&#x6A21;&#x578B;&#x7684;&#x5E73;&#x79FB;&#x3001;&#x65CB;&#x8F6C;&#x548C;&#x7F29;&#x653E;&#x5BF9;&#x5E94;&#x4E0D;&#x540C;&#x7684;&#x53EF;&#x89C6;&#x5316;&#x64CD;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;&#x5E73;&#x79FB;&#x662F;&#x901A;&#x8FC7;&#x4E09;&#x7EF4;&#x5750;&#x6807;&#x8F74;&#x5B9E;&#x73B0;&#xFF0C;&#x65CB;&#x8F6C;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x4E09;&#x7EF4;&#x5706;&#x5F27;&#x7EBF;&#x5B9E;&#x73B0;&#x3002;</p>
+<h2 id="&#x6784;&#x9020;&#x51FD;&#x6570;">&#x6784;&#x9020;&#x51FD;&#x6570;</h2>
+<p><strong>THREE.TransformControls(camera, renderer.domElement)</strong></p>
+<p>&#x4E3E;&#x4F8B;&#xFF1A;</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> trackballControls = <span class="hljs-keyword">new</span> THREE.TrackballControls(camera, renderer.domElement);
+<span class="hljs-comment">// &#x6DFB;&#x52A0;&#x5E73;&#x79FB;&#x63A7;&#x4EF6;</span>
+<span class="hljs-keyword">var</span> transformControls = <span class="hljs-keyword">new</span> THREE.TransformControls(camera, renderer.domElement);
+transformControls.addEventListener(<span class="hljs-string">&apos;dragging-changed&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>{
+     trackballControls.enabled = !event.value
+});
+transformControls.attach(DeletsChildren);
+transformControls.setMode(<span class="hljs-string">&apos;scale&apos;</span>);
+trackballControls.enabled = <span class="hljs-literal">false</span>;
+scene.add(transformControls);
+</code></pre>
+<p>&#x5173;&#x95ED;&#x7269;&#x4F53;&#x63A7;&#x4EF6;</p>
+<pre><code class="lang-javascript">transformControls.detach();
+trackballControls.enabled = <span class="hljs-literal">true</span>;
+scene.remove(transformControls);
+</code></pre>
+<p><a href="https://sogrey.github.io/Three.js-start/example/controls/transformControls.html" target="_blank">https://sogrey.github.io/Three.js-start/example/controls/transformControls.html</a></p>
+<h2 id="&#x65B9;&#x6CD5;">&#x65B9;&#x6CD5;</h2>
+<ul>
+<li>dispose() </li>
+</ul>
+<p>&#x89E3;&#x7ED1;&#x6240;&#x6709;&#x4E8B;&#x4EF6;</p>
+<ul>
+<li>attach() </li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x5F53;&#x524D;&#x5BF9;&#x8C61;</p>
+<ul>
+<li>detach() </li>
+</ul>
+<p>&#x89E3;&#x9664;&#x5BF9;&#x8C61;</p>
+<ul>
+<li>setMode(mode)</li>
+</ul>
+<p>&#x5207;&#x6362;&#x64CD;&#x4F5C;&#x6A21;&#x5F0F;&#xFF1B;&#x5E73;&#x79FB;&#xFF08;translate &#xFF09;&#x3001;&#x65CB;&#x8F6C;&#xFF08;rotate &#xFF09;&#x3001;&#x7F29;&#x653E;&#xFF08;scale &#xFF09;&#x53EF;&#x9009;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F;&#x5E73;&#x79FB;&#xFF08;translate &#xFF09;&#x3002;</p>
+<pre><code class="lang-javascript">transformControl.setMode(<span class="hljs-string">&apos;translate&apos;</span>);<span class="hljs-comment">//&#x5E73;&#x79FB; - &#x9ED8;&#x8BA4;</span>
+transformControl.setMode(<span class="hljs-string">&apos;rotate&apos;</span>);<span class="hljs-comment">//&#x65CB;&#x8F6C;</span>
+transformControl.setMode(<span class="hljs-string">&apos;scale&apos;</span>);<span class="hljs-comment">//&#x7F29;&#x653E;</span>
+</code></pre>
+<p>&#x8BBE;&#x7F6E;&#x573A;&#x666F;&#x7F16;&#x8F91;&#x6A21;&#x5F0F; </p>
+<ul>
+<li>setTranslationSnap()</li>
+</ul>
+<ul>
+<li>setRotationSnap()</li>
+</ul>
+<ul>
+<li>setSize() </li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x5927;&#x5C0F;&#x3002;&#x901A;&#x8FC7;&#x63A7;&#x4EF6;&#x5BF9;&#x8C61;transformControl&#x7684;&#x65B9;&#x6CD5;setSize()&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x4E09;&#x7EF4;&#x5750;&#x6807;&#x8F74;&#x7684;&#x51E0;&#x4F55;&#x5C3A;&#x5BF8;&#xFF0C;&#x65B9;&#x6CD5;&#x7684;&#x53C2;&#x6570;&#x8303;&#x56F4;[0.0,1.0] </p>
+<pre><code class="lang-javascript">transformControl.setSize(<span class="hljs-number">0.4</span>);<span class="hljs-comment">// &#x8BBE;&#x7F6E;&#x4E09;&#x7EF4;&#x5750;&#x6807;&#x8F74;&#x5927;&#x5C0F;</span>
+</code></pre>
+<ul>
+<li>setSpace() </li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x5C40;&#x90E8; &#x4E16;&#x754C;&#x7A7A;&#x95F4;</p>
+<ul>
+<li>update() </li>
+</ul>
+<p>&#x66F4;&#x65B0;</p>
 
                                 
                                 </section>
@@ -1333,14 +1397,6 @@
 
             
                 
-                <a href="../maths/" class="navigation navigation-prev " aria-label="Previous page: 数学模块">
-                    <i class="fa fa-angle-left"></i>
-                </a>
-                
-                
-                <a href="../others/" class="navigation navigation-next " aria-label="Next page: 其他">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -1349,7 +1405,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"数学/插值","level":"1.21","depth":1,"next":{"title":"其他","level":"1.22","depth":1,"path":"others/README.md","ref":"others/README.md","articles":[]},"previous":{"title":"数学模块","level":"1.20","depth":1,"path":"maths/README.md","ref":"maths/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-favicon","-github","-tbfed-pagefooter","-donate@^1.0.2"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy <b><a target='view_window' href='https://sogrey.github.io/'>Sogrey</a></b> 2018,","modify_label":"    使用中遇到问题？<b><a target='view_window' href='https://github.com/Sogrey/Three.js-start/issues/new'>提个Issue</a></b>,最后修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/Sogrey"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"donate":{"wechat":"https://sogrey.github.io/img/wechatPay.png","alipay":"https://sogrey.github.io/img/alipay.jpg","title":"","button":"赏","alipayText":"支付宝打赏","wechatText":"微信打赏"},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Sogrey","pdf":{"pageBreaksBefore":"/","headerTemplate":null,"paperSize":"a4","margin":{"right":62,"left":62,"top":36,"bottom":36},"fontSize":12,"fontFamily":"Arial","footerTemplate":null,"chapterMark":"pagebreak","pageNumbers":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"isbn":"","variables":{},"title":"Three.js 入门","links":{"sharing":{"all":null,"facebook":null,"google":null,"twitter":null,"weibo":null},"sidebar":{"Sogrey's Blog":"https://sogrey.github.io"}},"gitbook":"*","description":"Three.js 入门笔记","extension":null},"file":{"path":"math-interpolants/README.md","mtime":"2019-02-21T09:42:02.056Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T02:55:44.538Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"TransformControls.js","level":"2.1.1","depth":2,"next":{"title":"实例用法","level":"3.1","depth":1,"ref":"","articles":[{"title":"ThreeJS中的点击与交互——Raycaster的用法","level":"3.1.1","depth":2,"path":"demos/Raycaster-demo-find-object.md","ref":"demos/Raycaster-demo-find-object.md","articles":[]}]},"previous":{"title":"工具(Tools)","level":"2.1","depth":1,"ref":"","articles":[{"title":"TransformControls.js","level":"2.1.1","depth":2,"path":"tools/TransformControls.js.md","ref":"tools/TransformControls.js.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-favicon","-github","-tbfed-pagefooter","-donate@^1.0.2"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy <b><a target='view_window' href='https://sogrey.github.io/'>Sogrey</a></b> 2018,","modify_label":"    使用中遇到问题？<b><a target='view_window' href='https://github.com/Sogrey/Three.js-start/issues/new'>提个Issue</a></b>,最后修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/Sogrey"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"donate":{"wechat":"https://sogrey.github.io/img/wechatPay.png","alipay":"https://sogrey.github.io/img/alipay.jpg","title":"","button":"赏","alipayText":"支付宝打赏","wechatText":"微信打赏"},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Sogrey","pdf":{"pageBreaksBefore":"/","headerTemplate":null,"paperSize":"a4","margin":{"right":62,"left":62,"top":36,"bottom":36},"fontSize":12,"fontFamily":"Arial","footerTemplate":null,"chapterMark":"pagebreak","pageNumbers":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"isbn":"","variables":{},"title":"Three.js 入门","links":{"sharing":{"all":null,"facebook":null,"google":null,"twitter":null,"weibo":null},"sidebar":{"Sogrey's Blog":"https://sogrey.github.io"}},"gitbook":"*","description":"Three.js 入门笔记","extension":null},"file":{"path":"tools/TransformControls.js.md","mtime":"2019-02-26T02:55:25.500Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T02:55:44.538Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

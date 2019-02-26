@@ -80,6 +80,10 @@
 * [其他](others/README.md)
 
 -----
+* 工具(Tools)
+    * [TransformControls.js](tools/TransformControls.js.md)
+
+-----
 * 实例用法
     * [ThreeJS中的点击与交互——Raycaster的用法](demos/Raycaster-demo-find-object.md)
 
