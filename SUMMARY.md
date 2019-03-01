@@ -72,7 +72,9 @@
 * [纹理贴图](textures/README.md#top)
 * [对象/物体](objects/README.md#top)
 * [几何模型(Geometry)](geometries/README.md)
-* [动画](animations/README.md)
+* [动画(Animation)](animations/README.md#top)
+    * [动画处理器(AnimationHandler)](animations/README.md#AnimationHandler)
+    * [关键帧动画(KeyFrameAnimation)](animations/README.md#KeyFrameAnimation)
 * [音频](audios/README.md)
 * [辅助对象(Helper)](helps/README.md#top)
 * [数学模块](maths/README.md)
@@ -84,6 +86,7 @@
     * [DragControls.js](tools/DragControls.js.md)
     * [TransformControls.js](tools/TransformControls.js.md)
     * [stats.js](tools/stats.js.md)
+    * [ui.js](tools/ui.js.md)
 
 -----
 * 实例用法

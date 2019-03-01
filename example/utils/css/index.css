@@ -1,0 +1,63 @@
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+#cube-ui {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    display: block;
+}
+
+.cube-ui_button {
+    position: absolute;
+    right: 0;
+    width: 250px;
+    height: 30px;
+    margin: 0 0 2px 0;
+    display: block;
+}
+
+.cube-ui_button p {
+    color: #000;
+}
+
+.cube-ui_cube {
+    width: 100%;
+    height: 30px;
+    margin: 5px 0 0 0;
+}
+
+.geometry-parameter p {
+    position: absolute;
+    right: 182px;
+    margin: 5px 0 0 0;
+    width: 65px;
+}
+
+.geometry-parameter .huadongtiao {
+    position: absolute;
+    right: 50px;
+    margin: 8px 0 0 0;
+    width: 130px;
+}
+
+.geometry-parameter input {
+    position: absolute;
+    right: 5px;
+    margin: 4px 0 0 0;
+    width: 40px;
+    height: 20px;
+    text-align: center
+}
+
+#cube-ui .panel {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    height: 120px;
+    width: 250px;
+    display: none;
+}
