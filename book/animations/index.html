@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>动画 · Three.js 入门</title>
+        <title>动画(Animation) · Three.js 入门</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -47,7 +47,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../audios/" />
+    <link rel="next" href="./" />
     
     
     <link rel="prev" href="../geometries/" />
@@ -1084,16 +1084,48 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.17" data-path="./">
+        <li class="chapter " data-level="1.17" data-path="./">
             
-                <a href="./">
+                <a href="./#top">
             
                     
-                    动画
+                    动画(Animation)
             
                 </a>
             
 
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="./">
+            
+                <a href="./#AnimationHandler">
+            
+                    
+                    动画处理器(AnimationHandler)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.2" data-path="./">
+            
+                <a href="./#KeyFrameAnimation">
+            
+                    
+                    关键帧动画(KeyFrameAnimation)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -1222,6 +1254,19 @@
             
         </li>
     
+        <li class="chapter " data-level="2.1.4" data-path="../tools/ui.js.html">
+            
+                <a href="../tools/ui.js.html">
+            
+                    
+                    ui.js
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -1316,7 +1361,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >动画</a>
+        <a href=".." >动画(Animation)</a>
     </h1>
 </div>
 
@@ -1331,7 +1376,228 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x52A8;&#x753B;">&#x52A8;&#x753B;</h1>
+                                <h1 id="&#x52A8;&#x753B;"><a id="top"></a>&#x52A8;&#x753B;</h1>
+<h2 id="&#x52A8;&#x753B;animation"><a id="Animation"></a>&#x52A8;&#x753B;(Animation)</h2>
+<p>&#x6B64;&#x7C7B;&#x57FA;&#x4E8E;&#x5C42;&#x6B21;&#x7ED3;&#x6784;&#x4E3A;&#x5BF9;&#x8C61;&#x8BBE;&#x7F6E;&#x52A8;&#x753B;&#x3002;&#x6B64;&#x5C42;&#x6B21;&#x7ED3;&#x6784;&#x53EF;&#x4EE5;&#x662F;Object3D&#x6216;Bones&#x3002;</p>
+<p><a href="https://github.com/mrdoob/three.js/blob/master/src/animation/Animation.js" target="_blank">&#x6E90;&#x7801;</a></p>
+<h3 id="&#x6784;&#x9020;&#x5668;&#xFF08;constructor&#xFF09;">&#x6784;&#x9020;&#x5668;&#xFF08;Constructor&#xFF09;</h3>
+<p><strong>Animation(root, name)</strong></p>
+<ul>
+<li>root -- The mesh to animate. &#x8981;&#x8BBE;&#x7F6E;&#x52A8;&#x753B;&#x7684;&#x7F51;&#x683C;&#x3002;</li>
+<li>name -- The name of the animation.&#x52A8;&#x753B;&#x7684;&#x540D;&#x79F0;</li>
+</ul>
+<p>Creates an animation for root. The animation data is gathered from AnimationHandler based on its name.</p>
+<p>&#x4E3A;&#x7F51;&#x683C;&#x5BF9;&#x8C61;&#x521B;&#x5EFA;&#x52A8;&#x753B;&#x3002;&#x52A8;&#x753B;&#x6570;&#x636E;&#x6839;&#x636E;&#x5176;&#x540D;&#x79F0;&#x4ECE;<a href="#AnimationHandler">AnimationHandler</a>&#x6536;&#x96C6;&#x3002;</p>
+<h3 id="&#x5C5E;&#x6027;&#xFF08;properties&#xFF09;">&#x5C5E;&#x6027;&#xFF08;Properties&#xFF09;</h3>
+<ul>
+<li>.root
+The root object of the animation.
+&#x52A8;&#x753B;&#x7684;&#x6839;&#x7F51;&#x683C;&#x5BF9;&#x8C61;</li>
+<li>.data
+The data containing the animation
+&#x5305;&#x542B;&#x52A8;&#x753B;&#x7684;&#x6570;&#x636E;</li>
+<li>.hierarchy
+The objects that are influenced by the animation.
+&#x53D7;&#x52A8;&#x753B;&#x5F71;&#x54CD;&#x7684;&#x5BF9;&#x8C61;&#x3002;</li>
+<li>.currentTime
+The time elapsed since the last start/restart of the animation.
+&#x81EA;&#x4E0A;&#x6B21;&#x542F;&#x52A8;/&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x52A8;&#x753B;&#x4EE5;&#x6765;&#x7ECF;&#x8FC7;&#x7684;&#x65F6;&#x95F4;&#x3002;</li>
+<li>.timeScale
+How much to scale the speed of the animation. Defaults to 1.
+&#x7F29;&#x653E;&#x52A8;&#x753B;&#x7684;&#x901F;&#x5EA6;&#x3002;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;1&#x3002;</li>
+<li>.isPlaying
+Indicates whether the animation is playing. This shouldn&apos;t be adapted by user code.
+&#x6307;&#x793A;&#x52A8;&#x753B;&#x662F;&#x5426;&#x6B63;&#x5728;&#x64AD;&#x653E;&#x3002;&#x8FD9;&#x4E0D;&#x5E94;&#x8BE5;&#x88AB;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x4FEE;&#x6539;&#x3002;</li>
+<li>.isPaused
+Indicates whether the animation is paused. This shouldn&apos;t be adapted by user code.
+&#x6307;&#x793A;&#x52A8;&#x753B;&#x662F;&#x5426;&#x6682;&#x505C;&#x3002;&#x8FD9;&#x4E0D;&#x5E94;&#x8BE5;&#x88AB;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x4FEE;&#x6539;&#x3002;</li>
+<li>.loop
+Set to make the animation restart when the animation ends.
+&#x8BBE;&#x7F6E;&#x4E3A;&#x4F7F;&#x52A8;&#x753B;&#x5728;&#x52A8;&#x753B;&#x7ED3;&#x675F;&#x65F6;&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x3002;&#x662F;&#x5426;&#x5FAA;&#x73AF;&#x6267;&#x884C;&#x52A8;&#x753B;&#x3002;</li>
+<li>.interpolationType
+The type to indicate how to interpolate between 2 data points.
+&#x6307;&#x793A;&#x5982;&#x4F55;&#x5728;&#x4E24;&#x4E2A;&#x6570;&#x636E;&#x70B9;&#x4E4B;&#x95F4;&#x63D2;&#x5165;&#x7684;&#x7C7B;&#x578B;&#x3002;</li>
+</ul>
+<h3 id="&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;">&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;</h3>
+<ul>
+<li>.play (startTime)
+Starts the animation at the startTime (in seconds) of the animation.
+&#x64AD;&#x653E;&#xFF0C;&#x5728;&#x52A8;&#x753B;&#x7684;&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#xFF08;&#x79D2;&#xFF09;&#x542F;&#x52A8;&#x52A8;&#x753B;&#x3002;</li>
+<li>.stop ()
+Stops the animation.
+&#x505C;&#x6B62;&#x52A8;&#x753B;&#x3002;</li>
+<li>.update (deltaTimeMS)<ul>
+<li>deltaTimeMS -- The time of the between the previous frame and this frame in miliseconds.&#x524D;&#x4E00;&#x5E27;&#x548C;&#x6B64;&#x5E27;&#x4E4B;&#x95F4;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x5355;&#x4F4D;&#x4E3A;&#x6BEB;&#x79D2;&#x3002;
+Updates the animation in time. This shouldn&apos;t be called by user code. The animationHandler calls this method.
+&#x53CA;&#x65F6;&#x66F4;&#x65B0;&#x52A8;&#x753B;&#x3002;&#x8FD9;&#x4E0D;&#x5E94;&#x8BE5;&#x7531;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x8C03;&#x7528;&#x3002;<a href="#AnimationHandler">AnimationHandler</a>&#x8C03;&#x7528;&#x6B64;&#x65B9;&#x6CD5;&#x3002;</li>
+</ul>
+</li>
+<li>.interpolateCatmullRom (points, scale)<ul>
+<li>points -- The 4 control point to calculate CatMullRom &#x8BA1;&#x7B97;catmullrom&#x7684;4&#x4E2A;&#x63A7;&#x5236;&#x70B9;</li>
+<li>scale -- The scale between the previous key and the nex key.&#x4E0A;&#x4E00;&#x4E2A;&#x952E;&#x548C;&#x4E0B;&#x4E00;&#x4E2A;&#x952E;&#x4E4B;&#x95F4;&#x7684;&#x6BD4;&#x4F8B;
+Interpolates the point based on the key. Is used in update.&#x6839;&#x636E;&#x5173;&#x952E;&#x70B9;&#x63D2;&#x5165;&#x70B9;&#x3002;&#x5728;&#x66F4;&#x65B0;&#x4E2D;&#x4F7F;&#x7528;&#x3002;</li>
+</ul>
+</li>
+<li>.getNextKeyWith (type, h, key)<ul>
+<li>type -- The animationtype for the key. Can be &quot;pos&quot;, &quot;rot&quot; and &quot;scl&quot;.&#x952E;&#x7684;&#x52A8;&#x753B;&#x7C7B;&#x578B;&#x3002;&#x53EF;&#x4EE5;&#x662F;&#x201C;pos&#x201D;&#x3001;&#x201C;rot&#x201D;&#x548C;&#x201C;scl&#x201D;&#x3002;</li>
+<li>h -- The object of the hierarchy that catins the key .&#x5B9A;&#x4F4D;&#x952E;&#x7684;&#x5C42;&#x6B21;&#x7ED3;&#x6784;&#x7684;&#x5BF9;&#x8C61;</li>
+<li>key -- The index of the next possible key.&#x4E0B;&#x4E00;&#x4E2A;&#x53EF;&#x80FD;&#x952E;&#x7684;&#x7D22;&#x5F15;&#x3002;
+Gets the next key. Is used in Update.&#x83B7;&#x53D6;&#x4E0B;&#x4E00;&#x4E2A;&#x952E;&#x3002;&#x5728;&#x66F4;&#x65B0;&#x4E2D;&#x4F7F;&#x7528;&#x3002;</li>
+</ul>
+</li>
+<li>.getPrevKeyWith (type, h, key)<ul>
+<li>type -- The animationtype for the key. Can be &quot;pos&quot;, &quot;rot&quot; and &quot;scl&quot;.&#x952E;&#x7684;&#x52A8;&#x753B;&#x7C7B;&#x578B;&#x3002;&#x53EF;&#x4EE5;&#x662F;&#x201C;pos&#x201D;&#x3001;&#x201C;rot&#x201D;&#x548C;&#x201C;scl&#x201D;&#x3002;</li>
+<li>h -- The object of the hierarchy that contains the key. &#x5305;&#x542B;&#x952E;&#x7684;&#x5C42;&#x6B21;&#x7ED3;&#x6784;&#x7684;&#x5BF9;&#x8C61;&#x3002;</li>
+<li>key -- The index of the prev possible key.&#x4E0A;&#x4E00;&#x4E2A;&#x53EF;&#x80FD;&#x952E;&#x7684;&#x7D22;&#x5F15;&#x3002;
+Gets the previous key. Is used in Update.&#x83B7;&#x53D6;&#x4E0A;&#x4E00;&#x4E2A;&#x952E;&#x3002;&#x5728;&#x66F4;&#x65B0;&#x4E2D;&#x4F7F;&#x7528;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x52A8;&#x753B;&#x5904;&#x7406;&#x5668;animationhandler"><a id="AnimationHandler"></a>&#x52A8;&#x753B;&#x5904;&#x7406;&#x5668;(AnimationHandler)</h2>
+<p>The AnimationHandler handles the initialisation of the Animation data and the animations itself. It keeps track of every animation and if it&apos;s active or not. It also update all animations which are active if its method <strong>update</strong> is called.</p>
+<p>AnimationHandler&#x5904;&#x7406;&#x52A8;&#x753B;&#x6570;&#x636E;&#x548C;&#x52A8;&#x753B;&#x672C;&#x8EAB;&#x7684;&#x521D;&#x59CB;&#x5316;&#x3002;&#x5B83;&#x8DDF;&#x8E2A;&#x6BCF;&#x4E00;&#x4E2A;&#x52A8;&#x753B;&#xFF0C;&#x4E0D;&#x7BA1;&#x5B83;&#x662F;&#x5426;&#x5904;&#x4E8E;&#x6D3B;&#x52A8;&#x72B6;&#x6001;&#x3002;&#x5982;&#x679C;&#x8C03;&#x7528;&#x4E86;&#x65B9;&#x6CD5;&#x66F4;&#x65B0;&#xFF0C;&#x5B83;&#x4E5F;&#x4F1A;&#x66F4;&#x65B0;&#x6240;&#x6709;&#x6D3B;&#x52A8;&#x7684;&#x52A8;&#x753B;&#x3002;</p>
+<p><a href="https://github.com/mrdoob/three.js/blob/master/src/animation/AnimationHandler.js" target="_blank">&#x6E90;&#x7801;</a></p>
+<h3 id="&#x6784;&#x9020;&#x5668;&#xFF08;constructor&#xFF09;">&#x6784;&#x9020;&#x5668;&#xFF08;Constructor&#xFF09;</h3>
+<p><strong>AnimationHandler()</strong></p>
+<p>The animationHandler can&apos;t be called as constructor.</p>
+<h3 id="&#x5C5E;&#x6027;&#xFF08;properties&#xFF09;">&#x5C5E;&#x6027;&#xFF08;Properties&#xFF09;</h3>
+<ul>
+<li>.CATMULLROM</li>
+</ul>
+<p>Enum Value to indicate that the animation needs to be interpolated as CATMULLROM.&#x679A;&#x4E3E;&#x503C;&#xFF0C;&#x6307;&#x793A;&#x52A8;&#x753B;&#x9700;&#x8981;&#x4F5C;&#x4E3A;catmullrom&#x63D2;&#x5165;&#x3002;</p>
+<ul>
+<li>.CATMULLROM_FORWARD</li>
+</ul>
+<p>Enum Value to indicate that the animation needs to be interpolated as CATMULLROM_FORWARD.&#x679A;&#x4E3E;&#x503C;&#xFF0C;&#x6307;&#x793A;&#x52A8;&#x753B;&#x9700;&#x8981;&#x4F5C;&#x4E3A;catmullom_forward&#x63D2;&#x5165;&#x3002;</p>
+<ul>
+<li>.LINEAR</li>
+</ul>
+<p>Enum Value to indicate that the animation needs to be interpolated as LINEAR.&#x679A;&#x4E3E;&#x503C;&#x4EE5;&#x6307;&#x793A;&#x52A8;&#x753B;&#x9700;&#x8981;&#x4F5C;&#x4E3A;&#x7EBF;&#x6027;&#x63D2;&#x503C;&#x3002;</p>
+<h3 id="&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;">&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;</h3>
+<ul>
+<li>.removeFromUpdate (animation)<ul>
+<li>animation -- The Animation to remove from the update.&#x8981;&#x4ECE;&#x66F4;&#x65B0;&#x4E2D;&#x5220;&#x9664;&#x7684;&#x52A8;&#x753B;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<p>Removes the animation from the update cycle. This gets called when the animation stops. This shouldn&apos;t be called by usercode.</p>
+<p>&#x4ECE;&#x66F4;&#x65B0;&#x5468;&#x671F;&#x4E2D;&#x5220;&#x9664;&#x52A8;&#x753B;&#x3002;&#x5F53;&#x52A8;&#x753B;&#x505C;&#x6B62;&#x65F6;&#x8C03;&#x7528;&#x6B64;&#x51FD;&#x6570;&#x3002;&#x8FD9;&#x4E0D;&#x5E94;&#x8BE5;&#x7531;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x8C03;&#x7528;&#x3002;</p>
+<ul>
+<li>.get (name)<ul>
+<li>name -- The name of the animationData&#x3002;&#x52A8;&#x753B;&#x6570;&#x636E;&#x540D;&#x79F0;</li>
+</ul>
+</li>
+</ul>
+<p>Gets the animationData from its library.&#x4ECE;&#x5176;&#x5E93;&#x4E2D;&#x83B7;&#x53D6;AnimationData&#x3002;</p>
+<ul>
+<li>.update (deltaTimeMS)<ul>
+<li>deltaTimeMS -- Time elapsed since last update in milliseconds.&#x81EA;&#x4E0A;&#x6B21;&#x66F4;&#x65B0;&#x4EE5;&#x6765;&#x7ECF;&#x8FC7;&#x7684;&#x65F6;&#x95F4;&#xFF08;&#x6BEB;&#x79D2;&#xFF09;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<p>Updates all active animations with deltaTime.&#x7528;Deltatime&#x66F4;&#x65B0;&#x6240;&#x6709;&#x6D3B;&#x52A8;&#x52A8;&#x753B;&#x3002;</p>
+<ul>
+<li><p>.parse (root)</p>
+<ul>
+<li>root -- object
+Parses the object to get the hierachy.&#x89E3;&#x6790;&#x5BF9;&#x8C61;&#x4EE5;&#x83B7;&#x53D6;&#x5C42;&#x6B21;&#x7ED3;&#x6784;&#x3002;</li>
+</ul>
+</li>
+<li><p>.add (data)</p>
+<ul>
+<li>data -- The animationData
+Adds the animationData from its library.&#x4ECE;&#x5176;&#x5E93;&#x4E2D;&#x6DFB;&#x52A0;&#x52A8;&#x753B;&#x6570;&#x636E;&#x3002;</li>
+</ul>
+</li>
+<li><p>.addToUpdate (animation)</p>
+<ul>
+<li>animation -- The Animation to add from the update.&#x8981;&#x4ECE;&#x66F4;&#x65B0;&#x4E2D;&#x6DFB;&#x52A0;&#x7684;&#x52A8;&#x753B;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<p>Adds the animation from the update cycle. This gets called when the animation starts. This shouldn&apos;t be called by user code.</p>
+<p>&#x4ECE;&#x66F4;&#x65B0;&#x5468;&#x671F;&#x6DFB;&#x52A0;&#x52A8;&#x753B;&#x3002;&#x5F53;&#x52A8;&#x753B;&#x5F00;&#x59CB;&#x65F6;&#x8C03;&#x7528;&#x6B64;&#x51FD;&#x6570;&#x3002;&#x8FD9;&#x4E0D;&#x5E94;&#x8BE5;&#x7531;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x8C03;&#x7528;&#x3002;</p>
+<h2 id="&#x5173;&#x952E;&#x5E27;&#x52A8;&#x753B;keyframeanimation"><a id="KeyFrameAnimation"></a>&#x5173;&#x952E;&#x5E27;&#x52A8;&#x753B;(KeyFrameAnimation)</h2>
+<p>Runs a keyframe animation as imported from the ColladaLoader.</p>
+<p>&#x8FD0;&#x884C;&#x4ECE;ColladalLoader&#x5BFC;&#x5165;&#x7684;&#x5173;&#x952E;&#x5E27;&#x52A8;&#x753B;&#x3002;</p>
+<p><a href="https://github.com/mrdoob/three.js/blob/master/src/animation/KeyFrameAnimation.js" target="_blank">&#x6E90;&#x7801;</a></p>
+<h3 id="&#x6784;&#x9020;&#x5668;&#xFF08;constructor&#xFF09;">&#x6784;&#x9020;&#x5668;&#xFF08;Constructor&#xFF09;</h3>
+<p><strong>KeyFrameAnimation(data)</strong></p>
+<ul>
+<li>data -- An individual animation object from a the <a href="javascript:window.parent.goTo(&apos;ColladaLoader&apos;" target="_blank">ColladaLoader</a>), e.g. loadedColladaObj.animations[0] .
+&#x6765;&#x81EA;colladaloader&#x7684;&#x5355;&#x4E2A;&#x52A8;&#x753B;&#x5BF9;&#x8C61;,&#x6BD4;&#x5982;&#xFF0C;<code>loadedColladaObj.animations[0]</code></li>
+</ul>
+<p>&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684; keyframe animation &#x5E76;&#x4E14;&#x5C06;&#x5176;&#x521D;&#x59CB;&#x5316;&#x4E3A;&#x7B2C;&#x4E00;&#x4E2A;&#x5173;&#x952E;&#x5E27;&#x3002;</p>
+<h3 id="&#x5C5E;&#x6027;&#xFF08;properties&#xFF09;">&#x5C5E;&#x6027;&#xFF08;Properties&#xFF09;</h3>
+<ul>
+<li>.root</li>
+</ul>
+<p>The root object of the animation&#xFF0C;&#x52A8;&#x753B;&#x4F5C;&#x7528;&#x5BF9;&#x8C61;</p>
+<ul>
+<li>.data</li>
+</ul>
+<p>The data containing the animation&#x5305;&#x542B;&#x52A8;&#x753B;&#x7684;&#x6570;&#x636E;</p>
+<ul>
+<li>.hierarchy</li>
+</ul>
+<p>The objects that are influenced by the animation.&#x53D7;&#x52A8;&#x753B;&#x5F71;&#x54CD;&#x7684;&#x5BF9;&#x8C61;&#x3002;</p>
+<ul>
+<li>.currentTime</li>
+</ul>
+<p>The time elapsed since the last start/restart of the animation.&#x81EA;&#x4E0A;&#x6B21;&#x542F;&#x52A8;/&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x52A8;&#x753B;&#x4EE5;&#x6765;&#x7ECF;&#x8FC7;&#x7684;&#x65F6;&#x95F4;&#x3002;</p>
+<ul>
+<li>.timeScale</li>
+</ul>
+<p>How much to scale the speed of the animation. Defaults to 1.&#x7F29;&#x653E;&#x52A8;&#x753B;&#x7684;&#x901F;&#x5EA6;&#x3002;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;1&#x3002;</p>
+<ul>
+<li>.isPlaying</li>
+</ul>
+<p>Indicates whether the animation is playing. This shouldn&apos;t be adapted by user code.&#x793A;&#x610F;&#x52A8;&#x753B;&#x662F;&#x5E73;&#x606F;&#x7684;&#x3002;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x7531;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x8C03;&#x6574;&#x7684;</p>
+<ul>
+<li>.isPaused</li>
+</ul>
+<p>Indicates whether the animation is paused. This shouldn&apos;t be adapted by user code.&#x793A;&#x610F;&#x52A8;&#x753B;&#x662F;&#x4E0D;&#x6B63;&#x786E;&#x7684;&#x3002;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x7531;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x8C03;&#x6574;&#x7684;</p>
+<ul>
+<li>.loop</li>
+</ul>
+<p>Set to make the animation restart when the animation ends.&#x4F7F;&#x5176;&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x5F53;&#x52A8;&#x753B;&#x3002;&#x662F;&#x5426;&#x5FAA;&#x73AF;</p>
+<h3 id="&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;">&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;</h3>
+<ul>
+<li>.play (startTime)</li>
+</ul>
+<p>Starts the animation at the startTime (in seconds) of the animation.&#x5728;&#x52A8;&#x753B;&#x7684;&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#xFF08;&#x79D2;&#xFF09;&#x542F;&#x52A8;&#x52A8;&#x753B;&#x3002;</p>
+<ul>
+<li>.stop ()</li>
+</ul>
+<p>Stops the animation.&#x505C;&#x6B62;&#x52A8;&#x753B;&#x3002;</p>
+<ul>
+<li><p>.update (deltaTime)</p>
+<ul>
+<li>deltaTime -- The change in time in seconds&#x4EE5;&#x79D2;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x65F6;&#x95F4;&#x53D8;&#x5316;</li>
+</ul>
+</li>
+</ul>
+<p>Updates the keyframe animation&#x66F4;&#x65B0;&#x5173;&#x952E;&#x5E27;&#x52A8;&#x753B;</p>
+<ul>
+<li><p>.getNextKeyWith (sid, h, key)</p>
+<ul>
+<li>sid -- The string id </li>
+<li>h -- The index in the heirarchy to use&#x7EE7;&#x627F;&#x5173;&#x7CFB;&#x4E2D;&#x8981;&#x4F7F;&#x7528;&#x7684;&#x7D22;&#x5F15;</li>
+<li>key -- The index of which key to start from&#x4ECE;&#x54EA;&#x4E2A;&#x952E;&#x5F00;&#x59CB;&#x7684;&#x7D22;&#x5F15;</li>
+</ul>
+</li>
+</ul>
+<p>Used internally to traverse the animation&#x5185;&#x90E8;&#x7528;&#x4E8E;&#x904D;&#x5386;&#x52A8;&#x753B;</p>
+<ul>
+<li><p>.getPrevKeyWith (sid, h, key)</p>
+<ul>
+<li>sid -- The string id </li>
+<li>h -- The index in the heirarchy to use&#x7EE7;&#x627F;&#x5173;&#x7CFB;&#x4E2D;&#x8981;&#x4F7F;&#x7528;&#x7684;&#x7D22;&#x5F15;</li>
+<li>key -- The index of which key to start from&#x4ECE;&#x54EA;&#x4E2A;&#x952E;&#x5F00;&#x59CB;&#x7684;&#x7D22;&#x5F15;</li>
+</ul>
+</li>
+</ul>
+<p>Used internally to traverse the animation&#x5185;&#x90E8;&#x7528;&#x4E8E;&#x904D;&#x5386;&#x52A8;&#x753B;</p>
 
                                 
                                 </section>
@@ -1364,7 +1630,7 @@
                 </a>
                 
                 
-                <a href="../audios/" class="navigation navigation-next " aria-label="Next page: 音频">
+                <a href="./#AnimationHandler" class="navigation navigation-next " aria-label="Next page: 动画处理器(AnimationHandler)">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1375,7 +1641,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"动画","level":"1.17","depth":1,"next":{"title":"音频","level":"1.18","depth":1,"path":"audios/README.md","ref":"audios/README.md","articles":[]},"previous":{"title":"几何模型(Geometry)","level":"1.16","depth":1,"path":"geometries/README.md","ref":"geometries/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-favicon","-github","-tbfed-pagefooter","-donate@^1.0.2"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy <b><a target='view_window' href='https://sogrey.github.io/'>Sogrey</a></b> 2018,","modify_label":"    使用中遇到问题？<b><a target='view_window' href='https://github.com/Sogrey/Three.js-start/issues/new'>提个Issue</a></b>,最后修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/Sogrey"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"donate":{"wechat":"https://sogrey.github.io/img/wechatPay.png","alipay":"https://sogrey.github.io/img/alipay.jpg","title":"","button":"赏","alipayText":"支付宝打赏","wechatText":"微信打赏"},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Sogrey","pdf":{"pageBreaksBefore":"/","headerTemplate":null,"paperSize":"a4","margin":{"right":62,"left":62,"top":36,"bottom":36},"fontSize":12,"fontFamily":"Arial","footerTemplate":null,"chapterMark":"pagebreak","pageNumbers":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"isbn":"","variables":{},"title":"Three.js 入门","links":{"sharing":{"all":null,"facebook":null,"google":null,"twitter":null,"weibo":null},"sidebar":{"Sogrey's Blog":"https://sogrey.github.io"}},"gitbook":"*","description":"Three.js 入门笔记","extension":null},"file":{"path":"animations/README.md","mtime":"2019-02-21T09:41:59.836Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-27T02:51:56.687Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"动画(Animation)","level":"1.17","depth":1,"next":{"title":"动画处理器(AnimationHandler)","level":"1.17.1","depth":2,"anchor":"#AnimationHandler","path":"animations/README.md","ref":"animations/README.md#AnimationHandler","articles":[]},"previous":{"title":"几何模型(Geometry)","level":"1.16","depth":1,"path":"geometries/README.md","ref":"geometries/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-favicon","-github","-tbfed-pagefooter","-donate@^1.0.2"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy <b><a target='view_window' href='https://sogrey.github.io/'>Sogrey</a></b> 2018,","modify_label":"    使用中遇到问题？<b><a target='view_window' href='https://github.com/Sogrey/Three.js-start/issues/new'>提个Issue</a></b>,最后修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/Sogrey"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"donate":{"wechat":"https://sogrey.github.io/img/wechatPay.png","alipay":"https://sogrey.github.io/img/alipay.jpg","title":"","button":"赏","alipayText":"支付宝打赏","wechatText":"微信打赏"},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Sogrey","pdf":{"pageBreaksBefore":"/","headerTemplate":null,"paperSize":"a4","margin":{"right":62,"left":62,"top":36,"bottom":36},"fontSize":12,"fontFamily":"Arial","footerTemplate":null,"chapterMark":"pagebreak","pageNumbers":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"isbn":"","variables":{},"title":"Three.js 入门","links":{"sharing":{"all":null,"facebook":null,"google":null,"twitter":null,"weibo":null},"sidebar":{"Sogrey's Blog":"https://sogrey.github.io"}},"gitbook":"*","description":"Three.js 入门笔记","extension":null},"file":{"path":"animations/README.md","mtime":"2019-03-01T07:44:15.269Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-02T02:00:50.094Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
