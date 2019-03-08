@@ -1,6 +1,6 @@
 # three.js 变换大小、角度、位移控件 TransformControls.js
 
-[源码](https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/TransformControls.js)
+[源码](https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/TransformControls.js) [示例](https://threejs.org/examples/misc_controls_transform.html)
 
 TransformControls.js：鼠标操控物体移动、缩放、旋转的控件（物体操作工具）
 
