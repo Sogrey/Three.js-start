@@ -1,6 +1,9 @@
 # Three.js-start
 Three.js学习
 
+<div class="github-widget" data-repo="Sogrey/Three.js-start"></div>
+<script type="text/javascript" src="https://git.hust.cc/GitHub-Repo-Widget.js/GithubRepoWidget.js"></script>
+
 资料来源于网络，仅供学习交流。
 
 
