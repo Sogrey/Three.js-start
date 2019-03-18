@@ -4,6 +4,9 @@ JavaScript性能监控器，可以测试webgl代码的渲染性能。
 
 [github](https://github.com/dataarts/dat.gui) [Usage](http://workshop.chromeexperiments.com/examples/gui/)
 
+<div class="github-widget" data-repo="dataarts/dat.gui"></div>
+<script type="text/javascript" src="https://git.hust.cc/GitHub-Repo-Widget.js/GithubRepoWidget.js"></script>
+
 ## 构造函数
 
 ```javascript
