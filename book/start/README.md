@@ -18,10 +18,12 @@ three就是3D的意思，js表示javascript，那么three.js简单理解就是�
 github：[https://github.com/mrdoob/three.js/](https://github.com/mrdoob/three.js/)
 
 <div class="github-widget" data-repo="mrdoob/three.js"></div>
-<script type="text/javascript" src="https://git.hust.cc/GitHub-Repo-Widget.js/GithubRepoWidget.js"></script>
+<div><script type="text/javascript" src="https://git.hust.cc/GitHub-Repo-Widget.js/GithubRepoWidget.js"></script></div>
+
+
 
 github上下载很慢，很容易失败，下面是我下载存在百度网盘链接，需要最新版请前往github。
-下载：链接: https://pan.baidu.com/s/1Iqp8ibV7lBwXJiQodONv-w 提取码: wgdi
+下载：链接: https://pan.baidu.com/s/1Iqp8ibV7lBwXJiQodONv-w 提取码: `wgdi`
 
 源码结构解析：
 
