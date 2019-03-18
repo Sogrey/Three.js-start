@@ -1290,7 +1290,7 @@ WebGLRenderer使用它来选择shaders。
 
 ## <a id="MeshToonMaterial"></a>卡通网格材质(MeshToonMaterial)
 
-[MeshPhongMaterial](MeshPhongMaterial )卡通着色的扩展。 
+[MeshPhongMaterial](#MeshPhongMaterial )卡通着色的扩展。 
 
 ### 构造函数(Constructor)
 
@@ -1713,5 +1713,7 @@ sprite的转动，以弧度为单位。默认值为0。
 
 常用方法请参见基类[Material](#top)。
 
+
+```
 
 ```

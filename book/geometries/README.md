@@ -8,7 +8,7 @@
 - [CylinderBufferGeometry](https://threejs.org/docs/api/zh/geometries/CylinderBufferGeometry.html)与[CylinderGeometry](https://threejs.org/docs/api/zh/geometries/CylinderGeometry.html)
 - [DodecahedronBufferGeometry](https://threejs.org/docs/api/zh/geometries/DodecahedronBufferGeometry.html)与[DodecahedronGeometry](https://threejs.org/docs/api/zh/geometries/DodecahedronGeometry.html)
 - [EdgesGeometry](https://threejs.org/docs/api/zh/geometries/EdgesGeometry.html)
-- [ExtrudeBufferGeometry](https://threejs.org/docs/api/zh/geometries/ExtrudeBufferGeometry.html)与[ExtrudeGeometry](https://threejs.org/docs/api/zh/geometries/ExtrudeGeometry.html)
+- [ExtrudeBufferGeometry](https://threejs.org/docs/api/zh/geometries/ExtrudeBufferGeometry.html)与[ExtrudeGeometry](https://threejs.org/docs/api/zh/geometries/ExtrudeGeometry.html)  [拉伸几何体](#拉伸几何体)
 - [IcosahedronBufferGeometry](https://threejs.org/docs/api/zh/geometries/IcosahedronBufferGeometry.html)与[IcosahedronGeometry](https://threejs.org/docs/api/zh/geometries/IcosahedronGeometry.html)
 - [LatheBufferGeometry](https://threejs.org/docs/api/zh/geometries/LatheBufferGeometry.html)与[LatheGeometry](https://threejs.org/docs/api/zh/geometries/LatheGeometry.html)
 - [OctahedronBufferGeometry](https://threejs.org/docs/api/zh/geometries/OctahedronBufferGeometry.html)与[OctahedronGeometry](https://threejs.org/docs/api/zh/geometries/OctahedronGeometry.html)
@@ -34,3 +34,12 @@
 - .parameters : Object
 
 一个包含着构造函数中每个参数的对象。在对象实例化之后，对该属性的任何修改都不会改变这个几何体。
+
+
+
+
+
+##  <a id="拉伸几何体"></a>拉伸几何体
+
+
+## ExtrudeBufferGeometry
