@@ -130,6 +130,9 @@ transformControl.setSize(0.4);// 设置三维坐标轴大小
 
 设置局部 世界空间
 
-- update() 
+- ~~update()~~
+  更新
+  > THREE.TransformControls: update function has been depricated. 
 
-更新
+- updateMatrixWorld()
+
