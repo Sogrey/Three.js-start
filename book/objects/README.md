@@ -1,7 +1,7 @@
 # <a id="top"></a>对象/物体
 
 - [Bone](https://threejs.org/docs/api/zh/objects/Bone.html)
-- [Group](https://threejs.org/docs/api/zh/objects/Group.html)  [demo](https://sogrey.github.io/Three.js-start//example/groupDemo/groupDemo.html)  [demo2](https://sogrey.github.io/Three.js-start//example/groupDemo/groupDemo2.html)
+- [Group](https://threejs.org/docs/api/zh/objects/Group.html)  [demo](https://sogrey.github.io/Three.js-start//example/groupDemo/groupDemo.html)  [demo2](https://sogrey.github.io/Three.js-start//example/groupDemo/groupDemo2.html)  [demo3](https://sogrey.github.io/Three.js-start//example/groupDemo/demo3.html)
 - [Line](https://threejs.org/docs/api/zh/objects/Line.html)
 - [LineLoop](https://threejs.org/docs/api/zh/objects/LineLoop.html)
 - [LineSegments](https://threejs.org/docs/api/zh/objects/LineSegments.html)
