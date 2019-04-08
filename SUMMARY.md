@@ -82,11 +82,12 @@
 * [其他](others/README.md)
 
 -----
-* 工具(Tools)
+* [DragControls.js](tools/DragControls.js.md)
     * [DragControls.js](tools/DragControls.js.md)
     * [TransformControls.js](tools/TransformControls.js.md)
     * [stats.js](tools/stats.js.md)
     * [ui.js](tools/ui.js.md)
+    * [Raycaster](tools/Raycaster.md)
 
 -----
 * 实例用法
