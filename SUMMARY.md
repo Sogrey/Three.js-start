@@ -80,6 +80,7 @@
 * [数学模块](maths/README.md)
 * [数学/插值](math-interpolants/README.md)
 * [其他](others/README.md)
+    * [粒子系统](others/ParticleSystem.md)
 
 -----
 * [DragControls.js](tools/DragControls.js.md)
