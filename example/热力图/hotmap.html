@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Test5</title>
+
+    <style>
+        canvas {
+
+            width: 100%;
+
+            height: 100%;
+
+            background-color: #00ff00;
+
+        }
+    </style>
+
+    <script src="../js/threejs/three.js"></script>
+    <script src="../js/controls/OrbitControls.js"></script>
+    <script src="../js/libs/stats.min.js"></script>
+    <script src="../js/libs/dat.gui.min.js"></script>
+
+    <script src="../js/libs/inflate.min.js"></script>
+
+    <script src="../js/loaders/FBXLoader.js"></script>
+
+    <script src="../js/postprocessing/EffectComposer.js"></script>
+
+    <script src="../js/postprocessing/RenderPass.js"></script>
+
+    <script src="../js/postprocessing/ShaderPass.js"></script>
+
+    <script src="../js/shaders/CopyShader.js"></script>
+
+    <!-- <script src="./myjs.js"></script> -->
+
+</head>
+
+<body>
+
+    <div id="canvas"></div>
+
+    <script>
+        let camera, controls, scene, renderer, createModle, clock;
+
+        let radius = 10.0;
+
+        let composer;
+
+        let init = function (container) {
+
+            //渲染器
+
+            renderer = new THREE.WebGLRenderer({
+                antialias: true
+            });
+
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            renderer.shadowMap.enabled = true;
+
+            container.appendChild(renderer.domElement);
+
+            //相机
+
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 200000);
+
+            camera.position.set(500, 500, 2000);
+
+            //相机控制
+
+            controls = new THREE.OrbitControls(camera, container);
+
+            controls.target.set(500, 500, 0);
+
+            //场景
+
+            scene = new THREE.Scene();
+
+
+
+            for (let i = 0; i < 1000; i++) {
+
+                createModle(1000 * Math.random(), 1000 * Math.random(), 0);
+
+            }
+
+            composer = new THREE.EffectComposer(renderer);
+
+            composer.addPass(new THREE.RenderPass(scene, camera));
+
+            var textureLoader = new THREE.TextureLoader();
+
+            var shaderPass = new THREE.ShaderPass({
+
+                uniforms: {
+
+                    tDiffuse: {
+                        type: "t",
+                        value: null
+                    },
+
+                    grayTexture: {
+                        type: "t",
+                        value: null
+                    }
+
+                },
+
+                vertexShader: ` varying vec2 vUv;
+
+void main() {
+
+vUv = uv;
+
+vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+gl_Position = projectionMatrix * mvPosition;
+
+}`,
+
+                fragmentShader: `uniform sampler2D tDiffuse;
+
+uniform sampler2D grayTexture;
+
+varying vec2 vUv;
+
+void main() {
+
+vec4 texel = texture2D( tDiffuse, vUv );
+
+if(texel.a > 1.0)
+
+texel.a = 1.0;
+
+vec4 heatColor = texture2D( grayTexture, vec2(texel.a, texel.a));
+
+gl_FragColor = vec4(heatColor.rgb, 1.0);
+
+}`
+
+            });
+
+            shaderPass.uniforms.grayTexture.value = textureLoader.load('./colorline.png');
+
+            shaderPass.renderToScreen = true;
+
+            composer.addPass(shaderPass);
+
+            //var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
+
+            //effectCopy.renderToScreen = true;
+
+            //composer.addPass( effectCopy );
+
+            //窗口大小改变
+
+            window.addEventListener('resize', onWindowResize, false);
+
+            //帧率统计信息
+
+            stats = new Stats();
+
+            container.appendChild(stats.dom);
+
+            clock = new THREE.Clock();
+
+            //开启渲染
+
+            animate();
+
+        }
+
+        //窗口大小改变
+
+        onWindowResize = function () {
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            composer.setSize(window.innerWidth, window.innerHeight);
+
+        }
+
+
+
+        //渲染回调
+
+        animate = function () {
+
+            controls.update();
+
+            let time = clock.getDelta();
+
+            requestAnimationFrame(animate);
+
+            //renderer.render(scene, camera);
+
+            composer.render();
+
+            stats.update();
+
+        }
+
+        createModle = function (x, y, z) {
+
+            //创建几何buffer
+
+            let geometry = new THREE.BufferGeometry();
+
+            let vertices = [];
+
+            vertices.push(-10, -10, 0);
+
+            vertices.push(10, -10, 0);
+
+            vertices.push(-10, 10, 0);
+
+            vertices.push(10, -10, 0);
+
+            vertices.push(10, 10, 0);
+
+            vertices.push(-10, 10, 0);
+
+            geometry.addAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+
+            //创建shader
+
+            let shaderMaterail = new THREE.ShaderMaterial({
+
+                uniforms: {
+
+                    radius: {
+                        value: radius
+                    }
+
+                },
+
+                vertexShader: ` varying vec2 pos;
+
+void main() {
+
+pos = position.xy;
+
+vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+gl_Position = projectionMatrix * mvPosition;
+
+}`,
+
+                fragmentShader: `uniform float radius;
+
+varying vec2 pos;
+
+void main() {
+
+float flag = sqrt(pow(pos.x, 2.0) + pow(pos.y, 2.0));
+
+if(flag > radius)
+
+discard;
+
+else{
+
+float f = (radius - flag) / radius;
+
+gl_FragColor = vec4(f, f, f, f);
+
+}
+
+}`,
+
+                //side : THREE.DoubleSide
+
+                transparent: true,
+
+                opacity: 0.5,
+
+                depthTest: false
+
+            });
+
+            let mesh = new THREE.Mesh(geometry, shaderMaterail);
+
+            mesh.position.set(x, y, 0);
+
+            scene.add(mesh);
+
+        };
+
+        init(document.getElementById('canvas'));
+    </script>
+
+</body>
+
+</html>

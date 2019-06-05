@@ -83,9 +83,10 @@
     * [粒子系统](others/ParticleSystem.md)
 
 -----
-* [DragControls.js](tools/DragControls.js.md)
+* 控制器/工具
     * [DragControls.js](tools/DragControls.js.md)
     * [TransformControls.js](tools/TransformControls.js.md)
+    * [PointerLockControls.js](tools/PointerLockControls.js.md)
     * [stats.js](tools/stats.js.md)
     * [ui.js](tools/ui.js.md)
     * [Raycaster](tools/Raycaster.md)
