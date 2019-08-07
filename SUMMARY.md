@@ -97,4 +97,5 @@
 
 -----
 * [参考资料](reference/README.md)
+* [Three.js入门指南](https://read.douban.com/ebook/7412854/)
 
