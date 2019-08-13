@@ -11,6 +11,9 @@ cd _book
 
 # 如果是发布到自定义域名
 # echo 'www.yourwebsite.com' > CNAME
+echo "" >> .gitignore
+echo "commit.sh" >> .gitignore
+echo "deploy.sh" >> .gitignore
 
 git init
 git add -A
