@@ -15,6 +15,8 @@ echo "" >> .gitignore
 echo "commit.sh" >> .gitignore
 echo "deploy.sh" >> .gitignore
 
+git config --local http.postBuffer 524288000
+
 git init
 git add -A
 git commit -m 'deploy gh-pages'
