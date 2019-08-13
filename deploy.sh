@@ -14,7 +14,7 @@ cd _book
 
 git init
 git add -A
-git commit -m 'deploy'
+git commit -m 'deploy gh-pages'
 
 # 如果你想要部署到 https://USERNAME.github.io
 git push -f https://github.com/Sogrey/Three.js-start.git master:gh-pages
