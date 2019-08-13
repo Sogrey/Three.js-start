@@ -31,6 +31,7 @@
     * [WebGL渲染器目标(WebGLRenderTarget)](renderers/README.md#WebGLRenderTarget)
     * [WebGL渲染器立方体目标(WebGLRenderTargetCube)](renderers/README.md#WebGLRenderTargetCube)
 * [渲染器 / 着色器](shaders/README.md)
+    * [定制着色器和渲染后期处理](https://www.cnblogs.com/w-wanglei/p/6790326.html)
 * [场景(Scenes)](scenes/README.md#top)
     * [线性雾(Fog)](scenes/README.md#Fog)
     * [指数雾(FogExp2)](scenes/README.md#FogExp2)
