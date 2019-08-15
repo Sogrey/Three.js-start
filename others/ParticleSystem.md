@@ -15,7 +15,7 @@
 两种方式：
 
 - 使用[THREE.Points](https://github.com/mrdoob/three.js/blob/master/src/objects/Points.js)实现 【[示例](https://threejs.org/examples/webgl_buffergeometry_custom_attributes_particles.html)】
-- 使用THREE.PointCloud实现 【[示例](../../example/ParticleSystem/PointCloud.html)】
+- 使用THREE.PointCloud实现 【[示例](../example/ParticleSystem/PointCloud.html)】
 - 自带的粒子系统需要[GPUParticleSystem.js](https://threejs.org/examples/js/GPUParticleSystem.js) 【[示例](https://threejs.org/examples/webgl_gpu_particle_system.html)】- 优选
 - 使用[THREE.Sprite](https://github.com/mrdoob/three.js/blob/dev/src/objects/Sprite.js)实现，材质[SpriteMaterial](<https://github.com/mrdoob/three.js/blob/dev/src/materials/SpriteMaterial.js>) 【[示例](<https://threejs.org/examples/webgl_points_sprites.html>) [示例2](<https://threejs.org/examples/webgl_sprites.html>) [示例3](<https://threejs.org/examples/webgl_sprites_nodes.html>) [示例4](<https://threejs.org/examples/css3d_sprites.html>)】
 
