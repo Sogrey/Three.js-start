@@ -20,34 +20,32 @@ github：[https://github.com/mrdoob/three.js/](https://github.com/mrdoob/three.j
 <div class="github-widget" data-repo="mrdoob/three.js"></div>
 <div><script type="text/javascript" src="https://git.hust.cc/GitHub-Repo-Widget.js/GithubRepoWidget.js"></script></div>
 
-
-
 github上下载很慢，很容易失败，下面是我下载存在百度网盘链接，需要最新版请前往github。
 下载：链接: https://pan.baidu.com/s/1Iqp8ibV7lBwXJiQodONv-w 提取码: `wgdi`
 
 源码结构解析：
 
-Build目录：包含两个文件，three.js 和three.min.js 。这是three.js最终被引用的文件。一个已经压缩，一个没有压缩的js文件。
+- Build目录：包含两个文件，three.js 和three.min.js 。这是three.js最终被引用的文件。一个已经压缩，一个没有压缩的js文件。
 
-Docs目录：这里是three.js的帮助文档，里面是各个函数的api，可惜并没有详细的解释。试图用这些文档来学会three.js是不可能的。
+- Docs目录：这里是three.js的帮助文档，里面是各个函数的api，可惜并没有详细的解释。试图用这些文档来学会three.js是不可能的。
 
-Editor目录：一个类似3D-max的简单编辑程序，它能创建一些三维物体。
+- Editor目录：一个类似3D-max的简单编辑程序，它能创建一些三维物体。
 
-Examples目录：一些很有趣的例子demo，可惜没有文档介绍。对图像学理解不深入的同学，学习成本非常高。
+- Examples目录：一些很有趣的例子demo，可惜没有文档介绍。对图像学理解不深入的同学，学习成本非常高。
 
-Src目录：源代码目录，里面是所有源代码。
+- Src目录：源代码目录，里面是所有源代码。
 
-Test目录：一些测试代码，基本没用。
+- Test目录：一些测试代码，基本没用。
 
-Utils目录：存放一些脚本，python文件的工具目录。例如将3D-Max格式的模型转换为three.js特有的json模型。
+- Utils目录：存放一些脚本，python文件的工具目录。例如将3D-Max格式的模型转换为three.js特有的json模型。
 
-.gitignore文件：git工具的过滤规则文件，没有用。
+- .gitignore文件：git工具的过滤规则文件，没有用。
 
-CONTRIBUTING.md文件：一个怎么报bug，怎么获得帮助的说明文档。
+- CONTRIBUTING.md文件：一个怎么报bug，怎么获得帮助的说明文档。
 
-LICENSE文件：版权信息。
+- LICENSE文件：版权信息。
 
-README.md文件：介绍three.js的一个文件，里面还包含了各个版本的更新内容列表。
+- README.md文件：介绍three.js的一个文件，里面还包含了各个版本的更新内容列表。
 
 
 ## <a id="how-to-use-Threejs"></a>如何使用Three.js
