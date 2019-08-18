@@ -3,7 +3,7 @@
 # 确保脚本抛出遇到的错误
 set -e
 
-echo -e "\033[32;40m [1] \033[0m 提交到 master"
+echo -e "\033[32;40m [1] \033[0m 提交到 master branch"
 
 git init
 git add -A
@@ -28,7 +28,7 @@ echo "deploy.sh" >> .gitignore
 
 git config --local http.postBuffer 524288000
 
-echo -e "\033[32;40m [3] \033[0m 发布站点到 gh-pages 分支"
+echo -e "\033[32;40m [3] \033[0m 发布到 gh-pages 分支"
 
 git init
 git add -A
