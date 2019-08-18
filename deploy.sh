@@ -1,26 +1,26 @@
 #!/usr/bin/env sh
 
-# ç¡®ä¿è„šæœ¬æŠ›å‡ºé‡åˆ°çš„é”™è¯¯
+# È·±£½Å±¾Å×³öÓöµ½µÄ´íÎó
 set -e
 
-echo -e "\033[32;40m [1] \033[0m æäº¤åˆ° master"
+echo -e "\033[32;40m [1] \033[0m Ìá½»µ½ master"
 
 git init
 git add -A
 git commit -m 'deploy master'
 
-# å¦‚æœä½ æƒ³è¦éƒ¨ç½²åˆ° https://USERNAME.github.io
+# Èç¹ûÄãÏëÒª²¿Êğµ½ https://USERNAME.github.io
 git push -f https://github.com/Sogrey/Three.js-start.git master
 
-echo -e "\033[32;40m [2] \033[0m ç”Ÿæˆé™æ€æ–‡ä»¶"
+echo -e "\033[32;40m [2] \033[0m Éú³É¾²Ì¬ÎÄ¼ş"
 
-# ç”Ÿæˆé™æ€æ–‡ä»¶
+# Éú³É¾²Ì¬ÎÄ¼ş
 gitbook build
 
-# è¿›å…¥ç”Ÿæˆçš„æ–‡ä»¶å¤¹
+# ½øÈëÉú³ÉµÄÎÄ¼ş¼Ğ
 cd _book
 
-# å¦‚æœæ˜¯å‘å¸ƒåˆ°è‡ªå®šä¹‰åŸŸå
+# Èç¹ûÊÇ·¢²¼µ½×Ô¶¨ÒåÓòÃû
 # echo 'www.yourwebsite.com' > CNAME
 echo "" >> .gitignore
 echo "commit.sh" >> .gitignore
@@ -28,13 +28,13 @@ echo "deploy.sh" >> .gitignore
 
 git config --local http.postBuffer 524288000
 
-echo -e "\033[32;40m [3] \033[0m å‘å¸ƒç«™ç‚¹åˆ° gh-pages åˆ†æ”¯"
+echo -e "\033[32;40m [3] \033[0m ·¢²¼Õ¾µãµ½ gh-pages ·ÖÖ§"
 
 git init
 git add -A
 git commit -m 'deploy gh-pages'
 
-# å¦‚æœä½ æƒ³è¦éƒ¨ç½²åˆ° https://USERNAME.github.io
+# Èç¹ûÄãÏëÒª²¿Êğµ½ https://USERNAME.github.io
 git push -f https://github.com/Sogrey/Three.js-start.git master:gh-pages
 
 cd -
