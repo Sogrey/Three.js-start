@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# ç¡®ä¿è„šæœ¬æŠ›å‡ºé‡åˆ°çš„é”™è¯¯
+# È·±£½Å±¾Å×³öÓöµ½µÄ´íÎó
 set -e
 
 
@@ -8,7 +8,7 @@ git init
 git add -A
 git commit -m 'deploy master'
 
-# å¦‚æœä½ æƒ³è¦éƒ¨ç½²åˆ° https://USERNAME.github.io
+# Èç¹ûÄãÏëÒª²¿Êğµ½ https://USERNAME.github.io
 git push -f https://github.com/Sogrey/Three.js-start.git master
 
 cd -
