@@ -1,0 +1,350 @@
+<style>
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+html {
+    line-height: 1;
+}
+ol,
+ul {
+    list-style: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+caption,
+th,
+td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+}
+q,
+blockquote {
+    quotes: none;
+}
+q:before,
+q:after,
+blockquote:before,
+blockquote:after {
+    content: "";
+    content: none;
+}
+a img {
+    border: none;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+    display: block;
+}
+body {
+    overflow: hidden;
+    background: #333;
+}
+canvas {
+    width: 100%;
+    height: 100%;
+}</style>
+
+<body>
+    
+    <script src="http://threejs.org/build/three.min.js"></script>
+    <canvas id="c"></canvas>
+<script>
+(function() {
+
+var scene, camera, renderer;
+var sphere;
+var tween;
+
+var sphereArr = [];
+var sphereNum = 12;
+var NUM_BOIDS_EXC = sphereNum - 1;
+//var BOID_SIDE = 20;
+var MAX_SPEED = 3;
+var MAX_DIStANCE = 150;
+
+
+init();
+animate();
+
+function init() {
+    scene = new THREE.Scene();
+    // set the view size in pixels (custom or according to window size)
+    // var SCREEN_WIDTH = 400, SCREEN_HEIGHT = 300;
+    var SCREEN_WIDTH = window.innerWidth,
+        SCREEN_HEIGHT = window.innerHeight;
+    // camera attributes
+    var VIEW_ANGLE = 45,
+        ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
+        NEAR = 0.1,
+        FAR = 20000;
+    // set up camera
+    camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+    // add the camera to the scene
+    scene.add(camera);
+
+    camera.position.set(0, 150, 400);
+    camera.lookAt(scene.position);
+
+    var light = new THREE.PointLight(0xffffff);
+    light.position.set(0, 250, 0);
+    scene.add(light);
+    var ambientLight = new THREE.AmbientLight(0x111111);
+    scene.add(ambientLight);
+
+    for (var i = 0; i < sphereNum; i++) {
+        //var rad = parseInt(5 + 10 * Math.random());
+        var rad = 10;
+        var sphereGeometry = new THREE.SphereGeometry(rad, 16, 16);
+        // use a "lambert" material rather than "basic" for realistic lighting.
+        //   (don't forget to add (at least one) light!)
+        var sphereMaterial = new THREE.MeshLambertMaterial({
+            color: 0x2980b9
+        });
+        var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        //sphere.curScale = 0;
+
+        var xPos, yPos, zPos;
+        if (i == 0) {
+            xPos = 0;
+            yPos = 0;
+            zPos = 0;
+        } else {
+            xPos = 100 * Math.random() - 50;
+            yPos = 100 * Math.random() - 50;
+            zPos = 100 * Math.random() - 50;
+        }
+        sphere.position.set(xPos, yPos, zPos);
+        sphere.scale.x = sphere.scale.y = sphere.scale.z = 1;
+        sphere.rad = rad * 1.5;
+        sphere.vx = 0;
+        sphere.vy = 0;
+        sphere.vz = 0;
+        if (i != 0) scene.add(sphere);
+
+
+        sphereArr.push(sphere);
+    }
+
+    renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        canvas: document.getElementById('c'),
+        alpha: true
+    });
+    renderer.setClearColor(0x000, .1);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+
+}
+
+function animate(time) {
+    renderer.render(scene, camera);
+
+    update();
+    requestAnimationFrame(animate);
+}
+
+function update() {
+
+    for (var i = 1; i < sphereArr.length; i++) {
+        var sphere = sphereArr[i];
+        rule1(i);
+        rule2(i);
+        rule3(i);
+
+        var k = 0.001;
+        var forceX = -k * sphere.position.x;
+        var forceY = -k * sphere.position.y;
+        var forceZ = -k * sphere.position.z;
+
+        sphere.vx += forceX;
+        sphere.vy += forceY;
+        sphere.vz += forceZ;
+
+        var speed = Math.sqrt(sphere.vx * sphere.vx + sphere.vy * sphere.vy);
+
+        if (speed >= MAX_SPEED) {
+            var r = MAX_SPEED / speed;
+            sphere.vx *= r;
+            sphere.vy *= r;
+            sphere.vz *= r;
+        }
+
+
+        sphere.position.x += sphere.vx;
+        sphere.position.y += sphere.vy;
+        sphere.position.z += sphere.vz;
+
+
+    }
+}
+
+function rule1(index) {
+    var c = {
+        x: 0,
+        y: 0,
+        z: 0
+    };
+
+    for (var i = 1; i < sphereArr.length; i++) {
+
+        if (i != index) {
+            c.x += sphereArr[i].position.x;
+            c.y += sphereArr[i].position.y;
+            c.z += sphereArr[i].position.z;
+        }
+    }
+
+    c.x = c.x / NUM_BOIDS_EXC;
+    c.y = c.y / NUM_BOIDS_EXC;
+    c.z = c.z / NUM_BOIDS_EXC;
+
+    sphereArr[index].vx += (c.x - sphereArr[index].position.x) / 1000;
+    sphereArr[index].vy += (c.y - sphereArr[index].position.y) / 1000;
+    sphereArr[index].vz += (c.z - sphereArr[index].position.z) / 1000;
+}
+
+function rule2(index) {
+    for (var i = 0; i < sphereArr.length; i++) {
+        var d = getDistance(sphereArr[i], sphereArr[index]);
+        if (d < sphereArr[index].rad) {
+            sphereArr[index].vx -= sphereArr[i].position.x - sphereArr[index].position.x;
+            sphereArr[index].vy -= sphereArr[i].position.y - sphereArr[index].position.y;
+            sphereArr[index].vz -= sphereArr[i].position.z - sphereArr[index].position.z;
+        }
+    }
+}
+
+function rule3(index) {
+    var pv = {
+        x: 0,
+        y: 0,
+        z: 0
+    };
+    for (var i = 0; i < sphereArr.length; i++) {
+        if (i != index) {
+            pv.x += sphereArr[i].vx;
+            pv.y += sphereArr[i].vy;
+            pv.z += sphereArr[i].vz;
+        }
+    }
+
+    pv.x /= NUM_BOIDS_EXC;
+    pv.y /= NUM_BOIDS_EXC;
+    pv.z /= NUM_BOIDS_EXC;
+
+    sphereArr[index].vx += (pv.x - sphereArr[index].vx) / 20;
+    sphereArr[index].vy += (pv.y - sphereArr[index].vy) / 20;
+    sphereArr[index].vz += (pv.z - sphereArr[index].vz) / 20;
+}
+
+function getDistance(p1, p2) {
+    var dx = p1.position.x - p2.position.x;
+    var dy = p1.position.y - p2.position.y;
+    var dz = p1.position.z - p2.position.z;
+
+    return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+
+})();
+</script>
+</body>
