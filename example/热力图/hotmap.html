@@ -146,17 +146,17 @@ gl_FragColor = vec4(heatColor.rgb, 1.0);
 
             });
 
-            shaderPass.uniforms.grayTexture.value = textureLoader.load('./colorline.png');
+            shaderPass.uniforms.grayTexture.value = textureLoader.load('colorline1.png');
 
             shaderPass.renderToScreen = true;
 
             composer.addPass(shaderPass);
 
-            //var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
+            // var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
 
-            //effectCopy.renderToScreen = true;
+            // effectCopy.renderToScreen = true;
 
-            //composer.addPass( effectCopy );
+            // composer.addPass( effectCopy );
 
             //窗口大小改变
 
@@ -202,7 +202,7 @@ gl_FragColor = vec4(heatColor.rgb, 1.0);
 
             requestAnimationFrame(animate);
 
-            //renderer.render(scene, camera);
+            // renderer.render(scene, camera);
 
             composer.render();
 
