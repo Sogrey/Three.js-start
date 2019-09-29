@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>THREE.Group 对象组合</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            /* 溢出隐藏 */
+        }
+    </style>
+
+    <script type="text/javascript" src="../js/threejs/three.js"></script>
+    <script type="text/javascript" src="../js/controls/OrbitControls.js"></script>
+    <script type="text/javascript" src="../js/libs/dat.gui.min.js"></script>
+    <script type="text/javascript" src="../js/libs/stats.min.js"></script>
+</head>
+
+<body>
+    <script>
+        let scene, camera, renderer, controls, guiControls;
+        let stats = initStats();
+
+        /* 场景 */
+        function initScene() {
+
+            scene = new THREE.Scene();
+
+        }
+
+        /* 相机 */
+        function initCamera() {
+
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
+            camera.position.set(30, 20, 50);
+            camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+        }
+
+        /* 渲染器 */
+        function initRender() {
+
+            renderer = new THREE.WebGLRenderer({
+                antialias: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            document.body.appendChild(renderer.domElement);
+
+        }
+
+        /* 灯光 */
+        function initLight() {
+
+
+        }
+
+        /* 控制器 */
+        function initControls() {
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            /* 属性参数默认 */
+
+        }
+
+        /* 调试插件 */
+        function initGui() {
+
+
+        }
+
+        /* 场景中的内容 */
+        function initContent() {
+
+            let dir = new THREE.Vector3(0, 2, 0);
+
+            dir.normalize();
+
+            let origin = new THREE.Vector3(0, 0, 0);
+            let length = 5;
+            let hex = 0xff0000;
+
+            let arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex);
+            scene.add(arrowHelper);
+
+            let texture = new THREE.TextureLoader().load('scenery.jpg');
+
+            let sphereGeometry = new THREE.SphereGeometry(1000, 50, 50);
+            sphereGeometry.scale(-1, 1, 1);
+
+            let sphereMaterial = new THREE.MeshBasicMaterial({
+                map: texture
+            });
+
+            let sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+            scene.add(sphere);
+
+        }
+
+        /* 性能插件 */
+        function initStats() {
+
+            let stats = new Stats();
+
+            document.body.appendChild(stats.domElement);
+
+            return stats;
+
+        }
+
+        /* 窗口变动触发 */
+        function onWindowResize() {
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+        }
+
+        /* 数据更新 */
+        function update() {
+
+            stats.update();
+
+        }
+
+        /* 初始化 */
+        function init() {
+
+            initScene();
+            initCamera();
+            initRender();
+            initLight();
+            initControls();
+            initContent();
+            initGui();
+
+            /* 监听事件 */
+            window.addEventListener('resize', onWindowResize, false);
+
+        }
+
+        /* 循环渲染 */
+        function animate() {
+
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+            update();
+
+        }
+
+        /* 初始加载 */
+        (function () {
+            console.log("three init start...");
+
+            init();
+            animate();
+
+            console.log("three init send...");
+        })();
+    </script>
+</body>
+
+</html>
