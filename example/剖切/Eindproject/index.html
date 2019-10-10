@@ -1,0 +1,412 @@
+<style>
+    body {
+        overflow: hidden;
+        margin: 0;
+    }
+</style>
+
+<body>
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/MTLLoader.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
+    <script>
+        var car;
+        var camera;
+        var sub;
+        var fish;
+
+        var clock = new THREE.Clock();
+
+        var scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var renderer = new THREE.WebGLRenderer({
+            antialias: true
+        });
+
+        // achtergrondkleur veranderen
+        renderer.setClearColor(0x6abaff, 1);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // viewport update (meeschalen met schermgrootte)
+        window.addEventListener('resize', function () {
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        });
+
+        // controls toevoegen
+        controls = new THREE.OrbitControls(camera);
+
+        // licht toevoegen
+        var ambientLight = new THREE.AmbientLight(0xd4d4d4, 0.3);
+        ambientLight.castShadow = true;
+        //            scene.add ( ambientLight );
+
+        var light = new THREE.HemisphereLight(0xFFFFFF, 0x959595, 0.8);
+        light.position.set(15, 60, 15);
+        scene.add(light);
+
+        var helper = new THREE.HemisphereLightHelper(light, 2);
+        scene.add(helper);
+
+        var directionalLight1 = new THREE.DirectionalLight(0xc4c4b1, 0.7);
+        directionalLight1.position.set(20, 20, 20);
+        directionalLight1.castShadow = true;
+        scene.add(directionalLight1);
+
+        var directionalLight2 = new THREE.DirectionalLight(0xc4c4b1, 0.7);
+        directionalLight2.position.set(20, 20, -20);
+        directionalLight2.castShadow = true;
+        scene.add(directionalLight2);
+
+        var directionalLight3 = new THREE.DirectionalLight(0xc4c4b1, 0.7);
+        directionalLight3.position.set(-20, 20, 20);
+        directionalLight3.castShadow = true;
+        scene.add(directionalLight3);
+
+        var directionalLight4 = new THREE.DirectionalLight(0xc4c4b1, 0.7);
+        directionalLight4.position.set(-20, 20, -20);
+        directionalLight4.castShadow = true;
+        scene.add(directionalLight4);
+
+        var directionalLight5 = new THREE.DirectionalLight(0xc4c4b1, 0.1);
+        directionalLight5.position.set(-20, -5, 0);
+        directionalLight5.castShadow = true;
+        scene.add(directionalLight5);
+
+        var directionalLight6 = new THREE.DirectionalLight(0xc4c4b1, 0.1);
+        directionalLight6.position.set(20, -5, 0);
+        directionalLight6.castShadow = true;
+        scene.add(directionalLight6);
+
+        var directionalLight7 = new THREE.DirectionalLight(0xc4c4b1, 0.1);
+        directionalLight7.position.set(0, -5, 20);
+        directionalLight7.castShadow = true;
+        scene.add(directionalLight7);
+
+        var directionalLight8 = new THREE.DirectionalLight(0xc4c4b1, 0.1);
+        directionalLight8.position.set(0, -5, -20);
+        directionalLight8.castShadow = true;
+        scene.add(directionalLight8);
+
+        // water
+        var waterGeometry = new THREE.BoxGeometry(10, 6, 10);
+        var material = [
+            new THREE.MeshBasicMaterial({
+                color: 0x448fdb,
+                side: THREE.BackSide,
+                transparent: true,
+                opacity: 0.7
+            }), // RIGHT SIDE // deze zie je alleen van binnen door backside
+            new THREE.MeshBasicMaterial({
+                color: 0x448fdb,
+                side: THREE.BackSide,
+                transparent: true,
+                opacity: 0.7
+            }), // LEFT SIDE
+            new THREE.MeshBasicMaterial({
+                color: 0x448fdb,
+                side: THREE.BackSide,
+                transparent: true,
+                opacity: 0.7,
+                visible: false
+            }), // TOP SIDE
+            new THREE.MeshBasicMaterial({
+                color: 0x448fdb,
+                side: THREE.BackSide,
+                transparent: true,
+                opacity: 0.7,
+                visible: false
+            }), // BOTTOM SIDE // zie je alleen van door frontside
+            new THREE.MeshBasicMaterial({
+                color: 0x448fdb,
+                side: THREE.BackSide,
+                transparent: true,
+                opacity: 0.7
+            }), // FRONT SIDE // deze zie je van beide kanten door doubleside
+            new THREE.MeshBasicMaterial({
+                color: 0x448fdb,
+                side: THREE.BackSide,
+                transparent: true,
+                opacity: 0.7
+            }) // BACK SIDE
+        ];
+        var water = new THREE.Mesh(waterGeometry, material);
+        scene.add(water);
+
+        // top toevoegen
+        new THREE.MTLLoader()
+            .load('https://raw.githubusercontent.com/biancalooijen/projectInteractiveHome/master/Shoppie.mtl',
+                function (materials) {
+                    materials.preload();
+                    new THREE.OBJLoader()
+                        .setMaterials(materials)
+                        .load(
+                            'https://raw.githubusercontent.com/biancalooijen/projectInteractiveHome/master/Shoppie.obj',
+                            function (object) {
+                                //                                        object.rotation.set( 0, Math.PI / -4, 0 );
+                                object.position.set(-1.5, 2.95, 0);
+                                scene.add(object);
+                            });
+                });
+
+        // onderkant toevoegen
+        new THREE.MTLLoader()
+            .load('https://raw.githubusercontent.com/biancalooijen/projectInteractiveHome/master/Shoppie1.mtl',
+                function (materials) {
+                    materials.preload();
+                    new THREE.OBJLoader()
+                        .setMaterials(materials)
+                        .load(
+                            'https://raw.githubusercontent.com/biancalooijen/projectInteractiveHome/master/Shoppie1.obj',
+                            function (object) {
+                                //                                        object.rotation.set( 0, Math.PI / -4, 0 );
+                                object.position.set(-1.5, -3.8, 0);
+                                scene.add(object);
+                            });
+                });
+
+        // zeewier toevoegen
+        for (let i = 0; i < 10; i++) {
+            let w = THREE.Math.randFloat(0.2, 0.3);
+            let h = THREE.Math.randInt(2, 4);
+            let weedGeom = new THREE.PlaneGeometry(w, h, 0.2, h);
+            var weedMaterial = new THREE.MeshBasicMaterial({
+                color: 0x008000,
+                side: THREE.DoubleSide
+            })
+            weedGeom.translate(2 * 0.5, h * 0.5, 0);
+            weedGeom.vertices.forEach(v => {
+                v.add(new THREE.Vector3(THREE.Math.randFloatSpread(0.2), THREE.Math.randFloatSpread(0.2), THREE
+                    .Math.randFloatSpread(0.2)));
+            })
+            weedGeom.computeVertexNormals();
+            let weed = new THREE.Mesh(weedGeom, weedMaterial);
+            weed.position.set(THREE.Math.randFloatSpread(5), -5, THREE.Math.randFloatSpread(5));
+            weed.rotation.y = THREE.Math.randFloatSpread(Math.PI);
+            scene.add(weed);
+            weed.position.y = -3.5;
+        }
+
+        // auto toevoegen
+        new THREE.MTLLoader()
+            .load('https://raw.githubusercontent.com/biancalooijen/projectInteractiveHome/master/car.mtl', function (
+                materials) {
+                materials.preload();
+                new THREE.OBJLoader()
+                    .setMaterials(materials)
+                    .load('https://raw.githubusercontent.com/biancalooijen/projectInteractiveHome/master/car.obj',
+                        function (object) {
+                            car = object;
+                            object.scale.set(0.25, 0.25, 0.25);
+                            //                    object.rotation.set( 0, Math.PI / -4, 0 );
+                            object.rotation.set(0, Math.PI, 0);
+                            object.position.set(2.75, 3.74, -3);
+                            scene.add(object);
+                        });
+            });
+
+        // auto laten bewegen
+        window.addEventListener("keydown", onKeyDown, false);
+
+        function onKeyDown(event) {
+
+            var keyCode = event.keyCode;
+            if (keyCode == 85) {
+                if (car) car.rotation.set(0, Math.PI / 1, 0);
+                if (car) car.position.z += 0.07;
+                if (car.position.z >= 3.75) {
+                    car.position.z = 3.75;
+                }
+                if (car) car.position.x = 2.75;
+            } else if (keyCode == 73) {
+                if (car) car.rotation.set(0, 0, 0);
+                if (car) car.position.z -= 0.07;
+                if (car.position.z <= -3.75) {
+                    car.position.z = -3.75;
+                }
+                if (car) car.position.x = +4.25;
+            }
+        };
+
+        // auto laten toeteren (geluid)
+        var listener = new THREE.AudioListener();
+        var sound = new THREE.Audio(listener); // create a global audio source
+        var raycaster = new THREE.Raycaster(); // raycaster
+        var mouse = new THREE.Vector2();
+        var intersects = [];
+        renderer.domElement.addEventListener("click", onClick, false);
+
+        var audioLoader = new THREE.AudioLoader(); // load a sound and set it as the Audio object's buffer
+        audioLoader.load('https://raw.githubusercontent.com/biancalooijen/projectInteractiveHome/master/Toeter.ogg',
+            function (buffer) {
+                sound.setBuffer(buffer);
+                sound.setLoop(false);
+                sound.setVolume(0.3);
+            });
+
+        // auto laten toeteren (event)
+        function onClick(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+            intersects = raycaster.intersectObject(car, true);
+            if (intersects.length > 0) {
+                sound.play(car);
+            }
+        };
+
+        // sub toevoegen
+        var loader = new THREE.GLTFLoader();
+        loader.load('https://raw.githubusercontent.com/biancalooijen/projectInteractiveHome/master/sub_fbx.gltf',
+            function (gltf) {
+                var model = gltf.scene;
+                sub = model;
+                scene.add(model);
+                mixer = new THREE.AnimationMixer(model);
+                model.position.set(-2, 0, 2);
+                model.scale.set(0.5, 0.5, 0.5);
+                mixer.clipAction(gltf.animations[0]).play();
+                render();
+            });
+
+        // sub laten bewegen
+        window.addEventListener("keydown", onKeyDown1, false);
+
+        function onKeyDown1(event) {
+
+            var keyCode = event.keyCode;
+            if (keyCode == 68) {
+                if (sub) sub.position.x += 0.07;
+                if (sub) sub.rotation.set(0, 0, 0);
+                if (sub.position.x >= 3.45) {
+                    sub.position.x = 3.45;
+                }
+            } else if (keyCode == 65) {
+                if (sub) sub.position.x -= 0.07;
+                if (sub) sub.rotation.set(0, Math.PI / 1, 0);
+                if (sub.position.x <= -3.45) {
+                    sub.position.x = -3.45;
+                }
+            } else if (keyCode == 87) {
+                if (sub) sub.position.y += 0.07;
+                if (sub.position.y >= 1.5) {
+                    sub.position.y = 1.5;
+                }
+            } else if (keyCode == 83) {
+                if (sub) sub.position.y -= 0.07;
+                if (sub.position.y <= -2.2) {
+                    sub.position.y = -2.2;
+                }
+            }
+        };
+
+        function render() {
+            requestAnimationFrame(render);
+            var delta = clock.getDelta();
+            if (mixer != null) {
+                mixer.update(delta);
+            };
+            renderer.render(scene, camera);
+        }
+
+        // vis vangen toevoegen
+        new THREE.MTLLoader()
+            .load('https://raw.githubusercontent.com/biancalooijen/projectInteractiveHome/master/Fishie.mtl', function (
+                materials) {
+                materials.preload();
+                new THREE.OBJLoader()
+                    .setMaterials(materials)
+                    .load(
+                        'https://raw.githubusercontent.com/biancalooijen/projectInteractiveHome/master/Fishie.obj',
+                        function (object) {
+                            fish = object;
+                            object.scale.set(0.6, 0.6, 0.6);
+                            //                    object.rotation.set( 0, Math.PI / -4, 0 );
+                            object.rotation.set(0, Math.PI / -2, 0);
+                            object.position.set(-3.33, 1.5, 3.4);
+                            scene.add(object);
+                        });
+            });
+
+        // vis vangen op klik
+        var sphereGeometry = new THREE.CylinderGeometry(0.15, 0.05, 0.09, 32);
+        var sphereMaterial = new THREE.MeshPhongMaterial({
+            color: 0xFFFFFF,
+            wireframe: false,
+            visible: false
+        });
+        var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        scene.add(sphere);
+        sphere.position.set(-3.65, 4.61, 2.51);
+        sphere.rotation.set(0, Math.PI / 6.5, Math.PI / -2);
+
+        renderer.domElement.addEventListener("mouseup", onClickHandle, false);
+
+
+        function onClickHandle(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+            intersects = raycaster.intersectObject(sphere, true);
+
+            renderer.domElement.addEventListener("mousedown", onClickHandle1, false);
+
+            function onClickHandle1(event) {
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
+                intersects = raycaster.intersectObject(sphere, true);
+                if (intersects.length > 0) {
+                    fish.position.y = 3.2;
+                }
+            };
+
+            if (event) {
+                fish.position.y = 1.5;
+            }
+        };
+
+        // camera.y laten bewegen + reset
+        document.addEventListener("keydown", onDocumentKeyDown, false);
+
+        function onDocumentKeyDown(event) {
+            var keyCode = event.which;
+            if (keyCode == 76) {
+                camera.position.y -= 0.5;
+            } else if (keyCode == 79) {
+                camera.position.y += 0.5;
+            } else if (keyCode == 32) {
+                camera.position.y = 7.5;
+                camera.position.x = 0;
+                camera.position.z = 15;
+                car.position.set(2.65, 3.74, -3);
+                sub.position.set(-2, 0, 2);
+                car.rotation.set(0, Math.PI / 1, 0);
+            }
+        };
+        camera.position.z = 15;
+        camera.position.y = 7.5;
+
+
+        // update scene
+        var update = function () {
+            controls.update();
+        };
+
+
+        var animate = function () {
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+            update();
+        }
+
+        animate();
+    </script>
+</body>
