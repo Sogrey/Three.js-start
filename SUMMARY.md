@@ -97,6 +97,9 @@
     * [ThreeJS中的点击与交互——Raycaster的用法](demos/Raycaster-demo-find-object.md)
 
 -----
+* [示例](example/README.md)
+
+-----
 * [参考资料](reference/README.md)
 * [Three.js入门指南](https://read.douban.com/ebook/7412854/)
 * [threejs教程](http://www.myjscode.com/page/articleThree.html)
