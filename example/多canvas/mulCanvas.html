@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/threejs/three.min.js"></script>
+    <script src="../js/controls/OrbitControls.js"></script>
+    <title>多画布-网格</title>
+</head>
+<style>
+    #canvas1,
+    #canvas2 {
+        position: relative;
+        width: 300px;
+        height: 200px;
+        border: 1px solid red;
+        float: left;
+    }
+</style>
+
+<body>
+
+    <canvas id="canvas1"></canvas>
+    <canvas id="canvas2"></canvas>
+    <script>
+        var scene, renderer;
+        var WIDTH, HEIGHT;
+        var views = [];
+
+        //  创建渲染器
+        function initRender() {
+            WIDTH = 300; //window.innerWidth;
+            HEIGHT = 200; //window.innerHeight;
+            renderer = new THREE.WebGLRenderer({
+                antialias: true,
+            });
+            renderer.setSize(WIDTH, HEIGHT);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.body.appendChild(renderer.domElement);
+        }
+        //  创建场景
+        function initScene() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xeeeeee);
+        }
+        //  创建相机
+        function initCamera() {
+            var canvas1 = document.getElementById('canvas1');
+            var canvas2 = document.getElementById('canvas2');
+            var w = 300,
+                h = 200;
+
+            var fullWidth = w * 2;
+            var fullHeight = h * 1;
+            //  创建相机并渲染后绘制到canvas 并 加入到数组
+            views.push(new View(canvas1, fullWidth, fullHeight, w * 0, h * 0, w, h));
+            views.push(new View(canvas2, fullWidth, fullHeight, w * 1, h * 0, w, h));
+        }
+        //  创建灯光
+        function initLight() {
+            var light = new THREE.DirectionalLight(0xffffff);
+            light.position.set(0, 0, 1).normalize();
+            scene.add(light);
+
+            var light = new THREE.AmbientLight(0x404040); // 环境光
+            scene.add(light);
+        }
+        //  创建网格对象
+        function initObject() {
+            var geometry = new THREE.BoxGeometry(10, 10, 10);
+            var material = new THREE.MeshLambertMaterial({
+                color: 0x00ff00
+            });
+            var cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+        }
+        //  入口函数
+        function initThree() {
+            initRender();
+            initScene();
+            initCamera();
+            initLight();
+            initObject();
+            animation();
+        }
+        //  循环
+        function animation() {
+            requestAnimationFrame(animation);
+            for (var i = 0; i < views.length; ++i) {
+
+                views[i].render();
+
+            }
+        }
+        /*
+        *	canvas：表示要在上面显示内容的div的id名字。如canvas1、canvas2。
+            fullWidth：视口的宽度
+            fullHeight：视口的高度
+            viewX：我们可以选择只显示视口的某一部分，viewX表示从视口x坐标的哪里开始显示。
+            viewY：如上，viewY表示从视口Y坐标的哪里开始显示。
+            viewWidth：只显示视口中某一部分的宽度
+            viewHeight：只显示视口中某一部分的高度。
+        */
+        function View(canvas, fullWidth, fullHeight, viewX, viewY, viewWidth, viewHeight) {
+            //  这里需要注意的是 这里乘以的屏幕比例必须与renderer设置的一致。否则canvas上的图与相机视口图不一致
+            canvas.width = viewWidth * window.devicePixelRatio;
+            canvas.height = viewHeight * window.devicePixelRatio;
+
+            var context = canvas.getContext('2d');
+
+            var camera = new THREE.PerspectiveCamera(20, viewWidth / viewHeight, 1, 10000);
+            var controls = new THREE.OrbitControls(camera);
+            /*
+            fullWidth：整个视图（口）的宽度，也可以理解为相机的宽度。
+            fullHeight：整个视图（口）的高度，也可以理解为相机的高度。
+            x：视图的x轴偏移位置，及要显示的部分相对于左上角的偏移。
+            y：视图的y轴偏移位置
+            width：子视图的宽度，只有这个宽度才被显示
+            height：子视图的高度，只有这个高度才被显示
+            */
+            camera.setViewOffset(fullWidth, fullHeight, viewX, viewY, viewWidth, viewHeight);
+            camera.position.z = 100;
+
+            this.render = function () {
+                camera.lookAt(scene.position);
+                renderer.render(scene, camera);
+                controls.update();
+                context.drawImage(renderer.domElement, 0, 0);
+            };
+
+        }
+
+        initThree();
+    </script>
+</body>
+
+</html>
