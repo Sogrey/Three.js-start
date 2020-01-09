@@ -109,11 +109,11 @@
 
 </div>
  <script type="text/javascript">
-     window.onload = function () {
-         var div = document.getElementById("shili");
-         var aTagArr = [].slice.apply(div.getElementsByTagName("a"));
-         aTagArr.forEach(function (e, i) {
-             e.target = "_blank";
-         });
-     }
+ window.onload = function () {
+     var div = document.getElementById("shili");
+     var aTagArr = [].slice.apply(div.getElementsByTagName("a"));
+     aTagArr.forEach(function (e, i) {
+         e.target = "_blank";
+     });
+ }
  </script>
