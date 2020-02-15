@@ -99,7 +99,7 @@
   * [three.js离屏（off screen canvas）渲染和多个canvas绘制.html](多canvas/three.js离屏（off screen canvas）渲染和多个canvas绘制.html)
   * [多场景的应用.html](多canvas/多场景的应用.html)
 * [棕榈树（在Retrowave路上）](棕榈树（在Retrowave路上）/demo.html)
-* [热力图](热力图 /hotmap.html)
+* [热力图](热力图/hotmap.html)
 * [爆炸](爆炸/)
 * [相机旋转](相机旋转/)
 * [粒子雾](粒子雾/)
