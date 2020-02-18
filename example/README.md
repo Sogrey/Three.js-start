@@ -11,6 +11,7 @@
   * [draw-line.html](animate-line-points/draw-line.html)
 * camera
   * [OrthographicCamera.html](camera/OrthographicCamera.html)
+  * [Orthographic-Camera.html](camera/orthographic-camera/orthographic-camera.html)
   * [PerspectiveCamera.html](camera/PerspectiveCamera.html)
 * controls
   * [OrbitControls.html](controls/OrbitControls.html)

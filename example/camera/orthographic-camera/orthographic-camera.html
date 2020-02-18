@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>深入理解Three.js中正交摄像机OrthographicCamera</title>
+    <meta name="keywords" content="WebGL,three.js,可视化,数据可视化,dataV,大数据,大屏展示,朵朵视野" />
+    <meta name="description" content="朵朵视野是一个免费的数据可视化，大屏展示方案生成平台。" />
+    <link href="./resources/css/common.css" rel="stylesheet">
+    <link href="./resources/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+	<div id="starry-frame"></div>
+	</body>
+	<script type="text/javascript" src="./jquery.min.js"></script>
+    <script type="text/javascript" src="./ace/ace.js"></script>
+	<script type="text/javascript" src="./ace/ext-language_tools.js"></script>
+    <script type="text/javascript" src="./three.min.js"></script>
+    <script type="text/javascript" src="./OrbitControls.js"></script>
+    <script type="text/javascript" src="./GLTFLoader.js"></script>
+    <script type="text/javascript" src="./NormalMapShader.js"></script>
+    <script type="text/javascript" src="./TerrainShader.js"></script>
+    <script type="text/javascript" src="./BufferGeometryUtils.js"></script>
+    <script type="text/javascript" src="./SkeletonUtils.js"></script>
+    <script id="fragmentShaderNoise" type="x-shader/x-fragment">
+		uniform float time;
+		varying vec2 vUv;
+		vec4 permute( vec4 x ) {
+			return mod( ( ( x * 34.0 ) + 1.0 ) * x, 289.0 );
+		}
+		vec4 taylorInvSqrt( vec4 r ) {
+			return 1.79284291400159 - 0.85373472095314 * r;
+		}
+		float snoise( vec3 v ) {
+		const vec2 C = vec2( 1.0 / 6.0, 1.0 / 3.0 );
+		const vec4 D = vec4( 0.0, 0.5, 1.0, 2.0 );
+		// First corner
+		vec3 i  = floor( v + dot( v, C.yyy ) );
+		vec3 x0 = v - i + dot( i, C.xxx );
+		// Other corners
+		vec3 g = step( x0.yzx, x0.xyz );
+		vec3 l = 1.0 - g;
+		vec3 i1 = min( g.xyz, l.zxy );
+		vec3 i2 = max( g.xyz, l.zxy );
+		vec3 x1 = x0 - i1 + 1.0 * C.xxx;
+		vec3 x2 = x0 - i2 + 2.0 * C.xxx;
+		vec3 x3 = x0 - 1. + 3.0 * C.xxx;
+		// Permutations
+		i = mod( i, 289.0 );
+		vec4 p = permute( permute( permute(
+		 	i.z + vec4( 0.0, i1.z, i2.z, 1.0 ) )
+		   	+ i.y + vec4( 0.0, i1.y, i2.y, 1.0 ) )
+		   	+ i.x + vec4( 0.0, i1.x, i2.x, 1.0 ) );
+		// Gradients
+		// ( N*N points uniformly over a square, mapped onto an octahedron.)
+		float n_ = 1.0 / 7.0; // N=7
+		vec3 ns = n_ * D.wyz - D.xzx;
+		vec4 j = p - 49.0 * floor( p * ns.z *ns.z );  //  mod(p,N*N)
+		vec4 x_ = floor( j * ns.z );
+		vec4 y_ = floor( j - 7.0 * x_ );    // mod(j,N)
+		vec4 x = x_ *ns.x + ns.yyyy;
+		vec4 y = y_ *ns.x + ns.yyyy;
+		vec4 h = 1.0 - abs( x ) - abs( y );
+		vec4 b0 = vec4( x.xy, y.xy );
+		vec4 b1 = vec4( x.zw, y.zw );
+		vec4 s0 = floor( b0 ) * 2.0 + 1.0;
+		vec4 s1 = floor( b1 ) * 2.0 + 1.0;
+		vec4 sh = -step( h, vec4( 0.0 ) );
+		vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
+		vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
+		vec3 p0 = vec3( a0.xy, h.x );
+		vec3 p1 = vec3( a0.zw, h.y );
+		vec3 p2 = vec3( a1.xy, h.z );
+		vec3 p3 = vec3( a1.zw, h.w );
+		// Normalise gradients
+		vec4 norm = taylorInvSqrt( vec4( dot( p0, p0 ), dot( p1, p1 ), dot( p2, p2 ), dot( p3, p3 ) ) );
+		p0 *= norm.x;
+		p1 *= norm.y;
+		p2 *= norm.z;
+		p3 *= norm.w;
+		// Mix final noise value
+		vec4 m = max( 0.6 - vec4( dot( x0, x0 ), dot( x1, x1 ), dot( x2, x2 ), dot( x3, x3 ) ), 0.0 );
+		m = m * m;
+		return 42.0 * dot( m*m, vec4( dot( p0, x0 ), dot( p1, x1 ),
+		  	dot( p2, x2 ), dot( p3, x3 ) ) );
+		}
+		float surface3( vec3 coord ) {
+			float n = 0.0;
+			n += 1.0 * abs( snoise( coord ) );
+			n += 0.5 * abs( snoise( coord * 2.0 ) );
+			n += 0.25 * abs( snoise( coord * 4.0 ) );
+			n += 0.125 * abs( snoise( coord * 8.0 ) );
+			return n;
+		}
+		void main( void ) {
+			vec3 coord = vec3( vUv, -time );
+			float n = surface3( coord );
+			gl_FragColor = vec4( vec3( n, n, n ), 1.0 );
+		}
+	</script>
+
+	<script id="vertexShader" type="x-shader/x-vertex">
+		varying vec2 vUv;
+		uniform vec2 scale;
+		uniform vec2 offset;
+		void main( void ) {
+		vUv = uv * scale + offset;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}
+	</script>
+	<script>
+		$(function () {
+			var mixers = [];
+  			var container = document.getElementById('box-4')
+  
+			var MODELS = [
+				{ name: "Parrot" }
+			];
+			// Here we define instances of the models that we want to place in the scene, their position, scale and the animations
+			// that must be played.
+			var UNITS = [
+				{
+					modelName: "Parrot",
+					meshName: "mesh_0",
+					position: { x: 0, y: 405, z: -100 },
+					rotation: { x: 0, y: 0, z: 0 },
+					scale: 1,
+					animationName: "parrot_A_"
+				},
+              	{
+					modelName: "Parrot",
+					meshName: "mesh_0",
+					position: { x: 0, y: 405, z: 100 },
+					rotation: { x: 0, y: 0, z: 0 },
+					scale: 2,
+					animationName: "parrot_A_"
+				},
+		        {
+					modelName: "Parrot",
+					meshName: "mesh_0",
+					position: { x: 0, y: 405, z: 400 },
+					rotation: { x: 0, y: 0, z: 0 },
+					scale: 3,
+					animationName: "parrot_A_"
+				},
+		        {
+					modelName: "Parrot",
+					meshName: "mesh_0",
+					position: { x: 2100, y: 305, z: 100 },
+					rotation: { x: 0, y: Math.PI, z: 0 },
+					scale: 1.5,
+					animationName: "parrot_A_"
+				},
+		    	{
+					modelName: "Parrot",
+					meshName: "mesh_0",
+					position: { x: 2000, y: 305, z: 0 },
+					rotation: { x: 0, y: Math.PI, z: 0 },
+					scale: 1.5,
+					animationName: "parrot_A_"
+				},
+		    	{
+					modelName: "Parrot",
+					meshName: "mesh_0",
+					position: { x: -950, y: 305, z: 780 },
+					rotation: { x: 0, y: Math.PI/2, z: 0 },
+					scale: 1.5,
+					animationName: "parrot_A_"
+				}
+			];
+			var numLoadedModels = 0;
+			
+			
+			var SCREEN_WIDTH = window.innerWidth;
+			var SCREEN_HEIGHT = window.innerHeight;
+			var renderer, container, stats;
+			var camera, scene, controls;
+			var cameraOrtho, sceneRenderTarget;
+			var uniformsNoise, uniformsNormal, uniformsTerrain,heightMap, normalMap,quadTarget;
+			var directionalLight, pointLight;
+			var terrain;
+			var animDelta = 0, animDeltaDir = - 1;
+			var lightVal = 0, lightDir = 1;
+			var clock = new THREE.Clock();
+			var updateNoise = true;
+			var mlib = {};
+			init();
+			animate();
+			function init() {
+				container = document.getElementById( 'starry-frame' );
+				// SCENE (RENDER TARGET)
+				sceneRenderTarget = new THREE.Scene();
+				cameraOrtho = new THREE.OrthographicCamera( SCREEN_WIDTH / - 2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_HEIGHT / - 2, - 10000, 10000 );
+				cameraOrtho.position.z = 100;
+				sceneRenderTarget.add( cameraOrtho );
+				// CAMERA
+				camera = new THREE.PerspectiveCamera( 40, SCREEN_WIDTH / SCREEN_HEIGHT, 2, 4000 );
+				camera.position.set( - 1200, 800, 1200 );
+				// SCENE (FINAL)
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0x050505 );
+				scene.fog = new THREE.Fog( 0x050505, 2000, 4000 );
+				// LIGHTS
+				scene.add( new THREE.AmbientLight( 0x111111 ) );
+				directionalLight = new THREE.DirectionalLight( 0xffffff, 1.15 );
+				directionalLight.position.set( 500, 2000, 0 );
+				scene.add( directionalLight );
+				pointLight = new THREE.PointLight( 0xff4400, 1.5 );
+				pointLight.position.set( 0, 0, 0 );
+				scene.add( pointLight );
+				// HEIGHT + NORMAL MAPS
+				var normalShader = THREE.NormalMapShader;
+				var rx = 256, ry = 256;
+				var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat };
+				heightMap = new THREE.WebGLRenderTarget( rx, ry, pars );
+				heightMap.texture.generateMipmaps = false;
+				normalMap = new THREE.WebGLRenderTarget( rx, ry, pars );
+				normalMap.texture.generateMipmaps = false;
+				uniformsNoise = {
+					"time": { value: 1.0 },
+					"scale": { value: new THREE.Vector2( 1.5, 1.5 ) },
+					"offset": { value: new THREE.Vector2( 0, 0 ) }
+				};
+				uniformsNormal = THREE.UniformsUtils.clone( normalShader.uniforms );
+				uniformsNormal[ "height" ].value = 0.05;
+				uniformsNormal[ "resolution" ].value.set( rx, ry );
+				uniformsNormal[ "heightMap" ].value = heightMap.texture;
+				var vertexShader = document.getElementById( 'vertexShader' ).textContent;
+				// TEXTURES
+				var loadingManager = new THREE.LoadingManager( function () {
+					terrain.visible = true;
+				} );
+				var textureLoader = new THREE.TextureLoader( loadingManager );
+				var specularMap = new THREE.WebGLRenderTarget( 2048, 2048, pars );
+				specularMap.texture.generateMipmaps = false;
+				var diffuseTexture1 = textureLoader.load( "./access/images/grasslight_big.jpg" );
+				var diffuseTexture2 = textureLoader.load( "./access/images/backgrounddetailed6.jpg" );
+				var detailTexture = textureLoader.load( "./access/images/grasslight_big_nm.jpg" );
+				diffuseTexture1.wrapS = diffuseTexture1.wrapT = THREE.RepeatWrapping;
+				diffuseTexture2.wrapS = diffuseTexture2.wrapT = THREE.RepeatWrapping;
+				detailTexture.wrapS = detailTexture.wrapT = THREE.RepeatWrapping;
+				specularMap.texture.wrapS = specularMap.texture.wrapT = THREE.RepeatWrapping;
+				// TERRAIN SHADER
+				var terrainShader = THREE.TerrainShader;
+				uniformsTerrain = THREE.UniformsUtils.clone( terrainShader.uniforms );
+				uniformsTerrain[ 'tNormal' ].value = normalMap.texture;
+				uniformsTerrain[ 'uNormalScale' ].value = 3.5;
+				uniformsTerrain[ 'tDisplacement' ].value = heightMap.texture;
+				uniformsTerrain[ 'tDiffuse1' ].value = diffuseTexture1;
+				uniformsTerrain[ 'tDiffuse2' ].value = diffuseTexture2;
+				uniformsTerrain[ 'tSpecular' ].value = specularMap.texture;
+				uniformsTerrain[ 'tDetail' ].value = detailTexture;
+				uniformsTerrain[ 'enableDiffuse1' ].value = true;
+				uniformsTerrain[ 'enableDiffuse2' ].value = true;
+				uniformsTerrain[ 'enableSpecular' ].value = true;
+				uniformsTerrain[ 'diffuse' ].value.setHex( 0xffffff );
+				uniformsTerrain[ 'specular' ].value.setHex( 0xffffff );
+				uniformsTerrain[ 'shininess' ].value = 30;
+				uniformsTerrain[ 'uDisplacementScale' ].value = 375;
+				uniformsTerrain[ 'uRepeatOverlay' ].value.set( 6, 6 );
+				var params = [
+					[ 'heightmap',  document.getElementById( 'fragmentShaderNoise' ).textContent,  vertexShader, uniformsNoise, false ],
+					[ 'normal',  normalShader.fragmentShader, normalShader.vertexShader, uniformsNormal, false ],
+					[ 'terrain',  terrainShader.fragmentShader, terrainShader.vertexShader, uniformsTerrain, true ]
+				];
+				for ( var i = 0; i < params.length; i ++ ) {
+					var material = new THREE.ShaderMaterial( {
+						uniforms: params[ i ][ 3 ],
+						vertexShader: params[ i ][ 2 ],
+						fragmentShader: params[ i ][ 1 ],
+						lights: params[ i ][ 4 ],
+						fog: true
+					} );
+					mlib[ params[ i ][ 0 ] ] = material;
+				}
+				var plane = new THREE.PlaneBufferGeometry( SCREEN_WIDTH, SCREEN_HEIGHT );
+				quadTarget = new THREE.Mesh( plane, new THREE.MeshBasicMaterial( { color: 0x000000 } ) );
+				quadTarget.position.z = - 500;
+				sceneRenderTarget.add( quadTarget );
+				// TERRAIN MESH
+				var geometryTerrain = new THREE.PlaneBufferGeometry( 6000, 6000, 256, 256 );
+				THREE.BufferGeometryUtils.computeTangents( geometryTerrain );
+				terrain = new THREE.Mesh( geometryTerrain, mlib[ 'terrain' ] );
+				terrain.position.set( 0, - 125, 0 );
+				terrain.rotation.x = - Math.PI / 2;
+				terrain.visible = false;
+				scene.add( terrain );
+              // 加载飞鸟
+              loadModels()
+				// RENDERER
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+				container.appendChild( renderer.domElement );
+				// CONTROLS
+				controls = new THREE.OrbitControls( camera, renderer.domElement );
+				controls.rotateSpeed = 1.0;
+				controls.zoomSpeed = 1.2;
+				controls.panSpeed = 0.8;
+				controls.keys = [ 65, 83, 68 ];
+				// EVENTS
+				onWindowResize();
+				window.addEventListener( 'resize', onWindowResize, false );
+			}
+			/**
+			 * Function that starts loading process for the next model in the queue. The loading process is
+			 * asynchronous: it happens "in the background". Therefore we don't load all the models at once. We load one,
+			 * wait until it is done, then load the next one. When all models are loaded, we call loadUnits().
+			 */
+			function loadModels() {
+				for ( var i = 0; i < MODELS.length; ++ i ) {
+					var m = MODELS[ i ];
+					loadGltfModel( m, function () {
+						++ numLoadedModels;
+						if ( numLoadedModels === MODELS.length ) {
+							console.log( "All models loaded, time to instantiate units..." );
+							instantiateUnits();
+						}
+					} );
+				}
+			}
+			/**
+			 * Look at UNITS configuration, clone necessary 3D model scenes, place the armatures and meshes in the scene and
+			 * launch necessary animations
+			 */
+			function instantiateUnits() {
+				var numSuccess = 0;
+				for ( var i = 0; i < UNITS.length; ++ i ) {
+					var u = UNITS[ i ];
+					var model = getModelByName( u.modelName );
+					if ( model ) {
+						var clonedScene = new THREE.SkeletonUtils.clone( model.scene );
+						if ( clonedScene ) {
+							// THREE.Scene is cloned properly, let's find one mesh and launch animation for it
+							var clonedMesh = clonedScene.getObjectByName( u.meshName );
+							if ( clonedMesh ) {
+								var mixer = startAnimation( clonedMesh, model.animations, u.animationName );
+								// Save the animation mixer in the list, will need it in the animation loop
+								mixers.push( mixer );
+								numSuccess ++;
+							}
+							// Different models can have different configurations of armatures and meshes. Therefore,
+							// We can't set position, scale or rotation to individual mesh objects. Instead we set
+							// it to the whole cloned scene and then add the whole scene to the game world
+							// Note: this may have weird effects if you have lights or other items in the GLTF file's scene!
+							scene.add( clonedScene );
+							if ( u.position ) {
+								clonedScene.position.set( u.position.x, u.position.y, u.position.z );
+							}
+							if ( u.scale ) {
+								clonedScene.scale.set( u.scale, u.scale, u.scale );
+							}
+							if ( u.rotation ) {
+								clonedScene.rotation.x = u.rotation.x;
+								clonedScene.rotation.y = u.rotation.y;
+								clonedScene.rotation.z = u.rotation.z;
+							}
+        				}
+					} else {
+						console.error( "Can not find model", u.modelName );
+					}
+				}
+				console.log( `Successfully instantiated ${numSuccess} units` );
+			}
+			/**
+			 * Find a model object by name
+			 * @param name
+			 * @returns {object|null}
+			 */
+			function getModelByName( name ) {
+				for ( var i = 0; i < MODELS.length; ++ i ) {
+					if ( MODELS[ i ].name === name ) {
+						return MODELS[ i ];
+					}
+				}
+				return null;
+			}
+			/**
+			 * Load a 3D model from a GLTF file. Use the GLTFLoader.
+			 * @param model {object} Model config, one item from the MODELS array. It will be updated inside the function!
+			 * @param onLoaded {function} A callback function that will be called when the model is loaded
+			 */
+			function loadGltfModel( model, onLoaded ) {
+				var loader = new THREE.GLTFLoader();
+				var modelName = "./material/" + model.name + ".glb";
+				loader.load( modelName, function ( gltf ) {
+					var scene = gltf.scene;
+					model.animations = gltf.animations;
+					model.scene = scene;
+					// Enable Shadows
+					gltf.scene.traverse( function ( object ) {
+						if ( object.isMesh ) {
+							object.castShadow = true;
+						}
+					} );
+					onLoaded();
+				} );
+			}
+			/**
+			 * Start animation for a specific mesh object. Find the animation by name in the 3D model's animation array
+			 * @param skinnedMesh {THREE.SkinnedMesh} The mesh to animate
+			 * @param animations {Array} Array containing all the animations for this model
+			 * @param animationName {string} Name of the animation to launch
+			 * @return {THREE.AnimationMixer} Mixer to be used in the render loop
+			 */
+			function startAnimation( skinnedMesh, animations, animationName ) {
+				var mixer = new THREE.AnimationMixer( skinnedMesh );
+				var clip = THREE.AnimationClip.findByName( animations, animationName );
+				if ( clip ) {
+					var action = mixer.clipAction( clip );
+					action.play();
+				}
+				return mixer;
+			}
+			//
+			function onWindowResize() {
+				SCREEN_WIDTH = window.innerWidth;
+				SCREEN_HEIGHT = window.innerHeight;
+				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+				camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+				camera.updateProjectionMatrix();
+			}
+			//
+			function animate() {
+				requestAnimationFrame( animate );
+				render();
+			}
+			function render() {
+				var delta = clock.getDelta();
+				if ( terrain.visible ) {
+					var fLow = 0.1, fHigh = 0.8;
+					lightVal = THREE.Math.clamp( lightVal + 0.5 * delta * lightDir, fLow, fHigh );
+					var valNorm = ( lightVal - fLow ) / ( fHigh - fLow );
+					scene.background.setHSL( 0.1, 0.5, lightVal );
+					scene.fog.color.setHSL( 0.1, 0.5, lightVal );
+					directionalLight.intensity = THREE.Math.mapLinear( valNorm, 0, 1, 0.1, 1.15 );
+					pointLight.intensity = THREE.Math.mapLinear( valNorm, 0, 1, 0.9, 1.5 );
+					uniformsTerrain[ 'uNormalScale' ].value = THREE.Math.mapLinear( valNorm, 0, 1, 0.6, 3.5 );
+					if ( updateNoise ) {
+						animDelta = THREE.Math.clamp( animDelta + 0.00075 * animDeltaDir, 0, 0.05 );
+						uniformsNoise[ 'time' ].value += delta * animDelta;
+						uniformsNoise[ 'offset' ].value.x += delta * 0.05;
+						uniformsTerrain[ 'uOffset' ].value.x = 4 * uniformsNoise[ 'offset' ].value.x;
+						quadTarget.material = mlib[ 'heightmap' ];
+						renderer.setRenderTarget( heightMap );
+						renderer.clear();
+						renderer.render( sceneRenderTarget, cameraOrtho );
+						quadTarget.material = mlib[ 'normal' ];
+						renderer.setRenderTarget( normalMap );
+						renderer.clear();
+						renderer.render( sceneRenderTarget, cameraOrtho );
+			                      
+					}
+                 	for (var i = 0; i < mixers.length; i++) {
+                        if (scene.children[4 + i].position.z >= 3000 && i + 4 <= 6) {
+                            scene.children[4 + i].position.z = -3000;
+                        } else if (scene.children[4 + i].position.z <= -3000 && i + 4 <= 8) {
+                           scene.children[4 + i].position.z = 3000;
+                        }
+                        else if (scene.children[4 + i].position.z <= -3000 && i + 4 <= 9) {
+                         	scene.children[4 + i].position.z = 3000;
+                        }
+                        else if (scene.children[4 + i].position.x >= 3000 && i + 4 <= 9) {
+                            scene.children[4 + i].position.x = -3000;
+                        }
+                        if (i + 4 <= 6) {
+                            scene.children[4 + i].position.z += 10;
+                        } else if ( i + 4 <= 8) {
+                           	scene.children[4 + i].position.z -= 10;
+                        }
+                        else if (i + 4 <= 9) {
+                            scene.children[4 + i].position.z -= 4;
+                          	scene.children[4 + i].position.x += 10;
+                        }
+                    	mixers[i].update(delta);
+                    }
+					renderer.setRenderTarget( null );
+					renderer.render( scene, camera );
+				}
+			}
+		})
+	</script>
+</html>
