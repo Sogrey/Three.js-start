@@ -23,14 +23,14 @@
 <body onload="threeExcute();">
     <div id="box"></div>
 
-    <script src="./js/threejs/three.js"></script>
-    <script src="./js/stats.js"></script>
+    <script src="../js/threejs/three.js"></script>
+    <script src="../js/stats.js"></script>
+    <!-- 引入threejs扩展控件OrbitControls.js -->
+    <script src="../js/controls/OrbitControls.js"></script>
     <script>
         var renderer, scene, camera, light;
+        var /*手势控制*/ controls;
         var width, height;
-
-        var cube;
-
         var stats; //绘画帧率监测
 
         //初始化渲染器
@@ -51,40 +51,40 @@
         }
         //初始化照相机
         function initCamera() {
-            camera = new THREE.OrthographicCamera(-2, 2, 1.5, -1.5, 1, 10);
+            camera = new THREE.OrthographicCamera(-20, 20, 20, -20, 1, 1000);
             //定义camera的位置
-            camera.position.set(4, -3, 5);
+            camera.position.set(0, 0, 50);
             camera.lookAt(new THREE.Vector3(0, 0, 0));
             //这里的lookAt函数是将视角指定为看原点
+            // controls = new THREE.OrbitControls(camera); //创建控件对象
             //将camera添加到scene中
             scene.add(camera);
         }
-        //初始化光源
-        function initLight() {
-            light = new THREE.DirectionalLight(0xFF0000, 1.0, 0); //平行光
-            light.position.set(100, 100, 200); //设置光源位置
-            scene.add(light); //将光源添加到场景
-        }
         //创建对象
         function initObjects() {
-            //这里是创建一个长方形
-            cube = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1),
-                new THREE.MeshBasicMaterial({
-                    color: "green",
-                    wireframe: true //这里指不使用实心材料，所以为true
-                })
+            var curve = new THREE.EllipseCurve(
+                0, 0, // ax, aY
+                4.54541,3.40927,  // xRadius, yRadius
+                3*Math.PI/2, Math.PI, // aStartAngle, aEndAngle
+                true, // aClockwise
+                0 // aRotation
             );
-            //这里要将这个长方形加入这个scene中
-            scene.add(cube);
+
+            var points = curve.getPoints(50);
+            var geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+            var material = new THREE.LineBasicMaterial({
+                color: 0xff0000
+            });
+
+            // Create the final object to add to the scene
+            var ellipse = new THREE.Line(geometry, material);
+            scene.add(ellipse);
         }
         //开启动画实时刷新
         function animation() {
             if (null != stats) stats.update();
             renderer.render(scene, camera);
-
-            cube.rotation.x += 0.02;
-            cube.rotation.y += 0.02;
-            cube.rotation.z += 0.02;
 
             requestAnimationFrame(animation);
         }
@@ -125,9 +125,6 @@
             initScene();
             //初始化照相机
             initCamera();
-         
-            //初始化光源
-            initLight();
             //创建对象
             initObjects();
             //开启动画
