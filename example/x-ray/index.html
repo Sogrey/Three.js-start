@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>X-ray</title>
+    <script type="text/javascript" src="../js/threejs/three.min.js"></script>
+    <script type="text/javascript" src="//threejs.org/examples/js/loaders/OBJLoader.js"></script>
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/libs/stats.min.js"></script>
+    <script type="text/javascript" src="//threejs.org/examples/js/renderers/SVGRenderer.js"></script>
+
+    <script id="vertexShader" type="x-shader/x-vertex">
+        uniform vec3 viewVector;
+        uniform float c;
+        uniform float p;
+        varying float intensity;
+        void main()
+        {
+            vec3 vNormal = normalize( normalMatrix * normal );
+            vec3 vNormel = normalize( normalMatrix * viewVector );
+            intensity = pow( c - dot(vNormal, vNormel), p );
+
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }
+    </script>
+
+    <!-- fragment shader a.k.a. pixel shader -->
+    <script id="fragmentShader" type="x-shader/x-vertex">
+        uniform vec3 glowColor;
+        varying float intensity;
+        void main()
+        {
+            vec3 glow = glowColor * intensity;
+            gl_FragColor = vec4( glow, 1.0 );
+        }
+    </script>
+    <style>
+        body {
+            /* set margin to 0 and overflow to hidden, to go fullscreen */
+
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="Stats-output">
+</div>
+<!-- Div which will hold the Output -->
+<div id="WebGL-output">
+</div>
+
+<!-- Javascript code that runs our Three.js examples -->
+<script type="text/javascript">
+    // once everything is loaded, we run our Three.js stuff.
+    $(function () {
+        var mouseX = 0, mouseY = 0;
+        var human;
+        camstep = 0;
+
+        var stats = initStats();
+
+        // create a scene, that will hold all our elements such as objects, cameras and lights.
+        var scene = new THREE.Scene();
+
+        // create a camera, which defines where we're looking at.
+        var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        // create a render and set the size
+        var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+
+        renderer.setClearColor(0x000000, 1.0);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMapEnabled = true;
+        renderer.shadowMapType = THREE.PCFShadowMap;
+
+
+        materialCameraPosition = camera.position.clone();
+        materialCameraPosition.z += 10;
+
+        // position and point the camera to the center of the scene
+        camera.position.x = -10;
+        camera.position.y = 0;
+        camera.position.z = 15;
+        lookAt = scene.position;
+        lookAt.y = 15;
+        camera.lookAt(lookAt);
+
+        // add subtle ambient lighting
+        var ambientLight = new THREE.AmbientLight(0x0c0c0c);
+        //scene.add(ambientLight);
+
+
+        // add the output of the renderer to the html element
+        $("#WebGL-output").append(renderer.domElement);
+
+        var customMaterial = new THREE.ShaderMaterial(
+                {
+                    uniforms: {
+                        "c": { type: "f", value: 1.0 },
+                        "p": { type: "f", value: 3 },
+                        glowColor: { type: "c", value: new THREE.Color(0x84ccff) },
+                        viewVector: { type: "v3", value: materialCameraPosition }
+                    },
+                    vertexShader: document.getElementById('vertexShader').textContent,
+                    fragmentShader: document.getElementById('fragmentShader').textContent,
+                    side: THREE.FrontSide,
+                    blending: THREE.AdditiveBlending,
+                    transparent: true,
+                    //opacity: 0.5,
+                    depthWrite: false
+                });
+
+        var manager = new THREE.LoadingManager();
+        manager.onProgress = function (item, loaded, total) {
+            console.log(item, loaded, total);
+        };
+        var loader = new THREE.OBJLoader(manager);
+        loader.load(
+            // 'body_anatomy3.obj',
+            'https://threejs.org/examples/models/obj/walt/WaltHead.obj',
+             function (object) {
+            console.log(object);
+            object.traverse(function (child) {
+                if (child instanceof THREE.Mesh) {
+                    console.log(child);
+                    child.material = customMaterial;
+                }
+            });
+            object.position.y = 0;
+            object.scale.x = 0.1;
+            object.scale.y = 0.1;
+            object.scale.z = 0.1;
+            human = object;
+            scene.add(human);
+        });
+
+
+        // call the render function
+        var step = 0;
+        render();
+
+        function render() {
+            stats.update();
+
+            camstep += 0.02;
+
+            camera.position.x = -20 * (Math.cos(camstep));
+            camera.position.z = (20 * (Math.sin(camstep)));
+            camera.position.y = 20;
+
+            camera.lookAt(lookAt);
+
+            if (human) {
+                //human.rotation.y += 0.02;
+                materialCameraPosition = camera.position.clone();
+                materialCameraPosition.z += 10;
+                human.traverse(function (child) {
+                    if (child instanceof THREE.Mesh) {
+                        //console.log(child.material.uniforms.viewVector);
+                        child.material.uniforms.viewVector.value =
+                                new THREE.Vector3().subVectors(camera.position, human.position);
+                    }
+                });
+            }
+
+            //sphere.material.uniforms.viewVector.value = new THREE.Vector3().subVectors(camera.position, sphere.position);
+
+            // render using requestAnimationFrame
+            requestAnimationFrame(render);
+            renderer.render(scene, camera);
+        }
+
+        function initStats() {
+
+            var stats = new Stats();
+
+            stats.setMode(0); // 0: fps, 1: ms
+
+            // Align top-left
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.left = '0px';
+            stats.domElement.style.top = '0px';
+
+            $("#Stats-output").append(stats.domElement);
+
+            return stats;
+        }
+    });
+</script>
+</body>
+
+</html>

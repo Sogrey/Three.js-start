@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>示例 07.01 - Particles</title>
+    <!-- <script src="../build/three.js"></script> -->
+    <!-- <script src="../build/js/controls/OrbitControls.js"></script> -->
+    <!-- <script src="../build/js/libs/stats.min.js"></script> -->
+    <!-- <script src="../build/js/libs/dat.gui.min.js"></script> -->
+    <!-- <script src="../jquery/jquery-3.2.1.min.js"></script> -->
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script type="text/javascript" src="../js/threejs/three.js"></script>
+    <script type="text/javascript" src="../js/controls/OrbitControls.js"></script>
+    <script type="text/javascript" src="../js/libs/dat.gui.min.js"></script>
+    <script type="text/javascript" src="../js/libs/stats.min.js"></script>
+    <style>
+        body {
+            /* 设置 margin 为 0，并且 overflow 为 hidden，来完成页面样式 */
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* 统计对象的样式 */
+        #Stats-output {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 用于 WebGL 输出的 Div -->
+    <div id="webgl-output"></div>
+    <!-- 用于统计 FPS 输出的 Div -->
+    <div id="stats-output"></div>
+
+    <!-- 运行 Three.js 示例的 Javascript 代码 -->
+    <script type="text/javascript">
+        var scene;
+        var camera;
+        var render;
+        var webglRender;
+        //var canvasRender;
+        var controls;
+        var stats;
+        var guiParams;
+
+        var ground;
+        var particle;
+
+        var ambientLight;
+        var spotLight;
+        var axesHelper;
+        //var cameraHelper;
+
+        $(function () {
+            stats = initStats();
+            scene = new THREE.Scene();
+
+            webglRender = new THREE.WebGLRenderer({
+                antialias: true,
+                alpha: true
+            }); // antialias 抗锯齿
+            webglRender.setSize(window.innerWidth, window.innerHeight);
+            webglRender.setClearColor(0x0F0F0F, 1.0); // 0xeeeeee
+            webglRender.shadowMap.enabled = true; // 允许阴影投射
+            render = webglRender;
+
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01,
+            2147483647); // 2147483647
+            camera.position.set(0, 0, 200);
+
+            var target = new THREE.Vector3(10, 0, 0);
+            controls = new THREE.OrbitControls(camera, render.domElement);
+            controls.target = target;
+            camera.lookAt(target);
+
+            $('#webgl-output')[0].appendChild(render.domElement);
+            window.addEventListener('resize', onWindowResize, false);
+
+            // 加入一个坐标轴：X（橙色）、Y（绿色）、Z（蓝色）
+            axesHelper = new THREE.AxesHelper(60);
+            scene.add(axesHelper);
+
+            ambientLight = new THREE.AmbientLight(0x0c0c0c);
+            scene.add(ambientLight);
+
+            spotLight = new THREE.SpotLight(0xffffff);
+            spotLight.position.set(0, 260, 230);
+            spotLight.shadow.mapSize.width = 5120; // 必须是 2的幂，默认值为 512
+            spotLight.shadow.mapSize.height = 5120; // 必须是 2的幂，默认值为 512
+            spotLight.castShadow = true;
+            scene.add(spotLight);
+            //cameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
+            //scene.add(cameraHelper);
+
+            // 创建粒子
+            createParticles4Canvas(true, 0.8, 0xffffff);
+
+            /** 用来保存那些需要修改的变量 */
+            guiParams = new function () {
+                this.rotationSpeed = 0.01;
+            }
+            /** 定义 dat.GUI 对象，并绑定 guiParams 的几个属性 */
+            var gui = new dat.GUI();
+            gui.add(guiParams, 'rotationSpeed', 0, 0.02, 0.001);
+
+            renderScene();
+        });
+
+        /** 渲染场景 */
+        function renderScene() {
+            stats.update();
+            rotateMesh(); // 旋转物体
+
+            requestAnimationFrame(renderScene);
+            render.render(scene, camera);
+        }
+
+        /** 初始化 stats 统计对象 */
+        function initStats() {
+            stats = new Stats();
+            stats.setMode(0); // 0 为监测 FPS；1 为监测渲染时间
+            $('#stats-output').append(stats.domElement);
+            return stats;
+        }
+
+        /** 当浏览器窗口大小变化时触发 */
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            render.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        /** 旋转物体 */
+        var step = 0;
+
+        function rotateMesh() {
+            step += guiParams.rotationSpeed;
+            scene.traverse(function (mesh) {
+                if (mesh instanceof THREE.Group) {
+                    mesh.rotation.x = step;
+                    //mesh.rotation.y = step;
+                    //mesh.rotation.z = step;
+                }
+            });
+        }
+
+        /** 创建 5000 个粒子 */
+        function createParticles4Canvas(transparent, opacity, color) {
+            var group = new THREE.Group();
+            // var geometry = new THREE.BufferGeometry();
+            var material = new THREE.SpriteMaterial({
+                transparent: transparent,
+                opacity:opacity,
+                map: getTexture(),
+                color: color
+            });
+
+            var range = 500;
+            for (var i = 0; i < 20000; i++) {
+                particle = new THREE.Sprite(material);
+                var x = Math.random() * range - range / 2;
+                var y = Math.random() * range - range / 2;
+                var z = Math.random() * range - range / 2;
+                particle.position.set(x, y, z);
+                group.add(particle);
+
+                // particle.updateMatrix();
+                // geometry.merge(particle.geometry,particle.matrix)
+            }
+
+            group.name = "particles";
+            scene.remove(scene.getObjectByName(group.name));
+            scene.add(group);
+
+        //    var mesh = new THREE.Mesh(geometry,material);
+        //    scene.add(mesh);
+
+        }
+
+        /** 利用 Canvas 创建一个类似精灵的纹理图案 */
+        function getTexture() {
+            var canvas = document.createElement('canvas');
+            canvas.width = 32;
+            canvas.height = 32;
+            var ctx = canvas.getContext('2d');
+
+            ctx.translate(-81, -84);
+
+            ctx.fillStyle = "orange";
+            ctx.beginPath();
+            ctx.moveTo(83, 116);
+            ctx.lineTo(83, 102);
+            ctx.bezierCurveTo(83, 94, 89, 88, 97, 88);
+            ctx.bezierCurveTo(105, 88, 111, 94, 111, 102);
+            ctx.lineTo(111, 116);
+            ctx.lineTo(106.333, 111.333);
+            ctx.lineTo(101.666, 116);
+            ctx.lineTo(97, 111.333);
+            ctx.lineTo(92.333, 116);
+            ctx.lineTo(87.666, 111.333);
+            ctx.lineTo(83, 116);
+            ctx.fill();
+
+            // 眼睛
+            ctx.fillStyle = "white";
+            ctx.beginPath();
+            ctx.moveTo(91, 96);
+            ctx.bezierCurveTo(88, 96, 87, 99, 87, 101);
+            ctx.bezierCurveTo(87, 103, 88, 106, 91, 106);
+            ctx.bezierCurveTo(94, 106, 95, 103, 95, 101);
+            ctx.bezierCurveTo(95, 99, 94, 96, 91, 96);
+            ctx.moveTo(103, 96);
+            ctx.bezierCurveTo(100, 96, 99, 99, 99, 101);
+            ctx.bezierCurveTo(99, 103, 100, 106, 103, 106);
+            ctx.bezierCurveTo(106, 106, 107, 103, 107, 101);
+            ctx.bezierCurveTo(107, 99, 106, 96, 103, 96);
+            ctx.fill();
+
+            // 瞳孔
+            ctx.fillStyle = "blue";
+            ctx.beginPath();
+            ctx.arc(101, 102, 2, 0, Math.PI * 2, true);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(89, 102, 2, 0, Math.PI * 2, true);
+            ctx.fill();
+
+            var texture = new THREE.Texture(canvas);
+            texture.needsUpdate = true;
+            return texture;
+        }
+    </script>
+</body>
+
+</html>

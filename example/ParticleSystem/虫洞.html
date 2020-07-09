@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="baidu-site-verification" content="sq4c0nNCaH" />
+    <meta name="baidu-tc-verification" content="ee46e32c49619d2e51c8748433f7f286" />
+    <title>WebGL教程_Three.js教程_郭隆邦技术博客</title>
+    <link href="http://www.yanhuangxueyuan.com/style.css" rel="stylesheet" type="text/css">
+    <script src="http://www.yanhuangxueyuan.com/threejs/build/three.js"></script>
+    <script src="http://www.yanhuangxueyuan.com/threejs/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body {
+            /*background-color: #cceeff;*/
+            padding: 0px;
+            margin: 0px;
+
+            background-color: #f6f6f6;
+            /*background-color: #3adcbc;*/
+            /*background-color: #4aeccc;*/
+            /*background-color: dodgerblue;*/
+            /*background-color: paleturquoise;*/
+            overflow: visible;
+        }
+    </style>
+</head>
+
+<body style="margin: 0px;padding: 0px;">
+
+    <!--<div style="background-color: blue;height: 45px;width: 100%;margin-left: 0px"></div>-->
+    <div id="app">
+        <div style="background-color: #f6f6f6;">
+            <div id="div" style="width: 1000px;margin-left: auto;margin-right: auto;"></div>
+
+        </div>
+
+
+    </div>
+    <script>
+        var scene = new THREE.Scene();
+        var curve = new THREE.CatmullRomCurve3([new THREE.Vector3(-500, 200, 900), new THREE.Vector3(-100, 400, 400),
+            new THREE.Vector3(0, 0, 0), new THREE.Vector3(600, -600, 0), new THREE.Vector3(900, -400, 600),
+            new THREE.Vector3(1200, -200, 300),
+        ]);
+        var points = curve.getPoints(500);
+        console.log(points);
+        var geometry = new THREE.TubeGeometry(curve, 200, 30, 30);
+        var length = geometry.vertices.length;
+        for (var i = 0; i < length; i++) {
+            var color = new THREE.Color();
+            color.setRGB(Math.random(), 1, i / length);
+            geometry.colors.push(color)
+        }
+        var material = new THREE.PointsMaterial({
+            size: 1.5,
+            vertexColors: THREE.VertexColors,
+        });
+        var point = new THREE.Points(geometry, material);
+        scene.add(point);
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        var camera = new THREE.PerspectiveCamera(60, width / height, 1, 1000);
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(width, height);
+        document.getElementById("div").appendChild(renderer.domElement);
+        var i = 0;
+
+        function render() {
+            renderer.render(scene, camera);
+            requestAnimationFrame(render);
+            if (i < points.length - 100) {
+                camera.position.set(points[i].x, points[i].y, points[i].z);
+                camera.lookAt(new THREE.Vector3(points[i + 1].x, points[i + 1].y, points[i + 1].z));
+                i += 1
+            } else {
+                i = 0
+            }
+        }
+        render();
+        window.onresize = function () {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix()
+        };
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>简单的一个梨子</title>
+    <link href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/index.css">
+   
+    <script type="text/javascript" src="../js/threejs/three.min.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body>
+    <!-- 放置主场景 -->
+    <div id="output"> </div> <!-- 放置模型参数界面 -->
+    <div id="cube-ui"> <button type="button" class="btn btn-default cube-ui_button">
+            <p>折叠收缩</p>
+        </button>
+        <div class="panel panel-default cube-ui_cube">
+            <div class="cube-ui_cube_depth">
+                <p align=right>长度：</p>
+                <div class="cube-ui_slider" id="cube-depth-slider"></div> <input type="text" id="cube-depth-input"
+                    value="0" />
+            </div>
+            <div class="cube-ui_cube_width">
+                <p align=right>宽度：</p>
+                <div class="cube-ui_slider" id="cube-width-slider"></div> <input type="text" id="cube-width-input"
+                    value="0" />
+            </div>
+            <div class="cube-ui_cube_height">
+                <p align=right>高度：</p>
+                <div class="cube-ui_slider" id="cube-height-slider"></div> <input type="text" id="cube-height-input"
+                    value="0" />
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/cubeUI.js"></script>
+    <script type="text/javascript" src="js/init.js"></script>
+</body>
+
+</html>

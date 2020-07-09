@@ -1,0 +1,97 @@
+<style>
+    body {
+        font-family: Monospace;
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+        background-color: #f0f0f0;
+    }
+</style>
+
+<body>
+    <script src="../js/threejs/three.js"></script>
+    <script>
+        var container, camera, scene, renderer, geometry, material, starsGeometry, starField;
+
+        init();
+        animate();
+
+        function GetRandomNum(Min, Max) {
+            var Range = Max - Min;
+            var Rand = Math.random();
+            if (Math.round(Rand * Range) == 0) {
+                return Min + 1;
+            } else if (Math.round(Rand * Max) == Max) {
+                return Max - 1;
+            } else {
+                var num = Min + Math.round(Rand * Range) - 1;
+                return num;
+            }
+        }
+
+        function init() {
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x090909);
+            scene.fog = new THREE.FogExp2(0x090909, 0.0006);
+
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.z = 1000;
+
+            starsGeometry = new THREE.Geometry();
+
+            for (var i = 0; i < 10000; i++) {
+
+                var star = new THREE.Vector3();
+                star.x = THREE.Math.randFloatSpread(1000);
+                star.y = THREE.Math.randFloatSpread(1000);
+                star.z = THREE.Math.randFloatSpread(1000);
+
+                starsGeometry.vertices.push(star);
+            }
+
+            var starsMaterial = new THREE.PointsMaterial({
+                vertexColors: THREE.VertexColors,
+                size: 100,
+                transparent: true,
+                opacity: 0.5,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            starField = new THREE.Points(starsGeometry, starsMaterial);
+
+            for (var i = starField.geometry.vertices.length; i--;) {
+                // starField.geometry.colors[i] = new THREE.Color(0, 0, 0);
+                // starField.geometry.colors[i] = new THREE.Color(GetRandomNum(0.0, 1.0), GetRandomNum(0.0, 1.0), GetRandomNum(0.0, 1.0));
+                starField.geometry.colors[i] = new THREE.Color(
+                    starField.geometry.vertices[i].x/1000.0, 
+                    starField.geometry.vertices[i].y/1000.0, 
+                    starField.geometry.vertices[i].z/1000.0);
+            }
+
+            scene.add(starField);
+
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            container = document.createElement('div');
+            document.body.appendChild(container);
+            container.appendChild(renderer.domElement);
+        }
+
+        function animate() {
+
+            requestAnimationFrame(animate);
+            render();
+        }
+
+        function render() {
+            starField.rotation.x += 0.01;
+            starField.rotation.y += 0.02;
+            starField.geometry.verticesNeedUpdate = true;
+            starField.geometry.colorsNeedUpdate = true;
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>

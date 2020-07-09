@@ -1,0 +1,125 @@
+<style>
+    body {
+        background-color: #000;
+        margin: 0px;
+        overflow: hidden;
+    }
+</style>
+
+<body>
+    <script src="http://threejs.org/build/three.min.js"></script>
+    <script src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+        // Animate the drawing of a line using LineDashedMaterial hack
+
+        var mesh, renderer, scene, camera, controls;
+
+        var fraction = 0;
+        var lineLength;
+
+        init();
+        animate();
+
+        function init() {
+
+            // info
+            var info = document.createElement('div');
+            info.style.position = 'absolute';
+            info.style.top = '30px';
+            info.style.width = '100%';
+            info.style.textAlign = 'center';
+            info.style.color = '#fff';
+            info.style.fontWeight = 'bold';
+            info.style.backgroundColor = 'transparent';
+            info.style.zIndex = '1';
+            info.style.fontFamily = 'Monospace';
+            info.innerHTML = 'Drag mouse to rotate camera; scroll to zoom';
+            document.body.appendChild(info);
+
+            // renderer
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // scene
+            scene = new THREE.Scene();
+
+            // camera
+            camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.set(20, 20, 20);
+
+            // controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.minDistance = 10;
+            controls.maxDistance = 100;
+
+            // points
+            var points = (new THREE.BoxGeometry(10, 10, 10, 4, 4, 4)).vertices;
+
+            // geometry
+            var geometry = new THREE.BufferGeometry();
+
+            // attributes
+            numPoints = points.length;
+            var positions = new Float32Array(numPoints * 3); // 3 vertices per point
+            var colors = new Float32Array(numPoints * 3); // 3 channels per point
+            var lineDistances = new Float32Array(numPoints * 1); // 1 value per point
+
+            geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geometry.addAttribute('lineDistance', new THREE.BufferAttribute(lineDistances, 1));
+
+            // populate
+            var color = new THREE.Color();
+
+            for (var i = 0, index = 0, l = numPoints; i < l; i++, index += 3) {
+
+                positions[index] = points[i].x;
+                positions[index + 1] = points[i].y;
+                positions[index + 2] = points[i].z;
+
+                color.setHSL(i / l, 1.0, 0.5);
+
+                colors[index] = color.r;
+                colors[index + 1] = color.g;
+                colors[index + 2] = color.b;
+
+                if (i > 0) {
+
+                    lineDistances[i] = lineDistances[i - 1] + points[i - 1].distanceTo(points[i]);
+
+                }
+
+            }
+
+            lineLength = lineDistances[numPoints - 1];
+
+            // material
+            var material = new THREE.LineDashedMaterial({
+
+                vertexColors: THREE.VertexColors,
+                dashSize: 1, // to be updated in the render loop
+                gapSize: 1e10 // a big number, so only one dash is rendered
+
+            });
+
+            // line
+            line = new THREE.Line(geometry, material);
+            scene.add(line);
+
+        }
+
+        function animate() {
+
+            requestAnimationFrame(animate);
+
+            fraction = (fraction + 0.001) % 1;
+
+            line.material.dashSize = fraction * lineLength;
+
+            renderer.render(scene, camera);
+
+        }
+    </script>
+</body>

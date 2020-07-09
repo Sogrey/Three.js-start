@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>threejs重力球演示</title>
+    <script src="../js/threejs/three.min.js"></script>
+    <script src="../js/libs/dat.gui.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+
+</head>
+
+<body>
+    <script>
+        function init() {
+
+            var controls = new function () {
+                this.gravity = -0.005;
+                this.speedY = 0;
+                this.posY = 2;
+            };
+            var gui = new dat.GUI();
+            gui.add(controls, "gravity", -0.01, 0);
+
+
+
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor("#98f0c3");
+            document.body.appendChild(renderer.domElement);
+
+            var sphereGeometry = new THREE.SphereGeometry(1);
+            var sphereMaterial = new THREE.MeshLambertMaterial({
+                color: "#f0c945"
+            });
+            var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            sphere.position.y = 3;
+            scene.add(sphere);
+
+            var cubeGeometry = new THREE.CubeGeometry(1, 1, 1);
+            var cubeMaterial = new THREE.MeshLambertMaterial({
+                color: "#ff005f"
+            });
+            var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+            cube.position.y = -4;
+            scene.add(cube);
+
+            var spotLight_1 = new THREE.SpotLight({
+                color: "#fff"
+            });
+            spotLight_1.position.y = 4;
+            spotLight_1.position.x = 3;
+            scene.add(spotLight_1);
+            var spotLight_2 = new THREE.SpotLight({
+                color: "#fff"
+            });
+            spotLight_2.position.y = 4;
+            spotLight_2.position.x = -3;
+            scene.add(spotLight_2);
+
+            camera.position.z = 6;
+
+            var theta = 0;
+            var render = function () {
+                requestAnimationFrame(render);
+                controls.speedY += controls.gravity;
+                controls.posY += controls.speedY;
+                sphere.position.y = controls.posY;
+                theta += 0.02;
+                camera.rotation.y = theta;
+                camera.position.set(5 * Math.sin(theta), 0, 5 * Math.cos(theta));
+                if (sphere.position.y <= -3) {
+                    controls.speedY *= -1.03;
+                };
+
+                renderer.render(scene, camera);
+            };
+
+            render();
+
+
+        }
+
+        init();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>模板</title>
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body onload="threeExcute();">
+    <div id="box"></div>
+
+    <script src="../js/threejs/three.js"></script>
+    <script src="../js/stats.js"></script>
+    <script>
+        function threeExcute() {
+            //Create a WebGLRenderer and turn on shadows in the renderer
+            var width = document.getElementById("box").clientWidth;
+            var height = document.getElementById("box").clientHeight;
+            var renderer = new THREE.WebGLRenderer({
+                antialias: true //抗锯齿
+            }); /*生成渲染器对象（属性：抗锯齿效果为设置有效）*/
+            renderer.setSize(width, height);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+            document.getElementById("box").appendChild(renderer.domElement);
+            /*设置canvas背景色(clearColor)和背景色透明度（clearAlpha） */
+            renderer.setClearColor(0xFFFFFF, 1.0);
+
+            var scene = new THREE.Scene();
+
+            var camera = new THREE.PerspectiveCamera(45, 400 / 200, 1, 10);
+            //定义camera的位置
+            camera.position.set(0, 0, 5);
+            //将camera添加到scene中
+            scene.add(camera);
+
+            //Create a SpotLight and turn on shadows for the light
+            var light = new THREE.SpotLight(0xffffff);
+            light.castShadow = true; // default false
+            scene.add(light);
+
+            //Set up shadow properties for the light
+            light.shadow.mapSize.width = 512; // default
+            light.shadow.mapSize.height = 512; // default
+            light.shadow.camera.near = 0.5; // default
+            light.shadow.camera.far = 500 // default
+
+            //Create a sphere that cast shadows (but does not receive them)
+            var sphereGeometry = new THREE.SphereBufferGeometry(5, 32, 32);
+            var sphereMaterial = new THREE.MeshStandardMaterial({
+                color: 0xff0000
+            });
+            var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            sphere.castShadow = true; //default is false
+            sphere.receiveShadow = false; //default
+            scene.add(sphere);
+
+            //Create a plane that receives shadows (but does not cast them)
+            var planeGeometry = new THREE.PlaneBufferGeometry(20, 20, 32, 32);
+            var planeMaterial = new THREE.MeshStandardMaterial({
+                color: 0x00ff00
+            })
+            var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+            plane.receiveShadow = true;
+            scene.add(plane);
+
+            //Create a helper for the shadow camera (optional)
+            var helper = new THREE.CameraHelper(light.shadow.camera);
+            scene.add(helper);
+
+            //开启动画实时刷新
+            function animation() {
+                renderer.render(scene, camera);
+
+                requestAnimationFrame(animation);
+            }
+            animation();
+        }
+    </script>
+</body>
+
+</html>

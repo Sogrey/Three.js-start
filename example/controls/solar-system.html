@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>第一个three.js文件_WebGL三维场景</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <script src="http://www.yanhuangxueyuan.com/threejs/build/three.min.js"></script>
+  <script src="http://www.yanhuangxueyuan.com/threejs/examples/js/controls/OrbitControls.js"></script>
+</head>
+
+<body>
+
+  <script>
+
+
+        var scene = new THREE.Scene();
+        var texLoader = new THREE.TextureLoader();
+
+        var cloud = cloudFun()
+        scene.add(cloud)
+        var intersectsArr = []
+
+        let Data = data()
+        var sun = createSphereMesh(Data.sun.R, Data.sun.URL);
+        sun.name = Data.sun.name;
+        intersectsArr.push(sun)
+        scene.add(sun)
+        var planetGroup = new THREE.Group();
+        scene.add(planetGroup);
+        Data.planet.forEach(function(obj) {
+          var planet = null;
+          if (obj.ring) {
+            planet = createringPlanetMesh(obj.sphere.R, obj.sphere.URL, obj.ring.r, obj.ring.R, obj.ring.URL)
+          } else {
+            planet = createSphereMesh(obj.R, obj.URL);
+          }
+          planet.revolutionR = obj.revolutionR;
+          planet.angle = 2 * Math.PI * Math.random();
+          planet.name = obj.name;
+          planetGroup.add(planet);
+          intersectsArr.push(planet)
+          var line = circle(obj.revolutionR);
+          scene.add(line);
+        })
+
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        var k = width / height;
+        var s = 310;
+
+        var camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1500);
+        camera.position.set(651, 613, 525);
+        camera.lookAt(scene.position);
+
+
+        var point = new THREE.PointLight(0xffffff);
+        point.position.set(400, 200, 300);
+        scene.add(point);
+
+
+        var ambient = new THREE.AmbientLight(0x444444);
+        scene.add(ambient);
+
+
+        var renderer = new THREE.WebGLRenderer({
+          antialias: true
+        });
+        renderer.setSize(width, height);
+        renderer.setClearColor(0x101010, 1);
+        document.body.appendChild(renderer.domElement);
+
+        var chooseMesh = null;
+        let clock = new THREE.Clock();
+        var FPS = 30;
+        var 刷新时间 = 1 / FPS;
+        var timeS = 0;
+        function render() {
+          sun.rotation.y += 0.01;
+          var 渲染间隔 = clock.getDelta();
+          timeS = timeS + 渲染间隔;
+          if (timeS > 刷新时间) {
+            renderer.render(scene, camera);
+            timeS = 0;
+          }
+          planetGroup.children.forEach(function(obj) {
+            obj.rotation.y += 0.01;
+            obj.angle += 0.005 / obj.revolutionR * 400;
+            obj.position.set(obj.revolutionR * Math.sin(obj.angle), 0, obj.revolutionR * Math.cos(obj.angle));
+          })
+          cloud.rotation.x += 0.0002;
+          cloud.rotation.y += 0.0002;
+          cloud.rotation.z += 0.0002;
+
+          requestAnimationFrame(render);
+
+          if (chooseMesh) {
+            var worldVector = new THREE.Vector3(
+              chooseMesh.position.x,
+              chooseMesh.position.y,
+              chooseMesh.position.z
+            );
+            var standardVector = worldVector.project(camera);
+            var a = window.innerWidth / 2;
+            var b = window.innerHeight / 2;
+            var x = Math.round(standardVector.x * a + a);
+            var y = Math.round(-standardVector.y * b + b);
+
+            img.style.left = x + 'px';
+            img.style.top = y -280+ 'px';
+          }
+        }
+        render();
+        var controls = new THREE.OrbitControls(camera);
+
+        var img = document.createElement("img");
+        document.body.appendChild(img)
+        img.style.position = 'absolute';
+        img.style.display = 'block';
+
+        function choose(event) {
+          img.src = '';
+          chooseMesh = null;
+          var Sx = event.clientX;
+          var Sy = event.clientY;
+
+          var x = (Sx / window.innerWidth) * 2 - 1;
+          var y = -(Sy / window.innerHeight) * 2 + 1;
+
+          var raycaster = new THREE.Raycaster();
+          raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
+          var intersects = raycaster.intersectObjects(intersectsArr, false);
+          if (intersects.length > 0) {
+
+            console.log(intersects[0].object.name);
+            img.src = './UI/标签/' + intersects[0].object.name + '.png';
+            chooseMesh = intersects[0].object
+          }
+        }
+        addEventListener('click', choose);
+
+        window.onresize = function() {
+          renderer.setSize(window.innerWidth, window.innerHeight);
+          k = (window.innerWidth) / (window.innerHeight);
+          camera.left = -s * k;
+          camera.right = s * k;
+          camera.top = s;
+          camera.bottom = -s;
+          camera.updateProjectionMatrix();
+        };
+
+        function createMesh(geometry, URL) {
+
+          var material = new THREE.MeshBasicMaterial({
+            map: texLoader.load(URL),
+            side:THREE.DoubleSide,
+          });
+          var mesh = new THREE.Mesh(geometry, material);
+          return mesh;
+        }
+
+        function createSphereMesh(R, URL) {
+          var geometry = new THREE.SphereGeometry(R, 100, 100);
+          return createMesh(geometry, URL);
+        }
+
+        function createRingMesh(r, R, URL) {
+          var geometry = new THREE.CylinderGeometry(r, R, 0, 100, 100, true);
+
+          return createMesh(geometry, URL);
+        }
+
+        function createringPlanetMesh(sphere_R, sphere_URL, ring_r, ring_R, ring_URL) {
+          let group = new THREE.Group();
+          let spere = createSphereMesh(sphere_R, sphere_URL);
+          let ring = createRingMesh(ring_r, ring_R, ring_URL);
+          group.add(spere, ring);
+          return group;
+        }
+
+
+        function circle(r) {
+          var arc = new THREE.ArcCurve(0, 0, r, 0, 2 * Math.PI, true);
+          var points = arc.getPoints(50);
+          var geometry = new THREE.Geometry();
+          geometry.setFromPoints(points);
+          var material = new THREE.LineBasicMaterial({
+            color: 0x222222
+          });
+          var line = new THREE.LineLoop(geometry, material);
+          line.rotateX(Math.PI / 2);
+          return line;
+        }
+
+
+
+        function cloudFun() {
+          var geom = new THREE.Geometry();
+          var material = new THREE.ParticleBasicMaterial({
+            size: 0.01,
+            vertexColors: true
+          });
+          var n = 1200;
+          for (var i = 0; i < 3000; i++) {
+            var particle = new THREE.Vector3(
+              (Math.random() - 0.5) * n,
+              (Math.random() - 0.5) * n,
+              (Math.random() - 0.5) * n
+            );
+            geom.vertices.push(particle);
+            let color_k = Math.random();
+            geom.colors.push(new THREE.Color(color_k, color_k, color_k * 0.6));
+          }
+
+          var cloud = new THREE.ParticleSystem(geom, material);
+          return cloud
+        }
+        function data() {
+          let K = 5;
+          return {
+
+            sun: {
+              name: '太阳',
+              R: 10 * K,
+              URL: './贴图/太阳.jpg',
+            },
+
+            planet: [{
+
+              name: '水星',
+              R: 2.5 * K,
+              URL: './贴图/水星.jpg',
+              revolutionR: 20 * K,
+            }, {
+
+              name: '金星',
+              R: 3 * K,
+              URL: './贴图/金星.jpg',
+              revolutionR: 30 * K,
+            }, {
+
+              name: '地球',
+              R: 3.2 * K,
+              URL: './贴图/地球.jpg',
+              revolutionR: 40 * K,
+            }, {
+
+              name: '火星',
+              R: 2.5 * K,
+              URL: './贴图/火星.jpg',
+              revolutionR: 50 * K,
+            }, {
+
+              name: '木星',
+              R: 5 * K,
+              URL: './贴图/木星.jpg',
+              revolutionR: 60 * K,
+            }, {
+
+              name: '土星',
+              sphere: {
+                R: 3.5 * K,
+                URL: './贴图/土星.jpg',
+              },
+              ring: {
+                r: 4 * K,
+                R: 6 * K,
+                URL: './贴图/土星环.jpg',
+              },
+              revolutionR: 70 * K,
+            }, {
+
+              name: '天王星',
+              sphere: {
+                R: 3.5 * K,
+                URL: './贴图/天王星.jpg',
+              },
+              ring: {
+                r: 4 * K,
+                R: 6 * K,
+                URL: './贴图/天王星环.jpg',
+              },
+              revolutionR: 80 * K,
+            }, {
+
+              name: '海王星',
+              R: 4 * K,
+              URL: './贴图/海王星.jpg',
+              revolutionR: 100 * K,
+            }, ],
+
+            ringPlanet: [],
+
+            moon: {
+              R: K,
+              URL: 'tu.png',
+              revolutionR: 10 * K,
+            },
+          };
+        }
+  </script>
+</body>
+
+</html>

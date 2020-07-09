@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>平行光 - THREE.AmbientLight</title>
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body onload="threeExcute();">
+    <div id="box"></div>
+
+    <script src="../js/threejs/three.js"></script>
+    <script src="../js/stats.js"></script>
+    <script>
+        var renderer, scene, camera, light;
+        var width, height;
+
+        var cube;
+
+        var stats; //绘画帧率监测
+
+        //初始化渲染器
+        function initRenderer() {
+            width = document.getElementById("box").clientWidth;
+            height = document.getElementById("box").clientHeight;
+            renderer = new THREE.WebGLRenderer({
+                antialias: true //抗锯齿
+            }); /*生成渲染器对象（属性：抗锯齿效果为设置有效）*/
+            renderer.setSize(width, height);
+            document.getElementById("box").appendChild(renderer.domElement);
+            /*设置canvas背景色(clearColor)和背景色透明度（clearAlpha） */
+            renderer.setClearColor(0x000000, 1.0);
+        }
+        //初始化场景
+        function initScene() {
+            scene = new THREE.Scene();
+        }
+        //初始化照相机
+        function initCamera() {
+            camera = new THREE.PerspectiveCamera( 45, width / height, 1, 1000 );
+            //定义camera的位置
+            camera.position.set(4, -3, 5);
+            camera.lookAt(new THREE.Vector3(0, 0, 0));
+            //这里的lookAt函数是将视角指定为看原点
+            //将camera添加到scene中
+            scene.add(camera);
+        }
+        //初始化光源
+        function initLight() {
+            //设置平行光
+            light = new THREE.DirectionalLight( 0xffffff, 0.5 );
+            scene.add( light );
+        }
+        //创建对象
+        function initObjects() {
+            var geometry = new THREE.BoxGeometry(1, 1, 1);
+            var material = new THREE.MeshBasicMaterial({
+                color: 0x00ff00
+            });
+            cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+        }
+        //开启动画实时刷新
+        function animation() {
+            if (null != stats) stats.update();
+            renderer.render(scene, camera);
+
+            cube.rotation.x += 0.02;
+            cube.rotation.y += 0.02;
+            cube.rotation.z += 0.02;
+
+            requestAnimationFrame(animation);
+        }
+
+        //添加新的div到body
+        //divId - 要创建的DIV id 
+        function addElementDiv(divId) {
+            var parent = document.getElementById("box");
+            console.log(parent)
+            //添加 div
+            var div = document.createElement("div");
+            //设置 div 属性，如 id
+            div.setAttribute("id", divId);
+            parent.appendChild(div);
+        }
+        //实时监测绘画帧率状态 - 开启动画时
+        function initStats() {
+            // <div id="Stats-output"></div>
+            addElementDiv("Stats-output");
+
+            var stats = new Stats();
+            stats.setMode(0); // 0: fps, 1: ms
+
+            // Align top-left
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.left = '0px';
+            stats.domElement.style.top = '0px';
+            document.getElementById("Stats-output").appendChild(stats.domElement);
+            return stats;
+        }
+
+        function threeExcute() {
+            //开启绘画帧率监测
+            stats = initStats();
+            //初始化渲染器
+            initRenderer();
+            //初始化场景
+            initScene();
+            //初始化照相机
+            initCamera();
+            //初始化光源
+            initLight();
+            //创建对象
+            initObjects();
+            //开启动画
+            animation();
+        }
+    </script>
+</body>
+
+</html>

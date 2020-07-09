@@ -1,0 +1,1803 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>动画(Animation) · Three.js 入门</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Sogrey">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="./" />
+    
+    
+    <link rel="prev" href="../geometries/" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://sogrey.github.io" target="_blank" class="custom-link">Sogrey's Blog</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../start/">
+            
+                <a href="../start/#top">
+            
+                    
+                    入门
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../start/">
+            
+                <a href="../start/#what-is-Threejs">
+            
+                    
+                    什么是Three.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../start/">
+            
+                <a href="../start/#how-to-use-Threejs">
+            
+                    
+                    如何使用Three.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../start/">
+            
+                <a href="../start/#Threejs-3-part">
+            
+                    
+                    three.js的几个重要组件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../start/">
+            
+                <a href="../start/#Threejs-Renderer">
+            
+                    
+                    渲染器（Renderer）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../start/">
+            
+                <a href="../start/#Threejs-Scene">
+            
+                    
+                    场景（Scene）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="../start/">
+            
+                <a href="../start/#Threejs-Camera">
+            
+                    
+                    照相机（Camera）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="../start/">
+            
+                <a href="../start/#Threejs-light">
+            
+                    
+                    光源（light）
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../coordinate-system/">
+            
+                <a href="../coordinate-system/">
+            
+                    
+                    坐标系(coordinate system)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../constant/">
+            
+                <a href="../constant/#top">
+            
+                    
+                    常量(Constants)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../constant/">
+            
+                <a href="../constant/#Animation">
+            
+                    
+                    动画(Animation)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../constant/">
+            
+                <a href="../constant/#Core">
+            
+                    
+                    核心(Core)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../constant/">
+            
+                <a href="../constant/#CustomBlendingEquation">
+            
+                    
+                    自定义混合公式(CustomBlendingEquation)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../constant/">
+            
+                <a href="../constant/#DrawModes">
+            
+                    
+                    绘制模式(DrawModes)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../constant/">
+            
+                <a href="../constant/#Materials">
+            
+                    
+                    材质(Materials)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../constant/">
+            
+                <a href="../constant/#Renderer">
+            
+                    
+                    渲染器(Renderer)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../constant/">
+            
+                <a href="../constant/#Textures">
+            
+                    
+                    纹理(Textures)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../cores/">
+            
+                <a href="../cores/#top">
+            
+                    
+                    核心(Core)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../cores/">
+            
+                <a href="../cores/#BufferAttribute">
+            
+                    
+                    BufferAttribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../cores/">
+            
+                <a href="../cores/#BufferGeometry">
+            
+                    
+                    BufferGeometry
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../cores/">
+            
+                <a href="../cores/#Geometry">
+            
+                    
+                    Geometry
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../cores/">
+            
+                <a href="../cores/#Layers">
+            
+                    
+                    图层(Layers)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../cores/">
+            
+                <a href="../cores/#Object3D">
+            
+                    
+                    三维物体（Object3D）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../cores/">
+            
+                <a href="../cores/#Raycaster">
+            
+                    
+                    光线投射(Raycaster)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../renderers/">
+            
+                <a href="../renderers/#top">
+            
+                    
+                    渲染器(Renderer)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../renderers/">
+            
+                <a href="../renderers/#CanvasRenderer">
+            
+                    
+                    Canvas渲染器(CanvasRenderer)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../renderers/">
+            
+                <a href="../renderers/#WebGLRenderer">
+            
+                    
+                    WebGL渲染器(WebGLRenderer)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../renderers/">
+            
+                <a href="../renderers/#WebGLRenderTarget">
+            
+                    
+                    WebGL渲染器目标(WebGLRenderTarget)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../renderers/">
+            
+                <a href="../renderers/#WebGLRenderTargetCube">
+            
+                    
+                    WebGL渲染器立方体目标(WebGLRenderTargetCube)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../shaders/">
+            
+                <a href="../shaders/">
+            
+                    
+                    渲染器 / 着色器
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" >
+            
+                <a target="_blank" href="https://www.cnblogs.com/w-wanglei/p/6790326.html">
+            
+                    
+                    定制着色器和渲染后期处理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../scenes/">
+            
+                <a href="../scenes/#top">
+            
+                    
+                    场景(Scenes)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../scenes/">
+            
+                <a href="../scenes/#Fog">
+            
+                    
+                    线性雾(Fog)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../scenes/">
+            
+                <a href="../scenes/#FogExp2">
+            
+                    
+                    指数雾(FogExp2)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../cameras/">
+            
+                <a href="../cameras/#top">
+            
+                    
+                    相机(Cameras)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../cameras/">
+            
+                <a href="../cameras/#CubeCamera">
+            
+                    
+                    立方体相机(CubeCamera)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../cameras/">
+            
+                <a href="../cameras/#OrthographicCamera">
+            
+                    
+                    正交相机(OrthographicCamera)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3" data-path="../cameras/">
+            
+                <a href="../cameras/#PerspectiveCamera">
+            
+                    
+                    透视相机(PerspectiveCamera)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.4" data-path="../cameras/">
+            
+                <a href="../cameras/#StereoCamera">
+            
+                    
+                    立体相机(StereoCamera)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.5" data-path="../cameras/">
+            
+                <a href="../cameras/#ArrayCamera">
+            
+                    
+                    摄像机阵列(ArrayCamera)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../lights/">
+            
+                <a href="../lights/#top">
+            
+                    
+                    光照
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="../lights/">
+            
+                <a href="../lights/#top">
+            
+                    
+                    光源的基类(Light)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="../lights/">
+            
+                <a href="../lights/#AmbientLight">
+            
+                    
+                    环境光(AmbientLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.3" data-path="../lights/">
+            
+                <a href="../lights/#DirectionalLight">
+            
+                    
+                    平行光(DirectionalLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.4" data-path="../lights/">
+            
+                <a href="../lights/#HemisphereLight">
+            
+                    
+                    半球形光源(HemisphereLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.5" data-path="../lights/">
+            
+                <a href="../lights/#PointLight">
+            
+                    
+                    点光源(PointLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.6" data-path="../lights/">
+            
+                <a href="../lights/#RectAreaLight">
+            
+                    
+                    区域灯光(RectAreaLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.7" data-path="../lights/">
+            
+                <a href="../lights/#SpotLight">
+            
+                    
+                    聚光灯(SpotLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../shadows/">
+            
+                <a href="../shadows/#top">
+            
+                    
+                    光照-阴影
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.11.1" data-path="../shadows/">
+            
+                <a href="../shadows/#LightShadow">
+            
+                    
+                    光照阴影 LightShadow
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.2" data-path="../shadows/">
+            
+                <a href="../shadows/#DirectionalLightShadow">
+            
+                    
+                    平行光阴影 DirectionalLightShadow
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.3" data-path="../shadows/">
+            
+                <a href="../shadows/#SpotLightShadow">
+            
+                    
+                    聚光灯影 SpotLightShadow
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../loders/">
+            
+                <a href="../loders/#top">
+            
+                    
+                    加载器(Loader)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../materials/">
+            
+                <a href="../materials/#top">
+            
+                    
+                    材质(Material)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.13.1" data-path="../materials/">
+            
+                <a href="../materials/#LineBasicMaterial">
+            
+                    
+                    基础线条材料(LineBasicMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.2" data-path="../materials/">
+            
+                <a href="../materials/#LineDashedMaterial">
+            
+                    
+                    虚线材料(LineDashedMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.3" data-path="../materials/">
+            
+                <a href="../materials/#MeshBasicMaterial">
+            
+                    
+                    基础网孔材料(MeshBasicMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.4" data-path="../materials/">
+            
+                <a href="../materials/#MeshDepthMaterial">
+            
+                    
+                    深度网孔材料(MeshDepthMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.5" data-path="../materials/">
+            
+                <a href="../materials/#MeshLambertMaterial">
+            
+                    
+                    兰伯特网孔材料(MeshLambertMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.6" data-path="../materials/">
+            
+                <a href="../materials/#MeshNormalMaterial">
+            
+                    
+                    法向量网孔材料(MeshNormalMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.7" data-path="../materials/">
+            
+                <a href="../materials/#MeshPhongMaterial">
+            
+                    
+                    Phong网孔材料(MeshPhongMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.8" data-path="../materials/">
+            
+                <a href="../materials/#MeshPhysicalMaterial">
+            
+                    
+                    物理网格材质(MeshPhysicalMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.9" data-path="../materials/">
+            
+                <a href="../materials/#MeshStandardMaterial">
+            
+                    
+                    标准网孔材料(MeshStandardMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.10" data-path="../materials/">
+            
+                <a href="../materials/#MeshToonMaterial">
+            
+                    
+                    卡通网格材质(MeshToonMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.11" data-path="../materials/">
+            
+                <a href="../materials/#PointsMaterial">
+            
+                    
+                    点材料(PointsMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.12" data-path="../materials/">
+            
+                <a href="../materials/#RawShaderMaterial">
+            
+                    
+                    原始着色器材料(RawShaderMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.13" data-path="../materials/">
+            
+                <a href="../materials/#ShaderMaterial">
+            
+                    
+                    着色器材料(ShaderMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.14" data-path="../materials/">
+            
+                <a href="../materials/#ShadowMaterial">
+            
+                    
+                    阴影材质(ShadowMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.15" data-path="../materials/">
+            
+                <a href="../materials/#SpriteMaterial">
+            
+                    
+                    精灵材料(SpriteMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../textures/">
+            
+                <a href="../textures/#top">
+            
+                    
+                    纹理贴图
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../objects/">
+            
+                <a href="../objects/#top">
+            
+                    
+                    对象/物体
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../geometries/">
+            
+                <a href="../geometries/">
+            
+                    
+                    几何模型(Geometry)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="./">
+            
+                <a href="./#top">
+            
+                    
+                    动画(Animation)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="./">
+            
+                <a href="./#AnimationHandler">
+            
+                    
+                    动画处理器(AnimationHandler)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.2" data-path="./">
+            
+                <a href="./#KeyFrameAnimation">
+            
+                    
+                    关键帧动画(KeyFrameAnimation)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../audios/">
+            
+                <a href="../audios/">
+            
+                    
+                    音频
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="../helps/">
+            
+                <a href="../helps/#top">
+            
+                    
+                    辅助对象(Helper)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../maths/">
+            
+                <a href="../maths/">
+            
+                    
+                    数学模块
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21" data-path="../math-interpolants/">
+            
+                <a href="../math-interpolants/">
+            
+                    
+                    数学/插值
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22" data-path="../others/">
+            
+                <a href="../others/">
+            
+                    
+                    其他
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.22.1" data-path="../others/ParticleSystem.html">
+            
+                <a href="../others/ParticleSystem.html">
+            
+                    
+                    粒子系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" >
+            
+                <span>
+            
+                    
+                    控制器/工具
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../tools/DragControls.js.html">
+            
+                <a href="../tools/DragControls.js.html">
+            
+                    
+                    DragControls.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="../tools/TransformControls.js.html">
+            
+                <a href="../tools/TransformControls.js.html">
+            
+                    
+                    TransformControls.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3" data-path="../tools/PointerLockControls.js.html">
+            
+                <a href="../tools/PointerLockControls.js.html">
+            
+                    
+                    PointerLockControls.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.4" data-path="../tools/stats.js.html">
+            
+                <a href="../tools/stats.js.html">
+            
+                    
+                    stats.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5" data-path="../tools/ui.js.html">
+            
+                <a href="../tools/ui.js.html">
+            
+                    
+                    ui.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.6" data-path="../tools/Raycaster.html">
+            
+                <a href="../tools/Raycaster.html">
+            
+                    
+                    Raycaster
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" >
+            
+                <span>
+            
+                    
+                    实例用法
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../demos/Raycaster-demo-find-object.html">
+            
+                <a href="../demos/Raycaster-demo-find-object.html">
+            
+                    
+                    ThreeJS中的点击与交互——Raycaster的用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../example/">
+            
+                <a href="../example/">
+            
+                    
+                    示例
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../reference/">
+            
+                <a href="../reference/">
+            
+                    
+                    参考资料
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" >
+            
+                <a target="_blank" href="https://read.douban.com/ebook/7412854/">
+            
+                    
+                    Three.js入门指南
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" >
+            
+                <a target="_blank" href="http://www.myjscode.com/page/articleThree.html">
+            
+                    
+                    threejs教程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" >
+            
+                <a target="_blank" href="http://www.webgl3d.cn/">
+            
+                    
+                    Threejs中文网
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >动画(Animation)</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x52A8;&#x753B;"><a id="top"></a>&#x52A8;&#x753B;</h1>
+<h2 id="&#x52A8;&#x753B;animation"><a id="Animation"></a>&#x52A8;&#x753B;(Animation)</h2>
+<p>&#x6B64;&#x7C7B;&#x57FA;&#x4E8E;&#x5C42;&#x6B21;&#x7ED3;&#x6784;&#x4E3A;&#x5BF9;&#x8C61;&#x8BBE;&#x7F6E;&#x52A8;&#x753B;&#x3002;&#x6B64;&#x5C42;&#x6B21;&#x7ED3;&#x6784;&#x53EF;&#x4EE5;&#x662F;Object3D&#x6216;Bones&#x3002;</p>
+<p><a href="https://github.com/mrdoob/three.js/blob/master/src/animation/Animation.js" target="_blank">&#x6E90;&#x7801;</a></p>
+<h3 id="&#x6784;&#x9020;&#x5668;&#xFF08;constructor&#xFF09;">&#x6784;&#x9020;&#x5668;&#xFF08;Constructor&#xFF09;</h3>
+<p><strong>Animation(root, name)</strong></p>
+<ul>
+<li>root -- The mesh to animate. &#x8981;&#x8BBE;&#x7F6E;&#x52A8;&#x753B;&#x7684;&#x7F51;&#x683C;&#x3002;</li>
+<li>name -- The name of the animation.&#x52A8;&#x753B;&#x7684;&#x540D;&#x79F0;</li>
+</ul>
+<p>Creates an animation for root. The animation data is gathered from AnimationHandler based on its name.</p>
+<p>&#x4E3A;&#x7F51;&#x683C;&#x5BF9;&#x8C61;&#x521B;&#x5EFA;&#x52A8;&#x753B;&#x3002;&#x52A8;&#x753B;&#x6570;&#x636E;&#x6839;&#x636E;&#x5176;&#x540D;&#x79F0;&#x4ECE;<a href="#AnimationHandler">AnimationHandler</a>&#x6536;&#x96C6;&#x3002;</p>
+<h3 id="&#x5C5E;&#x6027;&#xFF08;properties&#xFF09;">&#x5C5E;&#x6027;&#xFF08;Properties&#xFF09;</h3>
+<ul>
+<li>.root
+The root object of the animation.
+&#x52A8;&#x753B;&#x7684;&#x6839;&#x7F51;&#x683C;&#x5BF9;&#x8C61;</li>
+<li>.data
+The data containing the animation
+&#x5305;&#x542B;&#x52A8;&#x753B;&#x7684;&#x6570;&#x636E;</li>
+<li>.hierarchy
+The objects that are influenced by the animation.
+&#x53D7;&#x52A8;&#x753B;&#x5F71;&#x54CD;&#x7684;&#x5BF9;&#x8C61;&#x3002;</li>
+<li>.currentTime
+The time elapsed since the last start/restart of the animation.
+&#x81EA;&#x4E0A;&#x6B21;&#x542F;&#x52A8;/&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x52A8;&#x753B;&#x4EE5;&#x6765;&#x7ECF;&#x8FC7;&#x7684;&#x65F6;&#x95F4;&#x3002;</li>
+<li>.timeScale
+How much to scale the speed of the animation. Defaults to 1.
+&#x7F29;&#x653E;&#x52A8;&#x753B;&#x7684;&#x901F;&#x5EA6;&#x3002;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;1&#x3002;</li>
+<li>.isPlaying
+Indicates whether the animation is playing. This shouldn&apos;t be adapted by user code.
+&#x6307;&#x793A;&#x52A8;&#x753B;&#x662F;&#x5426;&#x6B63;&#x5728;&#x64AD;&#x653E;&#x3002;&#x8FD9;&#x4E0D;&#x5E94;&#x8BE5;&#x88AB;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x4FEE;&#x6539;&#x3002;</li>
+<li>.isPaused
+Indicates whether the animation is paused. This shouldn&apos;t be adapted by user code.
+&#x6307;&#x793A;&#x52A8;&#x753B;&#x662F;&#x5426;&#x6682;&#x505C;&#x3002;&#x8FD9;&#x4E0D;&#x5E94;&#x8BE5;&#x88AB;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x4FEE;&#x6539;&#x3002;</li>
+<li>.loop
+Set to make the animation restart when the animation ends.
+&#x8BBE;&#x7F6E;&#x4E3A;&#x4F7F;&#x52A8;&#x753B;&#x5728;&#x52A8;&#x753B;&#x7ED3;&#x675F;&#x65F6;&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x3002;&#x662F;&#x5426;&#x5FAA;&#x73AF;&#x6267;&#x884C;&#x52A8;&#x753B;&#x3002;</li>
+<li>.interpolationType
+The type to indicate how to interpolate between 2 data points.
+&#x6307;&#x793A;&#x5982;&#x4F55;&#x5728;&#x4E24;&#x4E2A;&#x6570;&#x636E;&#x70B9;&#x4E4B;&#x95F4;&#x63D2;&#x5165;&#x7684;&#x7C7B;&#x578B;&#x3002;</li>
+</ul>
+<h3 id="&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;">&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;</h3>
+<ul>
+<li>.play (startTime)
+Starts the animation at the startTime (in seconds) of the animation.
+&#x64AD;&#x653E;&#xFF0C;&#x5728;&#x52A8;&#x753B;&#x7684;&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#xFF08;&#x79D2;&#xFF09;&#x542F;&#x52A8;&#x52A8;&#x753B;&#x3002;</li>
+<li>.stop ()
+Stops the animation.
+&#x505C;&#x6B62;&#x52A8;&#x753B;&#x3002;</li>
+<li>.update (deltaTimeMS)<ul>
+<li>deltaTimeMS -- The time of the between the previous frame and this frame in miliseconds.&#x524D;&#x4E00;&#x5E27;&#x548C;&#x6B64;&#x5E27;&#x4E4B;&#x95F4;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x5355;&#x4F4D;&#x4E3A;&#x6BEB;&#x79D2;&#x3002;
+Updates the animation in time. This shouldn&apos;t be called by user code. The animationHandler calls this method.
+&#x53CA;&#x65F6;&#x66F4;&#x65B0;&#x52A8;&#x753B;&#x3002;&#x8FD9;&#x4E0D;&#x5E94;&#x8BE5;&#x7531;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x8C03;&#x7528;&#x3002;<a href="#AnimationHandler">AnimationHandler</a>&#x8C03;&#x7528;&#x6B64;&#x65B9;&#x6CD5;&#x3002;</li>
+</ul>
+</li>
+<li>.interpolateCatmullRom (points, scale)<ul>
+<li>points -- The 4 control point to calculate CatMullRom &#x8BA1;&#x7B97;catmullrom&#x7684;4&#x4E2A;&#x63A7;&#x5236;&#x70B9;</li>
+<li>scale -- The scale between the previous key and the nex key.&#x4E0A;&#x4E00;&#x4E2A;&#x952E;&#x548C;&#x4E0B;&#x4E00;&#x4E2A;&#x952E;&#x4E4B;&#x95F4;&#x7684;&#x6BD4;&#x4F8B;
+Interpolates the point based on the key. Is used in update.&#x6839;&#x636E;&#x5173;&#x952E;&#x70B9;&#x63D2;&#x5165;&#x70B9;&#x3002;&#x5728;&#x66F4;&#x65B0;&#x4E2D;&#x4F7F;&#x7528;&#x3002;</li>
+</ul>
+</li>
+<li>.getNextKeyWith (type, h, key)<ul>
+<li>type -- The animationtype for the key. Can be &quot;pos&quot;, &quot;rot&quot; and &quot;scl&quot;.&#x952E;&#x7684;&#x52A8;&#x753B;&#x7C7B;&#x578B;&#x3002;&#x53EF;&#x4EE5;&#x662F;&#x201C;pos&#x201D;&#x3001;&#x201C;rot&#x201D;&#x548C;&#x201C;scl&#x201D;&#x3002;</li>
+<li>h -- The object of the hierarchy that catins the key .&#x5B9A;&#x4F4D;&#x952E;&#x7684;&#x5C42;&#x6B21;&#x7ED3;&#x6784;&#x7684;&#x5BF9;&#x8C61;</li>
+<li>key -- The index of the next possible key.&#x4E0B;&#x4E00;&#x4E2A;&#x53EF;&#x80FD;&#x952E;&#x7684;&#x7D22;&#x5F15;&#x3002;
+Gets the next key. Is used in Update.&#x83B7;&#x53D6;&#x4E0B;&#x4E00;&#x4E2A;&#x952E;&#x3002;&#x5728;&#x66F4;&#x65B0;&#x4E2D;&#x4F7F;&#x7528;&#x3002;</li>
+</ul>
+</li>
+<li>.getPrevKeyWith (type, h, key)<ul>
+<li>type -- The animationtype for the key. Can be &quot;pos&quot;, &quot;rot&quot; and &quot;scl&quot;.&#x952E;&#x7684;&#x52A8;&#x753B;&#x7C7B;&#x578B;&#x3002;&#x53EF;&#x4EE5;&#x662F;&#x201C;pos&#x201D;&#x3001;&#x201C;rot&#x201D;&#x548C;&#x201C;scl&#x201D;&#x3002;</li>
+<li>h -- The object of the hierarchy that contains the key. &#x5305;&#x542B;&#x952E;&#x7684;&#x5C42;&#x6B21;&#x7ED3;&#x6784;&#x7684;&#x5BF9;&#x8C61;&#x3002;</li>
+<li>key -- The index of the prev possible key.&#x4E0A;&#x4E00;&#x4E2A;&#x53EF;&#x80FD;&#x952E;&#x7684;&#x7D22;&#x5F15;&#x3002;
+Gets the previous key. Is used in Update.&#x83B7;&#x53D6;&#x4E0A;&#x4E00;&#x4E2A;&#x952E;&#x3002;&#x5728;&#x66F4;&#x65B0;&#x4E2D;&#x4F7F;&#x7528;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x52A8;&#x753B;&#x5904;&#x7406;&#x5668;animationhandler"><a id="AnimationHandler"></a>&#x52A8;&#x753B;&#x5904;&#x7406;&#x5668;(AnimationHandler)</h2>
+<p>The AnimationHandler handles the initialisation of the Animation data and the animations itself. It keeps track of every animation and if it&apos;s active or not. It also update all animations which are active if its method <strong>update</strong> is called.</p>
+<p>AnimationHandler&#x5904;&#x7406;&#x52A8;&#x753B;&#x6570;&#x636E;&#x548C;&#x52A8;&#x753B;&#x672C;&#x8EAB;&#x7684;&#x521D;&#x59CB;&#x5316;&#x3002;&#x5B83;&#x8DDF;&#x8E2A;&#x6BCF;&#x4E00;&#x4E2A;&#x52A8;&#x753B;&#xFF0C;&#x4E0D;&#x7BA1;&#x5B83;&#x662F;&#x5426;&#x5904;&#x4E8E;&#x6D3B;&#x52A8;&#x72B6;&#x6001;&#x3002;&#x5982;&#x679C;&#x8C03;&#x7528;&#x4E86;&#x65B9;&#x6CD5;&#x66F4;&#x65B0;&#xFF0C;&#x5B83;&#x4E5F;&#x4F1A;&#x66F4;&#x65B0;&#x6240;&#x6709;&#x6D3B;&#x52A8;&#x7684;&#x52A8;&#x753B;&#x3002;</p>
+<p><a href="https://github.com/mrdoob/three.js/blob/master/src/animation/AnimationHandler.js" target="_blank">&#x6E90;&#x7801;</a></p>
+<h3 id="&#x6784;&#x9020;&#x5668;&#xFF08;constructor&#xFF09;">&#x6784;&#x9020;&#x5668;&#xFF08;Constructor&#xFF09;</h3>
+<p><strong>AnimationHandler()</strong></p>
+<p>The animationHandler can&apos;t be called as constructor.</p>
+<h3 id="&#x5C5E;&#x6027;&#xFF08;properties&#xFF09;">&#x5C5E;&#x6027;&#xFF08;Properties&#xFF09;</h3>
+<ul>
+<li>.CATMULLROM</li>
+</ul>
+<p>Enum Value to indicate that the animation needs to be interpolated as CATMULLROM.&#x679A;&#x4E3E;&#x503C;&#xFF0C;&#x6307;&#x793A;&#x52A8;&#x753B;&#x9700;&#x8981;&#x4F5C;&#x4E3A;catmullrom&#x63D2;&#x5165;&#x3002;</p>
+<ul>
+<li>.CATMULLROM_FORWARD</li>
+</ul>
+<p>Enum Value to indicate that the animation needs to be interpolated as CATMULLROM_FORWARD.&#x679A;&#x4E3E;&#x503C;&#xFF0C;&#x6307;&#x793A;&#x52A8;&#x753B;&#x9700;&#x8981;&#x4F5C;&#x4E3A;catmullom_forward&#x63D2;&#x5165;&#x3002;</p>
+<ul>
+<li>.LINEAR</li>
+</ul>
+<p>Enum Value to indicate that the animation needs to be interpolated as LINEAR.&#x679A;&#x4E3E;&#x503C;&#x4EE5;&#x6307;&#x793A;&#x52A8;&#x753B;&#x9700;&#x8981;&#x4F5C;&#x4E3A;&#x7EBF;&#x6027;&#x63D2;&#x503C;&#x3002;</p>
+<h3 id="&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;">&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;</h3>
+<ul>
+<li>.removeFromUpdate (animation)<ul>
+<li>animation -- The Animation to remove from the update.&#x8981;&#x4ECE;&#x66F4;&#x65B0;&#x4E2D;&#x5220;&#x9664;&#x7684;&#x52A8;&#x753B;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<p>Removes the animation from the update cycle. This gets called when the animation stops. This shouldn&apos;t be called by usercode.</p>
+<p>&#x4ECE;&#x66F4;&#x65B0;&#x5468;&#x671F;&#x4E2D;&#x5220;&#x9664;&#x52A8;&#x753B;&#x3002;&#x5F53;&#x52A8;&#x753B;&#x505C;&#x6B62;&#x65F6;&#x8C03;&#x7528;&#x6B64;&#x51FD;&#x6570;&#x3002;&#x8FD9;&#x4E0D;&#x5E94;&#x8BE5;&#x7531;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x8C03;&#x7528;&#x3002;</p>
+<ul>
+<li>.get (name)<ul>
+<li>name -- The name of the animationData&#x3002;&#x52A8;&#x753B;&#x6570;&#x636E;&#x540D;&#x79F0;</li>
+</ul>
+</li>
+</ul>
+<p>Gets the animationData from its library.&#x4ECE;&#x5176;&#x5E93;&#x4E2D;&#x83B7;&#x53D6;AnimationData&#x3002;</p>
+<ul>
+<li>.update (deltaTimeMS)<ul>
+<li>deltaTimeMS -- Time elapsed since last update in milliseconds.&#x81EA;&#x4E0A;&#x6B21;&#x66F4;&#x65B0;&#x4EE5;&#x6765;&#x7ECF;&#x8FC7;&#x7684;&#x65F6;&#x95F4;&#xFF08;&#x6BEB;&#x79D2;&#xFF09;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<p>Updates all active animations with deltaTime.&#x7528;Deltatime&#x66F4;&#x65B0;&#x6240;&#x6709;&#x6D3B;&#x52A8;&#x52A8;&#x753B;&#x3002;</p>
+<ul>
+<li><p>.parse (root)</p>
+<ul>
+<li>root -- object
+Parses the object to get the hierachy.&#x89E3;&#x6790;&#x5BF9;&#x8C61;&#x4EE5;&#x83B7;&#x53D6;&#x5C42;&#x6B21;&#x7ED3;&#x6784;&#x3002;</li>
+</ul>
+</li>
+<li><p>.add (data)</p>
+<ul>
+<li>data -- The animationData
+Adds the animationData from its library.&#x4ECE;&#x5176;&#x5E93;&#x4E2D;&#x6DFB;&#x52A0;&#x52A8;&#x753B;&#x6570;&#x636E;&#x3002;</li>
+</ul>
+</li>
+<li><p>.addToUpdate (animation)</p>
+<ul>
+<li>animation -- The Animation to add from the update.&#x8981;&#x4ECE;&#x66F4;&#x65B0;&#x4E2D;&#x6DFB;&#x52A0;&#x7684;&#x52A8;&#x753B;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<p>Adds the animation from the update cycle. This gets called when the animation starts. This shouldn&apos;t be called by user code.</p>
+<p>&#x4ECE;&#x66F4;&#x65B0;&#x5468;&#x671F;&#x6DFB;&#x52A0;&#x52A8;&#x753B;&#x3002;&#x5F53;&#x52A8;&#x753B;&#x5F00;&#x59CB;&#x65F6;&#x8C03;&#x7528;&#x6B64;&#x51FD;&#x6570;&#x3002;&#x8FD9;&#x4E0D;&#x5E94;&#x8BE5;&#x7531;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x8C03;&#x7528;&#x3002;</p>
+<h2 id="&#x5173;&#x952E;&#x5E27;&#x52A8;&#x753B;keyframeanimation"><a id="KeyFrameAnimation"></a>&#x5173;&#x952E;&#x5E27;&#x52A8;&#x753B;(KeyFrameAnimation)</h2>
+<p>Runs a keyframe animation as imported from the ColladaLoader.</p>
+<p>&#x8FD0;&#x884C;&#x4ECE;ColladalLoader&#x5BFC;&#x5165;&#x7684;&#x5173;&#x952E;&#x5E27;&#x52A8;&#x753B;&#x3002;</p>
+<p><a href="https://github.com/mrdoob/three.js/blob/master/src/animation/KeyFrameAnimation.js" target="_blank">&#x6E90;&#x7801;</a></p>
+<h3 id="&#x6784;&#x9020;&#x5668;&#xFF08;constructor&#xFF09;">&#x6784;&#x9020;&#x5668;&#xFF08;Constructor&#xFF09;</h3>
+<p><strong>KeyFrameAnimation(data)</strong></p>
+<ul>
+<li>data -- An individual animation object from a the <a href="javascript:window.parent.goTo(&apos;ColladaLoader&apos;" target="_blank">ColladaLoader</a>), e.g. loadedColladaObj.animations[0] .
+&#x6765;&#x81EA;colladaloader&#x7684;&#x5355;&#x4E2A;&#x52A8;&#x753B;&#x5BF9;&#x8C61;,&#x6BD4;&#x5982;&#xFF0C;<code>loadedColladaObj.animations[0]</code></li>
+</ul>
+<p>&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684; keyframe animation &#x5E76;&#x4E14;&#x5C06;&#x5176;&#x521D;&#x59CB;&#x5316;&#x4E3A;&#x7B2C;&#x4E00;&#x4E2A;&#x5173;&#x952E;&#x5E27;&#x3002;</p>
+<h3 id="&#x5C5E;&#x6027;&#xFF08;properties&#xFF09;">&#x5C5E;&#x6027;&#xFF08;Properties&#xFF09;</h3>
+<ul>
+<li>.root</li>
+</ul>
+<p>The root object of the animation&#xFF0C;&#x52A8;&#x753B;&#x4F5C;&#x7528;&#x5BF9;&#x8C61;</p>
+<ul>
+<li>.data</li>
+</ul>
+<p>The data containing the animation&#x5305;&#x542B;&#x52A8;&#x753B;&#x7684;&#x6570;&#x636E;</p>
+<ul>
+<li>.hierarchy</li>
+</ul>
+<p>The objects that are influenced by the animation.&#x53D7;&#x52A8;&#x753B;&#x5F71;&#x54CD;&#x7684;&#x5BF9;&#x8C61;&#x3002;</p>
+<ul>
+<li>.currentTime</li>
+</ul>
+<p>The time elapsed since the last start/restart of the animation.&#x81EA;&#x4E0A;&#x6B21;&#x542F;&#x52A8;/&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x52A8;&#x753B;&#x4EE5;&#x6765;&#x7ECF;&#x8FC7;&#x7684;&#x65F6;&#x95F4;&#x3002;</p>
+<ul>
+<li>.timeScale</li>
+</ul>
+<p>How much to scale the speed of the animation. Defaults to 1.&#x7F29;&#x653E;&#x52A8;&#x753B;&#x7684;&#x901F;&#x5EA6;&#x3002;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;1&#x3002;</p>
+<ul>
+<li>.isPlaying</li>
+</ul>
+<p>Indicates whether the animation is playing. This shouldn&apos;t be adapted by user code.&#x793A;&#x610F;&#x52A8;&#x753B;&#x662F;&#x5E73;&#x606F;&#x7684;&#x3002;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x7531;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x8C03;&#x6574;&#x7684;</p>
+<ul>
+<li>.isPaused</li>
+</ul>
+<p>Indicates whether the animation is paused. This shouldn&apos;t be adapted by user code.&#x793A;&#x610F;&#x52A8;&#x753B;&#x662F;&#x4E0D;&#x6B63;&#x786E;&#x7684;&#x3002;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x7531;&#x7528;&#x6237;&#x4EE3;&#x7801;&#x8C03;&#x6574;&#x7684;</p>
+<ul>
+<li>.loop</li>
+</ul>
+<p>Set to make the animation restart when the animation ends.&#x4F7F;&#x5176;&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x5F53;&#x52A8;&#x753B;&#x3002;&#x662F;&#x5426;&#x5FAA;&#x73AF;</p>
+<h3 id="&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;">&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;</h3>
+<ul>
+<li>.play (startTime)</li>
+</ul>
+<p>Starts the animation at the startTime (in seconds) of the animation.&#x5728;&#x52A8;&#x753B;&#x7684;&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#xFF08;&#x79D2;&#xFF09;&#x542F;&#x52A8;&#x52A8;&#x753B;&#x3002;</p>
+<ul>
+<li>.stop ()</li>
+</ul>
+<p>Stops the animation.&#x505C;&#x6B62;&#x52A8;&#x753B;&#x3002;</p>
+<ul>
+<li><p>.update (deltaTime)</p>
+<ul>
+<li>deltaTime -- The change in time in seconds&#x4EE5;&#x79D2;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x65F6;&#x95F4;&#x53D8;&#x5316;</li>
+</ul>
+</li>
+</ul>
+<p>Updates the keyframe animation&#x66F4;&#x65B0;&#x5173;&#x952E;&#x5E27;&#x52A8;&#x753B;</p>
+<ul>
+<li><p>.getNextKeyWith (sid, h, key)</p>
+<ul>
+<li>sid -- The string id </li>
+<li>h -- The index in the heirarchy to use&#x7EE7;&#x627F;&#x5173;&#x7CFB;&#x4E2D;&#x8981;&#x4F7F;&#x7528;&#x7684;&#x7D22;&#x5F15;</li>
+<li>key -- The index of which key to start from&#x4ECE;&#x54EA;&#x4E2A;&#x952E;&#x5F00;&#x59CB;&#x7684;&#x7D22;&#x5F15;</li>
+</ul>
+</li>
+</ul>
+<p>Used internally to traverse the animation&#x5185;&#x90E8;&#x7528;&#x4E8E;&#x904D;&#x5386;&#x52A8;&#x753B;</p>
+<ul>
+<li><p>.getPrevKeyWith (sid, h, key)</p>
+<ul>
+<li>sid -- The string id </li>
+<li>h -- The index in the heirarchy to use&#x7EE7;&#x627F;&#x5173;&#x7CFB;&#x4E2D;&#x8981;&#x4F7F;&#x7528;&#x7684;&#x7D22;&#x5F15;</li>
+<li>key -- The index of which key to start from&#x4ECE;&#x54EA;&#x4E2A;&#x952E;&#x5F00;&#x59CB;&#x7684;&#x7D22;&#x5F15;</li>
+</ul>
+</li>
+</ul>
+<p>Used internally to traverse the animation&#x5185;&#x90E8;&#x7528;&#x4E8E;&#x904D;&#x5386;&#x52A8;&#x753B;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../geometries/" class="navigation navigation-prev " aria-label="Previous page: 几何模型(Geometry)">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="./#AnimationHandler" class="navigation navigation-next " aria-label="Next page: 动画处理器(AnimationHandler)">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"动画(Animation)","level":"1.17","depth":1,"next":{"title":"动画处理器(AnimationHandler)","level":"1.17.1","depth":2,"anchor":"#AnimationHandler","path":"animations/README.md","ref":"animations/README.md#AnimationHandler","articles":[]},"previous":{"title":"几何模型(Geometry)","level":"1.16","depth":1,"path":"geometries/README.md","ref":"geometries/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-favicon","-github","-tbfed-pagefooter","-donate@^1.0.2"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy <b><a target='view_window' href='https://sogrey.github.io/'>Sogrey</a></b> 2018,","modify_label":"    使用中遇到问题？<b><a target='view_window' href='https://github.com/Sogrey/Three.js-start/issues/new'>提个Issue</a></b>,最后修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/Sogrey"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"donate":{"wechat":"https://sogrey.github.io/img/wechatPay.png","alipay":"https://sogrey.github.io/img/alipay.jpg","title":"","button":"赏","alipayText":"支付宝打赏","wechatText":"微信打赏"},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Sogrey","pdf":{"pageBreaksBefore":"/","headerTemplate":null,"paperSize":"a4","margin":{"right":62,"left":62,"top":36,"bottom":36},"fontSize":12,"fontFamily":"Arial","footerTemplate":null,"chapterMark":"pagebreak","pageNumbers":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"isbn":"","variables":{},"title":"Three.js 入门","links":{"sharing":{"all":null,"facebook":null,"google":null,"twitter":null,"weibo":null},"sidebar":{"Sogrey's Blog":"https://sogrey.github.io"}},"gitbook":"*","description":"Three.js 入门笔记","extension":null},"file":{"path":"animations/README.md","mtime":"2019-04-02T07:38:20.132Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-07-09T08:34:42.633Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

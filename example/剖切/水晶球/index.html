@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+    <!-- https://jsfiddle.net/prisoner849/4s2ch5vg/show -->
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title></title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style id="compiled-css" type="text/css">
+        body {
+            overflow: hidden;
+            margin: 0;
+            background: #fff;
+        }
+
+        #circle {
+            position: absolute;
+            text-align: center;
+            width: 60px;
+            height: 60px;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            border-radius: 30px;
+            background: rgba(0, 128, 128, .5);
+            font-size: 50px;
+            font-family: Times New Roman;
+            color: rgba(0, 165, 255, .75);
+            cursor: pointer;
+        }
+
+        .noselect {
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently
+  supported by Chrome and Opera */
+        }
+
+
+        /* unvisited link */
+
+        a:link {
+            color: orange;
+        }
+
+
+        /* visited link */
+
+        a:visited {
+            color: orange;
+        }
+
+
+        /* mouse over link */
+
+        a:hover {
+            color: orange;
+        }
+
+
+        /* selected link */
+
+        a:active {
+            color: orange;
+        }
+    </style>
+
+
+    <!-- TODO: Missing CoffeeScript 2 -->
+
+    <script type="text/javascript">
+        //<![CDATA[
+
+        window.onload = function () {
+
+            var hide = true;
+            circle.addEventListener("click", function () {
+                if (hide) {
+                    circle.style.background = "#20869f";
+                    circle.style.color = "aqua";
+                    info.style.width = "640px";
+                    info.style.height = "214px";
+                } else {
+                    circle.style.background = "rgba(0, 128, 128, .5)";
+                    circle.style.color = "rgba(0, 165, 255, .5)";
+                    info.style.width = "62px";
+                    info.style.height = "62px";
+                }
+                hide = !hide;
+            }, false);
+
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.set(1, 1.5, 8).setLength(55);
+            var renderer = new THREE.WebGLRenderer({
+                antialias: true
+            });
+            renderer.setClearColor(0x779999);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            var controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.target.set(0, -10, 0);
+            controls.update();
+            controls.enablePan = false;
+            controls.maxDistance = 80;
+            controls.maxPolarAngle = THREE.Math.degToRad(95);
+
+            var light = new THREE.DirectionalLight(0xffffff, 0.5);
+            light.position.set(10, 5, 10);
+            scene.add(light);
+            var light2 = new THREE.DirectionalLight(0xffffff, 0.5);
+            light2.position.set(10, 5, -10);
+            scene.add(light2);
+            scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+
+            //scene.add(new THREE.GridHelper(50, 10));
+            var r = "https://threejs.org/examples/textures/cube/Bridge2/";
+            var urls = [r + "posx.jpg", r + "negx.jpg",
+                r + "posy.jpg", r + "negy.jpg",
+                r + "posz.jpg", r + "negz.jpg"
+            ];
+            textureCube = new THREE.CubeTextureLoader().load(urls);
+            textureCube.format = THREE.RGBFormat;
+            textureCube.mapping = THREE.CubeReflectionMapping;
+            scene.add(new THREE.Mesh(new THREE.SphereGeometry(20.1, 64, 32), new THREE.MeshBasicMaterial({
+                color: "white",
+                transparent: true,
+                opacity: 0.075,
+                envMap: textureCube
+            })));
+
+            // sea
+            var seaGeom = new THREE.PlaneGeometry(50, 50, 15, 15);
+            seaGeom.rotateX(-Math.PI * 0.5);
+            seaGeom.translate(0, -2.5, 0);
+            seaGeom.vertices.forEach(v => {
+                v.init = new THREE.Vector3().copy(v);
+                v.amplitude = THREE.Math.randFloatSpread(2);
+                v.start = THREE.Math.randFloat(0, Math.PI);
+            })
+            var sea = new THREE.Mesh(seaGeom, getMaterial({
+                diffuse: 0x55eeff
+            }));
+            scene.add(sea);
+
+            // cliff
+            var cliffGeom = new THREE.ConeGeometry(10, 5, 14, 5);
+            cliffGeom.translate(0, 2.5, 0);
+            cliffGeom.vertices.forEach(v => {
+                //v.x *= 1.25;
+                v.x += THREE.Math.randFloatSpread(1);
+                if (v.y > 0) {
+                    v.y += THREE.Math.randFloatSpread(1);
+                }
+            });
+            cliffGeom.computeVertexNormals();
+            cliffGeom.rotateX(Math.PI);
+            var cliff = new THREE.Mesh(cliffGeom, getMaterial({
+                diffuse: 0xD2691E
+            }));
+            cliff.position.set(-15, 5, 0);
+            scene.add(cliff);
+
+            // cloud
+            var cloudGeom = new THREE.DodecahedronGeometry(5, 1);
+            var cloudCenter = new THREE.Vector3(0, 2.5, 7);
+            cloudGeom.vertices.forEach(v => {
+                v.z *= 3;
+                if (Math.abs(v.z - 5) < 5) v.sub(cloudCenter).setLength(7.5);
+                v.y *= 0.25;
+            });
+            var cloud = new THREE.Mesh(cloudGeom, getMaterial({
+                diffuse: "white"
+            }));
+            cloud.position.set(7.5, 10, 0);
+            scene.add(cloud);
+
+            // house
+            var house = new THREE.Group();
+            var wallsGeom = new THREE.BoxGeometry(3, 3, 3);
+            wallsGeom.translate(0, 1.5, 0);
+            var walls = new THREE.Mesh(wallsGeom, new THREE.MeshLambertMaterial({
+                color: "maroon"
+            }));
+            house.add(walls);
+            var roofGeom = new THREE.ConeGeometry(3, 1, 4);
+            roofGeom.rotateY(Math.PI * 0.25);
+            roofGeom.translate(0, 0.5, 0);
+            var roof = new THREE.Mesh(roofGeom, new THREE.MeshLambertMaterial({
+                color: "pink"
+            }));
+            roof.position.set(0, 3, 0);
+            house.add(roof);
+            house.position.set(2.5, 0.01, 0);
+            cliff.add(house);
+
+            // tree
+            var tree = new THREE.Group();
+            var logGeom = new THREE.ConeGeometry(0.125, 2);
+            logGeom.translate(0, 1, 0);
+            var log = new THREE.Mesh(logGeom, new THREE.MeshLambertMaterial({
+                color: "brown"
+            }));
+            tree.add(log);
+            var crownGeom = new THREE.SphereGeometry(1, 8, 4);
+            crownGeom.vertices.forEach(v => {
+                v.y *= 4;
+                v.setLength(v.length() + THREE.Math.randFloatSpread(0.5));
+            });
+            crownGeom.translate(0, 4, 0);
+            var crown = new THREE.Mesh(crownGeom, getMaterial({
+                diffuse: 0x00cc00
+            }));
+            crown.position.set(0, 1.5, 0);
+            tree.add(crown);
+            tree.position.set(0, 0.01, 4);
+            cliff.add(tree);
+
+            // sea weed
+            for (let i = 0; i < 5; i++) {
+                let w = THREE.Math.randFloat(0.5, 1);
+                let h = THREE.Math.randInt(10, 15);
+                let weedGeom = new THREE.PlaneGeometry(w, h, 1, h);
+                weedGeom.translate(0, h * 0.5, 0);
+                weedGeom.vertices.forEach(v => {
+                    v.add(new THREE.Vector3(THREE.Math.randFloatSpread(0.5), THREE.Math.randFloatSpread(
+                        0.5), THREE.Math.randFloatSpread(0.5)));
+                })
+                weedGeom.computeVertexNormals();
+                let weed = new THREE.Mesh(weedGeom, getMaterial({
+                    diffuse: 0x009900
+                }));
+                weed.position.set(THREE.Math.randFloatSpread(5), -20, THREE.Math.randFloatSpread(5));
+                weed.rotation.y = THREE.Math.randFloatSpread(Math.PI);
+                scene.add(weed);
+            }
+
+            // fish
+            var fishGeom = new THREE.BoxGeometry(0.5, 2, 3, 1, 2, 3);
+            fishGeom.translate(0, 0, -0.5);
+            fishGeom.vertices.forEach(v => {
+                if (v.length() >= 1) v.x = 0;
+                if (Math.abs(v.z) == 1) v.y = 0;
+            });
+            fishGeom.computeVertexNormals();
+            var fish = new THREE.Mesh(fishGeom, getMaterial({
+                diffuse: 0x0000ff
+            }));
+            fish.scale.y = 0.5;
+            fish.position.set(0, -10, 0);
+            scene.add(fish);
+
+            function runFish() {
+                let newPos = new THREE.Vector3(
+                    THREE.Math.randFloatSpread(40),
+                    THREE.Math.randFloatSpread(5) - 10,
+                    THREE.Math.randFloatSpread(40)
+                );
+                fish.lookAt(newPos);
+                new TWEEN.Tween(fish.position).to(newPos, 5000).onComplete(function () {
+                    runFish();
+                }).start();
+            }
+            runFish();
+
+            // base
+            var baseGeom = new THREE.ConeGeometry(20, 30, 4);
+            baseGeom.translate(0, 15, 0);
+            baseGeom.rotateY(Math.PI * 0.25);
+            var base = new THREE.Mesh(baseGeom, getMaterial({
+                diffuse: "white",
+                diffuseBack: "orange",
+                inside: false
+            }));
+            base.position.set(0, -30, 0);
+            scene.add(base);
+
+            // table
+            var tableGeom = new THREE.CircleGeometry(80, 32);
+            tableGeom.rotateX(-Math.PI * 0.5);
+            var table = new THREE.Mesh(tableGeom, new THREE.MeshLambertMaterial({
+                color: 0x66dddd,
+                map: new THREE.TextureLoader().load(
+                    'https://threejs.org/examples/textures/hardwood2_diffuse.jpg')
+            }));
+            table.position.set(0, -30.1, 0);
+            scene.add(table);
+
+            var clock = new THREE.Clock();
+            var time = 0;
+
+            render();
+
+            function render() {
+                requestAnimationFrame(render);
+                time += clock.getDelta();
+                //sea
+                seaGeom.vertices.forEach(v => {
+                    v.y = v.init.y + Math.sin(time + v.start) * v.amplitude;
+                });
+                seaGeom.verticesNeedUpdate = true;
+                seaGeom.computeVertexNormals();
+                //cloud
+                cloud.position.z = Math.sin(time * 0.125) * 35;
+                // tree crown
+                crown.scale.y = 0.9 + Math.cos(time * 0.5) * 0.1;
+                TWEEN.update();
+                renderer.render(scene, camera);
+            }
+
+
+        }
+
+        //]]>
+    </script>
+
+</head>
+
+<body>
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.2.0/Tween.min.js"></script>
+    <script>
+        var sphereRadius = {
+            value: 20
+        };
+
+        function getMaterial(params) {
+
+            var diffuse = params.diffuse === undefined ? 0xffffff : params.diffuse;
+            var diffuseBack = params.diffuseBack === undefined ? diffuse : params.diffuseBack;
+
+            var inside = params.inside === undefined ? true : params.inside;
+            inside = inside ? 1 : -1;
+
+            let lambert = new THREE.ShaderMaterial({
+                uniforms: THREE.UniformsUtils.merge([THREE.ShaderLib.lambert.uniforms, {
+                    clippingSphere: {
+                        value: new THREE.Vector4()
+                    },
+                    diffuseBack: {
+                        value: new THREE.Color()
+                    }
+                }]),
+
+                vertexShader: THREE.ShaderLib.lambert.vertexShader
+                    .replace(/varying vec3 vLightFront;/g,
+                        'varying vec3 vLightFront;\nvarying vec4 worldPosition;')
+                    .replace(/#include <worldpos_vertex>/g,
+                        'worldPosition = modelMatrix * vec4( transformed, 1.0 );'),
+
+                fragmentShader: THREE.ShaderLib.lambert.fragmentShader
+                    .replace(/uniform float opacity;/g,
+                        'uniform float opacity;\nuniform vec4 clippingSphere;\nuniform vec3 diffuseBack;')
+                    .replace(/varying vec3 vLightFront;/g,
+                        'varying vec3 vLightFront;\nvarying vec4 worldPosition;')
+                    .replace(/#include <clipping_planes_fragment>/g,
+                        '#include <clipping_planes_fragment>\n if (distance(worldPosition.xyz, clippingSphere.xyz) * sign(clippingSphere.w) > clippingSphere.w) discard;'
+                        )
+                    .replace(/#include <dithering_fragment>/g,
+                        '#include <dithering_fragment>\n if (!gl_FrontFacing) gl_FragColor.xyz = diffuseBack;'),
+
+                lights: true,
+
+                side: THREE.DoubleSide,
+
+                flatShading: false
+            });
+
+            lambert.uniforms.clippingSphere.value.set(0, 0, 0, sphereRadius.value * inside);
+            lambert.uniforms.diffuse.value.set(diffuse);
+            lambert.uniforms.diffuseBack.value.set(diffuseBack);
+
+            return lambert;
+        }
+    </script>
+    <div id="info"
+        style="position: absolute;width:62px; height: 62px; top: 5px; left: 5px; overflow: hidden; margin:0; padding: 0">
+        <div id="circle" class="noselect">i</div>
+        <div id="title"
+            style="position: absolute; left: 64px; font-family: Arial; font-size:52px; font-weight:bold; font-style:italic; color: aqua;">
+            In the Orb <a style="font-size:10px;" href="http://west77.ru" target="blank">from the warlock's cave</a>
+        </div>
+    </div>
+
+
+
+    <script>
+        // tell the embed parent frame the height of the content
+        if (window.parent && window.parent.parent) {
+            window.parent.parent.postMessage(["resultsFrame", {
+                height: document.body.getBoundingClientRect().height,
+                slug: "4s2ch5vg"
+            }], "*")
+        }
+
+        // always overwrite window.name, in case users try to set it manually
+        window.name = "result"
+    </script>
+</body>
+
+</html>

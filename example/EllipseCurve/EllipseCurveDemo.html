@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>模板</title>
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body onload="threeExcute();">
+    <div id="box"></div>
+
+    <script src="../js/threejs/three.js"></script>
+    <script src="../js/stats.js"></script>
+    <!-- 引入threejs扩展控件OrbitControls.js -->
+    <script src="../js/controls/OrbitControls.js"></script>
+    <script>
+        var renderer, scene, camera, light;
+        var /*手势控制*/ controls;
+        var width, height;
+        var stats; //绘画帧率监测
+
+        //初始化渲染器
+        function initRenderer() {
+            width = document.getElementById("box").clientWidth;
+            height = document.getElementById("box").clientHeight;
+            renderer = new THREE.WebGLRenderer({
+                antialias: true //抗锯齿
+            }); /*生成渲染器对象（属性：抗锯齿效果为设置有效）*/
+            renderer.setSize(width, height);
+            document.getElementById("box").appendChild(renderer.domElement);
+            /*设置canvas背景色(clearColor)和背景色透明度（clearAlpha） */
+            renderer.setClearColor(0xFFFFFF, 1.0);
+        }
+        //初始化场景
+        function initScene() {
+            scene = new THREE.Scene();
+        }
+        //初始化照相机
+        function initCamera() {
+            camera = new THREE.OrthographicCamera(-20, 20, 20, -20, 1, 1000);
+            //定义camera的位置
+            camera.position.set(0, 0, 50);
+            camera.lookAt(new THREE.Vector3(0, 0, 0));
+            //这里的lookAt函数是将视角指定为看原点
+            // controls = new THREE.OrbitControls(camera); //创建控件对象
+            //将camera添加到scene中
+            scene.add(camera);
+        }
+        //创建对象
+        function initObjects() {
+            var curve = new THREE.EllipseCurve(
+                0, 0, // ax, aY
+                4.54541,3.40927,  // xRadius, yRadius
+                3*Math.PI/2, Math.PI, // aStartAngle, aEndAngle
+                true, // aClockwise
+                0 // aRotation
+            );
+
+            var points = curve.getPoints(50);
+            var geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+            var material = new THREE.LineBasicMaterial({
+                color: 0xff0000
+            });
+
+            // Create the final object to add to the scene
+            var ellipse = new THREE.Line(geometry, material);
+            scene.add(ellipse);
+        }
+        //开启动画实时刷新
+        function animation() {
+            if (null != stats) stats.update();
+            renderer.render(scene, camera);
+
+            requestAnimationFrame(animation);
+        }
+
+        //添加新的div到body
+        //divId - 要创建的DIV id 
+        function addElementDiv(divId) {
+            var parent = document.getElementById("box");
+            console.log(parent)
+            //添加 div
+            var div = document.createElement("div");
+            //设置 div 属性，如 id
+            div.setAttribute("id", divId);
+            parent.appendChild(div);
+        }
+        //实时监测绘画帧率状态 - 开启动画时
+        function initStats() {
+            // <div id="Stats-output"></div>
+            addElementDiv("Stats-output");
+
+            var stats = new Stats();
+            stats.setMode(0); // 0: fps, 1: ms
+
+            // Align top-left
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.left = '0px';
+            stats.domElement.style.top = '0px';
+            document.getElementById("Stats-output").appendChild(stats.domElement);
+            return stats;
+        }
+
+        function threeExcute() {
+            //开启绘画帧率监测
+            stats = initStats();
+            //初始化渲染器
+            initRenderer();
+            //初始化场景
+            initScene();
+            //初始化照相机
+            initCamera();
+            //创建对象
+            initObjects();
+            //开启动画
+            animation();
+        }
+    </script>
+</body>
+
+</html>

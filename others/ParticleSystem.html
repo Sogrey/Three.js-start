@@ -1,0 +1,2054 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>粒子系统 · Three.js 入门</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Sogrey">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://sogrey.github.io" target="_blank" class="custom-link">Sogrey's Blog</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../start/">
+            
+                <a href="../start/#top">
+            
+                    
+                    入门
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../start/">
+            
+                <a href="../start/#what-is-Threejs">
+            
+                    
+                    什么是Three.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../start/">
+            
+                <a href="../start/#how-to-use-Threejs">
+            
+                    
+                    如何使用Three.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../start/">
+            
+                <a href="../start/#Threejs-3-part">
+            
+                    
+                    three.js的几个重要组件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../start/">
+            
+                <a href="../start/#Threejs-Renderer">
+            
+                    
+                    渲染器（Renderer）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../start/">
+            
+                <a href="../start/#Threejs-Scene">
+            
+                    
+                    场景（Scene）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="../start/">
+            
+                <a href="../start/#Threejs-Camera">
+            
+                    
+                    照相机（Camera）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="../start/">
+            
+                <a href="../start/#Threejs-light">
+            
+                    
+                    光源（light）
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../coordinate-system/">
+            
+                <a href="../coordinate-system/">
+            
+                    
+                    坐标系(coordinate system)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../constant/">
+            
+                <a href="../constant/#top">
+            
+                    
+                    常量(Constants)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../constant/">
+            
+                <a href="../constant/#Animation">
+            
+                    
+                    动画(Animation)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../constant/">
+            
+                <a href="../constant/#Core">
+            
+                    
+                    核心(Core)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../constant/">
+            
+                <a href="../constant/#CustomBlendingEquation">
+            
+                    
+                    自定义混合公式(CustomBlendingEquation)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../constant/">
+            
+                <a href="../constant/#DrawModes">
+            
+                    
+                    绘制模式(DrawModes)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../constant/">
+            
+                <a href="../constant/#Materials">
+            
+                    
+                    材质(Materials)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../constant/">
+            
+                <a href="../constant/#Renderer">
+            
+                    
+                    渲染器(Renderer)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../constant/">
+            
+                <a href="../constant/#Textures">
+            
+                    
+                    纹理(Textures)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../cores/">
+            
+                <a href="../cores/#top">
+            
+                    
+                    核心(Core)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../cores/">
+            
+                <a href="../cores/#BufferAttribute">
+            
+                    
+                    BufferAttribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../cores/">
+            
+                <a href="../cores/#BufferGeometry">
+            
+                    
+                    BufferGeometry
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../cores/">
+            
+                <a href="../cores/#Geometry">
+            
+                    
+                    Geometry
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../cores/">
+            
+                <a href="../cores/#Layers">
+            
+                    
+                    图层(Layers)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../cores/">
+            
+                <a href="../cores/#Object3D">
+            
+                    
+                    三维物体（Object3D）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../cores/">
+            
+                <a href="../cores/#Raycaster">
+            
+                    
+                    光线投射(Raycaster)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../renderers/">
+            
+                <a href="../renderers/#top">
+            
+                    
+                    渲染器(Renderer)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../renderers/">
+            
+                <a href="../renderers/#CanvasRenderer">
+            
+                    
+                    Canvas渲染器(CanvasRenderer)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../renderers/">
+            
+                <a href="../renderers/#WebGLRenderer">
+            
+                    
+                    WebGL渲染器(WebGLRenderer)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../renderers/">
+            
+                <a href="../renderers/#WebGLRenderTarget">
+            
+                    
+                    WebGL渲染器目标(WebGLRenderTarget)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../renderers/">
+            
+                <a href="../renderers/#WebGLRenderTargetCube">
+            
+                    
+                    WebGL渲染器立方体目标(WebGLRenderTargetCube)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../shaders/">
+            
+                <a href="../shaders/">
+            
+                    
+                    渲染器 / 着色器
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" >
+            
+                <a target="_blank" href="https://www.cnblogs.com/w-wanglei/p/6790326.html">
+            
+                    
+                    定制着色器和渲染后期处理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../scenes/">
+            
+                <a href="../scenes/#top">
+            
+                    
+                    场景(Scenes)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../scenes/">
+            
+                <a href="../scenes/#Fog">
+            
+                    
+                    线性雾(Fog)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../scenes/">
+            
+                <a href="../scenes/#FogExp2">
+            
+                    
+                    指数雾(FogExp2)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../cameras/">
+            
+                <a href="../cameras/#top">
+            
+                    
+                    相机(Cameras)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../cameras/">
+            
+                <a href="../cameras/#CubeCamera">
+            
+                    
+                    立方体相机(CubeCamera)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../cameras/">
+            
+                <a href="../cameras/#OrthographicCamera">
+            
+                    
+                    正交相机(OrthographicCamera)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3" data-path="../cameras/">
+            
+                <a href="../cameras/#PerspectiveCamera">
+            
+                    
+                    透视相机(PerspectiveCamera)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.4" data-path="../cameras/">
+            
+                <a href="../cameras/#StereoCamera">
+            
+                    
+                    立体相机(StereoCamera)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.5" data-path="../cameras/">
+            
+                <a href="../cameras/#ArrayCamera">
+            
+                    
+                    摄像机阵列(ArrayCamera)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../lights/">
+            
+                <a href="../lights/#top">
+            
+                    
+                    光照
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="../lights/">
+            
+                <a href="../lights/#top">
+            
+                    
+                    光源的基类(Light)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="../lights/">
+            
+                <a href="../lights/#AmbientLight">
+            
+                    
+                    环境光(AmbientLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.3" data-path="../lights/">
+            
+                <a href="../lights/#DirectionalLight">
+            
+                    
+                    平行光(DirectionalLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.4" data-path="../lights/">
+            
+                <a href="../lights/#HemisphereLight">
+            
+                    
+                    半球形光源(HemisphereLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.5" data-path="../lights/">
+            
+                <a href="../lights/#PointLight">
+            
+                    
+                    点光源(PointLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.6" data-path="../lights/">
+            
+                <a href="../lights/#RectAreaLight">
+            
+                    
+                    区域灯光(RectAreaLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.7" data-path="../lights/">
+            
+                <a href="../lights/#SpotLight">
+            
+                    
+                    聚光灯(SpotLight)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../shadows/">
+            
+                <a href="../shadows/#top">
+            
+                    
+                    光照-阴影
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.11.1" data-path="../shadows/">
+            
+                <a href="../shadows/#LightShadow">
+            
+                    
+                    光照阴影 LightShadow
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.2" data-path="../shadows/">
+            
+                <a href="../shadows/#DirectionalLightShadow">
+            
+                    
+                    平行光阴影 DirectionalLightShadow
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.3" data-path="../shadows/">
+            
+                <a href="../shadows/#SpotLightShadow">
+            
+                    
+                    聚光灯影 SpotLightShadow
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../loders/">
+            
+                <a href="../loders/#top">
+            
+                    
+                    加载器(Loader)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../materials/">
+            
+                <a href="../materials/#top">
+            
+                    
+                    材质(Material)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.13.1" data-path="../materials/">
+            
+                <a href="../materials/#LineBasicMaterial">
+            
+                    
+                    基础线条材料(LineBasicMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.2" data-path="../materials/">
+            
+                <a href="../materials/#LineDashedMaterial">
+            
+                    
+                    虚线材料(LineDashedMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.3" data-path="../materials/">
+            
+                <a href="../materials/#MeshBasicMaterial">
+            
+                    
+                    基础网孔材料(MeshBasicMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.4" data-path="../materials/">
+            
+                <a href="../materials/#MeshDepthMaterial">
+            
+                    
+                    深度网孔材料(MeshDepthMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.5" data-path="../materials/">
+            
+                <a href="../materials/#MeshLambertMaterial">
+            
+                    
+                    兰伯特网孔材料(MeshLambertMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.6" data-path="../materials/">
+            
+                <a href="../materials/#MeshNormalMaterial">
+            
+                    
+                    法向量网孔材料(MeshNormalMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.7" data-path="../materials/">
+            
+                <a href="../materials/#MeshPhongMaterial">
+            
+                    
+                    Phong网孔材料(MeshPhongMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.8" data-path="../materials/">
+            
+                <a href="../materials/#MeshPhysicalMaterial">
+            
+                    
+                    物理网格材质(MeshPhysicalMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.9" data-path="../materials/">
+            
+                <a href="../materials/#MeshStandardMaterial">
+            
+                    
+                    标准网孔材料(MeshStandardMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.10" data-path="../materials/">
+            
+                <a href="../materials/#MeshToonMaterial">
+            
+                    
+                    卡通网格材质(MeshToonMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.11" data-path="../materials/">
+            
+                <a href="../materials/#PointsMaterial">
+            
+                    
+                    点材料(PointsMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.12" data-path="../materials/">
+            
+                <a href="../materials/#RawShaderMaterial">
+            
+                    
+                    原始着色器材料(RawShaderMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.13" data-path="../materials/">
+            
+                <a href="../materials/#ShaderMaterial">
+            
+                    
+                    着色器材料(ShaderMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.14" data-path="../materials/">
+            
+                <a href="../materials/#ShadowMaterial">
+            
+                    
+                    阴影材质(ShadowMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.15" data-path="../materials/">
+            
+                <a href="../materials/#SpriteMaterial">
+            
+                    
+                    精灵材料(SpriteMaterial)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../textures/">
+            
+                <a href="../textures/#top">
+            
+                    
+                    纹理贴图
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../objects/">
+            
+                <a href="../objects/#top">
+            
+                    
+                    对象/物体
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../geometries/">
+            
+                <a href="../geometries/">
+            
+                    
+                    几何模型(Geometry)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="../animations/">
+            
+                <a href="../animations/#top">
+            
+                    
+                    动画(Animation)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../animations/">
+            
+                <a href="../animations/#AnimationHandler">
+            
+                    
+                    动画处理器(AnimationHandler)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.2" data-path="../animations/">
+            
+                <a href="../animations/#KeyFrameAnimation">
+            
+                    
+                    关键帧动画(KeyFrameAnimation)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../audios/">
+            
+                <a href="../audios/">
+            
+                    
+                    音频
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="../helps/">
+            
+                <a href="../helps/#top">
+            
+                    
+                    辅助对象(Helper)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../maths/">
+            
+                <a href="../maths/">
+            
+                    
+                    数学模块
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21" data-path="../math-interpolants/">
+            
+                <a href="../math-interpolants/">
+            
+                    
+                    数学/插值
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    其他
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.22.1" data-path="ParticleSystem.html">
+            
+                <a href="ParticleSystem.html">
+            
+                    
+                    粒子系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" >
+            
+                <span>
+            
+                    
+                    控制器/工具
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../tools/DragControls.js.html">
+            
+                <a href="../tools/DragControls.js.html">
+            
+                    
+                    DragControls.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="../tools/TransformControls.js.html">
+            
+                <a href="../tools/TransformControls.js.html">
+            
+                    
+                    TransformControls.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3" data-path="../tools/PointerLockControls.js.html">
+            
+                <a href="../tools/PointerLockControls.js.html">
+            
+                    
+                    PointerLockControls.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.4" data-path="../tools/stats.js.html">
+            
+                <a href="../tools/stats.js.html">
+            
+                    
+                    stats.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5" data-path="../tools/ui.js.html">
+            
+                <a href="../tools/ui.js.html">
+            
+                    
+                    ui.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.6" data-path="../tools/Raycaster.html">
+            
+                <a href="../tools/Raycaster.html">
+            
+                    
+                    Raycaster
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" >
+            
+                <span>
+            
+                    
+                    实例用法
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../demos/Raycaster-demo-find-object.html">
+            
+                <a href="../demos/Raycaster-demo-find-object.html">
+            
+                    
+                    ThreeJS中的点击与交互——Raycaster的用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../example/">
+            
+                <a href="../example/">
+            
+                    
+                    示例
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../reference/">
+            
+                <a href="../reference/">
+            
+                    
+                    参考资料
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" >
+            
+                <a target="_blank" href="https://read.douban.com/ebook/7412854/">
+            
+                    
+                    Three.js入门指南
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" >
+            
+                <a target="_blank" href="http://www.myjscode.com/page/articleThree.html">
+            
+                    
+                    threejs教程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" >
+            
+                <a target="_blank" href="http://www.webgl3d.cn/">
+            
+                    
+                    Threejs中文网
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >粒子系统</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;">&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;</h1>
+<blockquote>
+<p> <a href="https://www.cnblogs.com/wanbo/p/6869175.html" target="_blank">https://www.cnblogs.com/wanbo/p/6869175.html</a></p>
+<p> <a href="https://blog.csdn.net/birdflyto206/article/details/52414326" target="_blank">https://blog.csdn.net/birdflyto206/article/details/52414326</a>
+ <a href="https://blog.csdn.net/Newpidian/article/details/51235948" target="_blank">https://blog.csdn.net/Newpidian/article/details/51235948</a>
+ <a href="https://blog.csdn.net/ALLENJIAO/article/details/79564008" target="_blank">https://blog.csdn.net/ALLENJIAO/article/details/79564008</a></p>
+</blockquote>
+<h2 id="&#x4EC0;&#x4E48;&#x662F;&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;">&#x4EC0;&#x4E48;&#x662F;&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;</h2>
+<p>&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;&#x6307;&#x7684;&#x662F;&#xFF0C;&#x901A;&#x8FC7;&#x521B;&#x5EFA;&#x5F88;&#x591A;&#x7EC6;&#x5C0F;&#x7684;&#x7269;&#x4F53;&#xFF0C;&#x7528;&#x6765;&#x6A21;&#x62DF;&#x96EA;&#x82B1;&#x6216;&#x8005;&#x96E8;&#x6EF4;&#x7684;&#x7CFB;&#x7EDF;&#x3002;</p>
+<h2 id="&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;">&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;</h2>
+<p>&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<ul>
+<li>&#x4F7F;&#x7528;<a href="https://github.com/mrdoob/three.js/blob/master/src/objects/Points.js" target="_blank">THREE.Points</a>&#x5B9E;&#x73B0; &#x3010;<a href="https://threejs.org/examples/webgl_buffergeometry_custom_attributes_particles.html" target="_blank">&#x793A;&#x4F8B;</a>&#x3011;</li>
+<li>&#x4F7F;&#x7528;THREE.PointCloud&#x5B9E;&#x73B0; &#x3010;<a href="../example/ParticleSystem/PointCloud.html">&#x793A;&#x4F8B;</a>&#x3011;</li>
+<li>&#x81EA;&#x5E26;&#x7684;&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;&#x9700;&#x8981;<a href="https://threejs.org/examples/js/GPUParticleSystem.js" target="_blank">GPUParticleSystem.js</a> &#x3010;<a href="https://threejs.org/examples/webgl_gpu_particle_system.html" target="_blank">&#x793A;&#x4F8B;</a>&#x3011;- &#x4F18;&#x9009;</li>
+<li>&#x4F7F;&#x7528;<a href="https://github.com/mrdoob/three.js/blob/dev/src/objects/Sprite.js" target="_blank">THREE.Sprite</a>&#x5B9E;&#x73B0;&#xFF0C;&#x6750;&#x8D28;<a href="https://github.com/mrdoob/three.js/blob/dev/src/materials/SpriteMaterial.js" target="_blank">SpriteMaterial</a> &#x3010;<a href="https://threejs.org/examples/webgl_points_sprites.html" target="_blank">&#x793A;&#x4F8B;</a> <a href="https://threejs.org/examples/webgl_sprites.html" target="_blank">&#x793A;&#x4F8B;2</a> <a href="https://threejs.org/examples/webgl_sprites_nodes.html" target="_blank">&#x793A;&#x4F8B;3</a> <a href="https://threejs.org/examples/css3d_sprites.html" target="_blank">&#x793A;&#x4F8B;4</a>&#x3011;</li>
+</ul>
+<p>&#x539F;&#x6587;&#xFF1A;<a href="https://blog.csdn.net/birdflyto206/article/details/52414326" target="_blank">https://blog.csdn.net/birdflyto206/article/details/52414326</a></p>
+<h3 id="threepoints">THREE.Points</h3>
+<h3 id="threepointcloud">THREE.PointCloud</h3>
+<h3 id="threeparticle">THREE.Particle</h3>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createParticles</span>(<span class="hljs-params"></span>)</span>{
+
+    <span class="hljs-keyword">var</span> meaterial = <span class="hljs-keyword">new</span> THREE.ParticleBasicMaterial();
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> x = <span class="hljs-number">-5</span> ; x &lt; <span class="hljs-number">5</span> ; x ++){
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> y = <span class="hljs-number">-5</span> ; y &lt; <span class="hljs-number">5</span> ; y ++){
+        <span class="hljs-comment">//&#x624B;&#x52A8;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7C92;&#x5B50;&#xFF0C;&#x53EA;&#x9700;&#x4F20;&#x9012;&#x4E00;&#x4E2A;&#x6750;&#x8D28;&#x5373;&#x53EF;&#x3002;&#x8FD8;&#x6750;&#x8D28;&#x53EF;&#x4EE5;&#x662F; ParticleBasicMaterial &#x6216;&#x8005; ParticleProgramMaterial&#x6750;&#x8D28;</span>
+        <span class="hljs-keyword">var</span> particle = <span class="hljs-keyword">new</span> THREE.Particle(material);
+            particle.position.set(x*<span class="hljs-number">10</span>,y*<span class="hljs-number">10</span>,<span class="hljs-number">0</span>);
+            scene.add(particle);            
+        }
+    }
+}
+</code></pre>
+<p>&#x5982;&#x679C;&#x5728;&#x521B;&#x5EFA;&#x7C92;&#x5B50;&#x7684;&#x65F6;&#x5019;&#x6CA1;&#x6709;&#x6307;&#x5B9A;&#x4EFB;&#x4F55;&#x5C5E;&#x6027;&#xFF0C;&#x90A3;&#x4E48;&#x7C92;&#x5B50;&#x5C31;&#x4F1A;&#x88AB;&#x6E32;&#x67D3;&#x6210;&#x4E8C;&#x7EF4;&#x7684;&#x767D;&#x8272;&#x5C0F;&#x65B9;&#x5757;&#x3002;</p>
+<p>&#x548C;THREE.Mesh&#x4E00;&#x6837;&#xFF0C;THREE.Particle &#x4E5F;&#x662F;&#x5BF9;THREE.Object3D&#x5BF9;&#x8C61;&#x7684;&#x6269;&#x5C55;&#x3002;&#x4E5F;&#x5C31;&#x8BF4;THREE.Mesh&#x7684;&#x5927;&#x90E8;&#x5206;&#x5C5E;&#x6027;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x5728;THREE.Particle&#x5BF9;&#x8C61;&#x4E0A;&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x4F7F;&#x7528;THREE.Particle&#x521B;&#x5EFA;&#x7C92;&#x5B50;&#xFF0C;&#x5FC5;&#x987B;&#x4F7F;&#x7528;CanvasRenderer&#x624D;&#x80FD;&#x6E32;&#x67D3;&#x51FA;&#x6765;&#x3002;</p>
+<h3 id="threeparticlesystem">THREE.ParticleSystem</h3>
+<p>&#x5982;&#x679C;&#x4F7F;&#x7528;WebGLRenderer&#x6E32;&#x67D3;&#x5668;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x9996;&#x5148;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;THREE.ParticleSystem&#x5BF9;&#x8C61;&#xFF0C;&#x7136;&#x540E;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x6765;&#x521B;&#x5EFA;&#x7C92;&#x5B50;&#x3002;</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createParticles</span>(<span class="hljs-params"></span>)</span>{
+
+    <span class="hljs-keyword">var</span> geo = <span class="hljs-keyword">new</span> THREE.Geometry();
+    <span class="hljs-keyword">var</span> material = <span class="hljs-keyword">new</span> THREE.ParticleBasicMaterial({size:<span class="hljs-number">4</span>,vertexColors:<span class="hljs-literal">true</span>,color:<span class="hljs-number">0xffffff</span>});
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> x = <span class="hljs-number">-5</span>;x&lt;<span class="hljs-number">5</span>;x++){
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> y= <span class="hljs-number">-5</span>;y&lt;<span class="hljs-number">5</span>;y++){
+            <span class="hljs-comment">//&#x4E3A;&#x6BCF;&#x4E00;&#x4E2A;&#x7C92;&#x5B50;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x9876;&#x70B9;&#xFF0C;&#x5E76;&#x6DFB;&#x52A0;&#x5230;&#x4E00;&#x4E2A;&#x51E0;&#x4F55;&#x4F53;&#x4E2D;</span>
+            <span class="hljs-keyword">var</span> particle = <span class="hljs-keyword">new</span> THREE.Vector3(x*<span class="hljs-number">10</span>,y*<span class="hljs-number">10</span>,<span class="hljs-number">0</span>);
+            geo.geometry.push(particle);
+
+            geo.colors.push(<span class="hljs-keyword">new</span> THREE.Color(<span class="hljs-built_in">Math</span>.random()*<span class="hljs-number">0x00ffff</span>));
+
+        }
+    }
+
+    <span class="hljs-keyword">var</span> system = <span class="hljs-keyword">new</span> THREE.ParticleSystem(geo,material);
+    scene.add(system);
+
+}
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createParticles</span>(<span class="hljs-params">size,transparent,opacity,vertexColors,sizeAttenuation,color</span>)</span>{
+
+    <span class="hljs-keyword">var</span> geom = <span class="hljs-keyword">new</span> THREE.Geometry();
+    <span class="hljs-keyword">var</span> material = <span class="hljs-keyword">new</span> THREE.ParticleBasicMaterial({
+        size:size,
+        transparent:transparent,
+        opacity:opacity,
+        vertexColors:vertexColors;
+        sizeAttenuation:sizeAttenuation,
+        color:color
+    });
+
+    <span class="hljs-keyword">var</span> range = <span class="hljs-number">500</span>;
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;i&lt;<span class="hljs-number">15000</span>;i++){
+        <span class="hljs-keyword">var</span> particle = <span class="hljs-keyword">new</span> THREE.Vector3(
+            <span class="hljs-built_in">Math</span>.random() * range - range / <span class="hljs-number">2</span>,
+            <span class="hljs-built_in">Math</span>.random() * range - range / <span class="hljs-number">2</span>,
+            <span class="hljs-built_in">Math</span>.random() * range - range / <span class="hljs-number">2</span>,
+        );
+
+        geom.vertices.push(particle);
+        <span class="hljs-keyword">var</span> color = <span class="hljs-keyword">new</span> THREE.Color(<span class="hljs-number">0x00ff00</span>);
+        color.setHSL(color.getHSL().h,color.getHSL().s,<span class="hljs-built_in">Math</span>.random()*color.getHSL()*l);
+
+        <span class="hljs-comment">//geom.colors &#x6570;&#x7EC4;&#x53EA;&#x6709;&#x5728; vertexColors&#x8BBE;&#x7F6E;&#x4E3A;true&#x7684;&#x65F6;&#x5019;&#x624D;&#x4F1A;&#x6709;&#x7528;&#xFF0C;&#x8FD9;&#x6837;&#x6BCF;&#x4E2A;&#x9876;&#x70B9;&#x53EF;&#x4EE5;&#x7740;&#x4E0D;&#x540C;&#x7684;&#x989C;&#x8272;&#x3002;</span>
+        geom.colors.push(color);
+    }
+
+    system = <span class="hljs-keyword">new</span> THREE.ParticleSystem(geom,material);
+    scene.add(system);
+}
+</code></pre>
+<p><code>ParticleBasicMaterial</code>&#x5BF9;&#x8C61;&#x7684;&#x5C5E;&#x6027;&#xFF1A;</p>
+<ul>
+<li>color&#xFF1A;ParticleSystem&#x5BF9;&#x8C61;&#x6240;&#x6709;&#x7C92;&#x5B50;&#x7684;&#x989C;&#x8272;&#x3002;&#x5982;&#x679C;vertexColors&#x5C5E;&#x6027;&#x4E3A;true&#xFF0C;&#x800C;&#x4E14;&#x4E5F;&#x6307;&#x5B9A;&#x4E86;&#x51E0;&#x4F55;&#x4F53;&#x7684;colors&#x5C5E;&#x6027;&#xFF0C;&#x5219;&#x8BE5;&#x5C5E;&#x6027;&#x4F1A;&#x88AB;&#x5FFD;&#x7565;&#x3002;&#x9ED8;&#x8BA4;&#x662F;0xffffff </li>
+<li>map&#xFF1A;&#x53EF;&#x4EE5;&#x5728;&#x7C92;&#x5B50;&#x4E0A;&#x5E94;&#x7528;&#x67D0;&#x79CD;&#x6750;&#x8D28;&#x3002; </li>
+<li>size&#xFF1A;&#x6307;&#x5B9A;&#x7C92;&#x5B50;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A;1. </li>
+<li>sizeAttenuation&#xFF1A;&#x8BBE;&#x7F6E;&#x4E3A;false&#xFF0C;&#x5219;&#x6240;&#x6709;&#x7684;&#x7C92;&#x5B50;&#x62E5;&#x6709;&#x76F8;&#x540C;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x65E0;&#x8BBA;&#x8DDD;&#x79BB;&#x76F8;&#x673A;&#x7684;&#x8FDC;&#x8FD1;&#x3002;&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x4E3A;true&#xFF0C;&#x5219;&#x6839;&#x636E;&#x8DDD;&#x79BB;&#x76F8;&#x673A;&#x7684;&#x4E0D;&#x540C;&#x8DDD;&#x79BB;&#x62E5;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A;true&#x3002; </li>
+<li>vertexColors&#xFF1A;&#x901A;&#x5E38;ParticleSystem&#x4E2D;&#x7684;&#x7C92;&#x5B50;&#x5177;&#x6709;&#x76F8;&#x540C;&#x7684;&#x989C;&#x8272;&#xFF0C;&#x5982;&#x679C;&#x8BE5;&#x5C5E;&#x6027;&#x4E3A;true&#xFF0C;&#x4E14;&#x51E0;&#x4F55;&#x4F53;&#x4E5F;&#x8BBE;&#x7F6E;&#x4E86;colors&#x5C5E;&#x6027;&#xFF0C;&#x90A3;&#x5C31;&#x4F7F;&#x7528;&#x8BE5;&#x989C;&#x8272;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x503C;&#x4E3A;&#x7C92;&#x5B50;&#x7740;&#x8272;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A;false&#x3002; </li>
+<li>opacity&#xFF1A;&#x540C;transparent&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#x3002;&#x8BBE;&#x7F6E;&#x7C92;&#x5B50;&#x7684;&#x900F;&#x660E;&#x5EA6;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A;1&#xFF08;&#x4E0D;&#x900F;&#x660E;&#xFF09;</li>
+<li>transparent&#xFF1A;&#x8BBE;&#x7F6E;&#x4E3A;true&#xFF0C;&#x5219;&#x7C92;&#x5B50;&#x5728;&#x6E32;&#x67D3;&#x65F6;&#x6839;&#x636E;opacity&#x8BBE;&#x7F6E;&#x7684;&#x503C;&#x8FDB;&#x884C;&#x6E32;&#x67D3;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A;false&#x3002; </li>
+<li>blending&#xFF1A;&#x6E32;&#x67D3;&#x65F6;&#x7C92;&#x5B50;&#x7684;&#x878D;&#x5408;&#x6A21;&#x5F0F;&#x3002; </li>
+<li>fog&#xFF1A;&#x7C92;&#x5B50;&#x662F;&#x5426;&#x53D7;&#x573A;&#x666F;&#x4E2D;&#x7684;&#x96FE;&#x5316;&#x6548;&#x679C;&#x7684;&#x5F71;&#x54CD;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A;true&#x3002;</li>
+</ul>
+<p>&#x76EE;&#x524D;&#xFF0C;&#x6211;&#x4EEC;&#x6E32;&#x67D3;&#x7684;&#x7C92;&#x5B50;&#x90FD;&#x662F;&#x6B63;&#x65B9;&#x5F62;&#x7684;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x4E24;&#x79CD;&#x65B9;&#x6CD5;&#x6765;&#x683C;&#x5F0F;&#x5316;&#x7C92;&#x5B50;&#x3002; 
+1.&#x5E94;&#x7528;ParticleCanvasMaterial&#x5BF9;&#x8C61;&#xFF0C;&#x5C06;HTML5&#x753B;&#x5E03;&#x4E0A;&#x7ED8;&#x5236;&#x7684;&#x5185;&#x5BB9;&#x4F5C;&#x4E3A;&#x7C92;&#x5B50;&#x7684;&#x7EB9;&#x7406;&#x3002; 
+2.&#x4F7F;&#x7528;ParticleBasicMaterial&#x7684;map(&#x8D34;&#x56FE;)&#x5C5E;&#x6027;&#x3002;</p>
+<h4 id="&#x4F7F;&#x7528;html5&#x753B;&#x5E03;&#x683C;&#x5F0F;&#x5316;&#x7C92;&#x5B50;">&#x4F7F;&#x7528;HTML5&#x753B;&#x5E03;&#x683C;&#x5F0F;&#x5316;&#x7C92;&#x5B50;</h4>
+<p><strong>1.&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;&#x7684;&#x662F;CanvasRenderer&#x6E32;&#x67D3;&#x5668;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x5728;ParticleCanvasMaterial&#x5BF9;&#x8C61;&#x4E2D;&#x76F4;&#x63A5;&#x5F15;&#x7528;HTML5&#x753B;&#x5E03;&#x3002;</strong></p>
+<p><code>ParticleCanvasMaterial</code> &#x8BE5;&#x6750;&#x8D28;&#x662F;&#x4E13;&#x95E8;&#x4E3A;<code>CanvasRenderer</code>&#x521B;&#x5EFA;&#x7684;&#xFF0C;&#x800C;&#x4E14;&#x53EA;&#x80FD;&#x7528;&#x4E8E;&#x8FD9;&#x79CD;&#x6E32;&#x67D3;&#x5668;&#x3002;</p>
+<p>&#x8BE5;&#x6750;&#x8D28;&#x7684;&#x5C5E;&#x6027;&#xFF1A;</p>
+<ul>
+<li>color&#xFF1A;&#x7C92;&#x5B50;&#x7684;&#x989C;&#x8272;&#x3002;&#x6839;&#x636E;&#x7279;&#x5B9A;&#x7684;&#x878D;&#x5408;&#x6A21;&#x5F0F;&#xFF0C;&#x53EF;&#x4EE5;&#x5F71;&#x54CD;&#x753B;&#x5E03;&#x7684;&#x989C;&#x8272;&#x3002; </li>
+<li>program&#xFF1A;&#x4EE5;&#x753B;&#x5E03;&#x4E0A;&#x4E0B;&#x6587;&#x4E3A;&#x53C2;&#x6570;&#x7684;&#x51FD;&#x6570;&#x3002;&#x8BE5;&#x51FD;&#x6570;&#x5728;&#x7C92;&#x5B50;&#x6E32;&#x67D3;&#x65F6;&#x8C03;&#x7528;&#x3002;&#x8C03;&#x7528;&#x8BE5;&#x51FD;&#x6570;&#x5C06;&#x5728;&#x753B;&#x5E03;&#x4E0A;&#x4E0B;&#x6587;&#x4E2D;&#x4EA7;&#x751F;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;&#xFF0C;&#x8BE5;&#x8F93;&#x51FA;&#x5C06;&#x4F1A;&#x4EE5;&#x7C92;&#x5B50;&#x7684;&#x5F62;&#x6001;&#x663E;&#x793A;&#x51FA;&#x6765;&#x3002; </li>
+<li>opacity&#xFF1A;&#x9ED8;&#x8BA4;1&#xFF0C;&#x4E0D;&#x900F;&#x660E;&#x3002; </li>
+<li>transparent&#xFF1A;&#x7C92;&#x5B50;&#x662F;&#x5426;&#x900F;&#x660E;&#xFF0C;&#x540C;opacity&#x4E00;&#x8D77;&#x4F7F;&#x7528; &#x3002; </li>
+<li>blending&#xFF1A;&#x6E32;&#x67D3;&#x65F6;&#x7C92;&#x5B50;&#x7684;&#x878D;&#x5408;&#x6A21;&#x5F0F;&#x3002;</li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createParticles</span>(<span class="hljs-params"></span>)</span>{
+
+    <span class="hljs-keyword">var</span> material = <span class="hljs-keyword">new</span> THREE.ParticleCanvasMaterial({
+        program:draw,
+        color:<span class="hljs-number">0xffffff</span>
+    });
+
+    <span class="hljs-keyword">var</span> range = <span class="hljs-number">500</span>;
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span> ;i&lt;<span class="hljs-number">1000</span>;i++){
+        <span class="hljs-comment">//&#x7531;&#x4E8E;&#x4F7F;&#x7528;&#x7684;&#x662F;CanvasRenderer&#xFF0C;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;THREE.Particle&#x521B;&#x5EFA;&#x7C92;&#x5B50;&#x3002;</span>
+        <span class="hljs-keyword">var</span> particle = <span class="hljs-keyword">new</span> THREE.Particle(material);
+        particle.position.set(
+            <span class="hljs-built_in">Math</span>.random() * range -range /<span class="hljs-number">2</span>,
+            <span class="hljs-built_in">Math</span>.random() * range -range /<span class="hljs-number">2</span>,
+            <span class="hljs-built_in">Math</span>.random() * range -range /<span class="hljs-number">2</span>
+        );
+
+        particle.scale = <span class="hljs-number">0.1</span>;
+        particle.rotation.z = <span class="hljs-built_in">Math</span>.PI;
+        scene.add(particle);
+    }
+}
+
+<span class="hljs-comment">//&#x5728;&#x8BE5;&#x51FD;&#x6570;&#x4E2D;&#x7ED8;&#x5236;&#x7684;&#x7ED3;&#x679C;&#x5C06;&#x4F5C;&#x4E3A;&#x7C92;&#x5B50;&#x7684;&#x5916;&#x5F62;</span>
+<span class="hljs-keyword">var</span> draw = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">ctx</span>)</span>{
+
+    ctx.fillStyle = <span class="hljs-string">&apos;orange&apos;</span>;
+
+    ...
+
+    ctx.beginPath();
+    ctx.fill();
+}
+</code></pre>
+<p><strong>2.&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;&#x7684;WebGLRenderer&#x6E32;&#x67D3;&#x5668;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x91C7;&#x53D6;&#x989D;&#x5916;&#x7684;&#x4E00;&#x4E9B;&#x6B65;&#x9AA4;&#xFF0C;&#x624D;&#x80FD;&#x5728;&#x683C;&#x5F0F;&#x5316;&#x7C92;&#x5B50;&#x65F6;&#x4F7F;&#x7528;HTML5&#x753B;&#x5E03;&#x3002;</strong></p>
+<p>ParticleCanvasMaterial&#x5728;WebGLRenderer&#x4E2D;&#x662F;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x7684;&#xFF0C;&#x53EA;&#x80FD;&#x4F7F;&#x7528;ParticleBasicMaterial&#x6765;&#x8FBE;&#x5230;&#x76F8;&#x540C;&#x7684;&#x76EE;&#x7684;&#xFF08;&#x5C06;HTML5&#x753B;&#x5E03;&#x4E0A;&#x7684;&#x753B;&#x7684;&#x5185;&#x5BB9;&#x4F5C;&#x4E3A;&#x7C92;&#x5B50;&#x7684;&#x5916;&#x5F62;&#xFF09;&#x3002;</p>
+<p>ParticleBasicMaterial&#x7684;map&#x5C5E;&#x6027;&#x53EF;&#x4EE5;&#x4E3A;&#x7C92;&#x5B50;&#x52A0;&#x8F7D;&#x7EB9;&#x7406;&#xFF0C;&#x8BE5;&#x7EB9;&#x7406;&#x5728;Three.js&#x4E2D;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;HTML5&#x753B;&#x5E03;&#x7684;&#x8F93;&#x51FA;&#x3002;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> getTexture = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+    <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&apos;canvas&apos;</span>);
+    canvas.width = <span class="hljs-number">32</span>;
+    canvas.height = <span class="hljs-number">32</span>;
+
+    <span class="hljs-keyword">var</span> ctx = canvas.getContext(<span class="hljs-string">&apos;2d&apos;</span>);
+
+    <span class="hljs-comment">//draw the ghost</span>
+    ...
+
+    ctx.fill()l
+    <span class="hljs-keyword">var</span> texture = <span class="hljs-keyword">new</span> THREE.Texture(canvas);
+    texture.needsUpdate = <span class="hljs-literal">true</span>;
+
+    <span class="hljs-keyword">return</span> texture;
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createParticles</span>(<span class="hljs-params">size,transparent,opacity,sizeAttenuation,color</span>)</span>{
+
+    <span class="hljs-keyword">var</span> geom = <span class="hljs-keyword">new</span> THREE.Geometry();
+
+    <span class="hljs-keyword">var</span> material =  <span class="hljs-keyword">new</span> THREE.ParticleBasicMaterial({
+        size:size,
+        transparent:transparent,
+        opacity:opacity,
+        map:getTexture(),
+        sizeAttenuation:sizeAttenuation,
+        color:color
+    });
+
+    <span class="hljs-keyword">var</span> range = <span class="hljs-number">500</span>;
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span> ;i &lt;<span class="hljs-number">5000</span>;i++){
+        <span class="hljs-keyword">var</span> particle = <span class="hljs-keyword">new</span> THREE.Vector3(
+            <span class="hljs-built_in">Math</span>.random()*range - range/<span class="hljs-number">2</span>,
+            <span class="hljs-built_in">Math</span>.random()*range - range/<span class="hljs-number">2</span>,
+            <span class="hljs-built_in">Math</span>.random()*range - range/<span class="hljs-number">2</span>
+        );
+
+        geom.vertices.push(particle);
+    }
+
+    system = <span class="hljs-keyword">new</span> THREE.ParticleSystem(geom,material);
+    <span class="hljs-comment">//&#x786E;&#x4FDD;&#x7C92;&#x5B50;&#x5728;&#x6E32;&#x67D3;&#x524D;&#x6309;&#x7167;z&#x8F74;&#x6392;&#x597D;&#x5E8F;&#x3002;&#x7EA0;&#x6B63;&#x6E32;&#x67D3;&#x9519;&#x8BEF;&#x7528;&#x7684;&#x3002;</span>
+    system.sortParticles = <span class="hljs-literal">true</span>;
+    system.name = <span class="hljs-string">&apos;particles&apos;</span>;
+    scene.add(system);
+}
+</code></pre>
+<p>ParticleSystem&#x7684;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;&#x662F;&#x53EB;&#x505A; ParticleSystem.FrustrumCulled&#x5C5E;&#x6027;&#xFF0C;&#x5982;&#x679C;&#x8BE5;&#x5C5E;&#x6027;&#x8BBE;&#x7F6E;&#x4E3A;true&#xFF0C;&#x5219;&#x843D;&#x5728;&#x76F8;&#x673A;&#x53EF;&#x89C1;&#x8303;&#x56F4;&#x4E4B;&#x5916;&#x7684;&#x7C92;&#x5B50;&#x5C06;&#x4E0D;&#x4F1A;&#x88AB;&#x7ED8;&#x5236;&#x3002;&#x5FC5;&#x8981;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;&#x8BE5;&#x9879;&#x8BBE;&#x7F6E;&#x53EF;&#x4EE5;&#x63D0;&#x9AD8;&#x6548;&#x7387;&#x548C;&#x5E27;&#x9891;&#x3002;</p>
+<p>&#x4F7F;&#x7528;&#x7EB9;&#x7406;&#x683C;&#x5F0F;&#x5316;&#x7C92;&#x5B50;&#xFF1A;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> texture = THREE.ImageUtils.loadTexture(<span class="hljs-string">&quot;../assets/textures/particles/raindrop-2.png&quot;</span>);
+
+<span class="hljs-keyword">var</span> material = <span class="hljs-keyword">new</span> THREE.ParticleBasicMaterial({
+    size:<span class="hljs-number">3</span>,
+    transparent:<span class="hljs-literal">true</span>,
+    opacity:<span class="hljs-literal">true</span>,
+    map:texture,
+    blending&#xFF1A;THREE.AdditiveBlending,<span class="hljs-comment">//&#x753B;&#x65B0;&#x50CF;&#x7D20;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x80CC;&#x666F;&#x50CF;&#x7D20;&#x7684;&#x989C;&#x8272;&#x4F1A;&#x88AB;&#x6DFB;&#x52A0;&#x5230;&#x65B0;&#x50CF;&#x7D20;&#x4E0A;&#x3002;&#x56E0;&#x4E3A;&#x96E8;&#x6EF4;&#x7684;&#x80CC;&#x666F;&#x8272;&#x662F;&#x9ED1;&#x8272;&#x7684;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x4E0D;&#x4F1A;&#x663E;&#x793A;&#x51FA;&#x6765;&#x3002;&#x53E6;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#xFF0C;&#x662F;&#x5C06;&#x7EB9;&#x7406;&#x4E2D;&#x7684;&#x9ED1;&#x8272;&#x5B9A;&#x4E49;&#x6210;&#x900F;&#x660E;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x79CD;&#x7EC4;&#x5408;&#x5728;&#x7C92;&#x5B50;&#x548C;WebGL&#x4E2D;&#x4E0D;&#x8D77;&#x4F5C;&#x7528;&#x3002;</span>
+    sizeAttenuation:<span class="hljs-literal">true</span>,
+    color:<span class="hljs-number">0xffffff</span>
+});
+</code></pre>
+<p>&#x521B;&#x5EFA;&#x7C92;&#x5B50;&#xFF0C;&#x524D;&#x9762;&#x6211;&#x4EEC;&#x662F;&#x8BA9;&#x6574;&#x4E2A;&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;&#x65CB;&#x8F6C;&#xFF0C;&#x8FD9;&#x6B21;&#x6211;&#x4EEC;&#x8BA9;&#x6BCF;&#x4E2A;&#x7C92;&#x5B50;&#x8FD0;&#x52A8;&#x8D77;&#x6765;&#x3002;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> range = <span class="hljs-number">40</span>;
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1500</span>;i++){
+    <span class="hljs-keyword">var</span> particle = <span class="hljs-keyword">new</span> THREE.Vector3(
+        <span class="hljs-built_in">Math</span>.random() * range - range / <span class="hljs-number">2</span>,
+        <span class="hljs-built_in">Math</span>.random() * range * <span class="hljs-number">1.5</span>,
+        <span class="hljs-built_in">Math</span>.random() * range - range / <span class="hljs-number">2</span>
+    );
+
+    <span class="hljs-comment">//&#x4E3A;&#x7C92;&#x5B50;&#x6DFB;&#x52A0;&#x4E24;&#x4E2A;&#x5C5E;&#x6027;</span>
+    particle.velocityY = <span class="hljs-number">0.1</span> + <span class="hljs-built_in">Math</span>.random() / <span class="hljs-number">5</span>;<span class="hljs-comment">//&#x7C92;&#x5B50;&#x4EE5;&#x591A;&#x5FEB;&#x7684;&#x901F;&#x5EA6;&#x6A2A;&#x5411;&#x79FB;&#x52A8;</span>
+    particle.velocityX = (<span class="hljs-built_in">Math</span>.random() - <span class="hljs-number">0.5</span>) / <span class="hljs-number">3</span>;<span class="hljs-comment">//&#x7C92;&#x5B50;&#x4EE5;&#x591A;&#x5FEB;&#x7684;&#x901F;&#x5EA6;&#x4E0B;&#x964D;</span>
+
+    geom2.vertices.push(particle);
+}
+</code></pre>
+<p>&#x5E27;&#x5FAA;&#x73AF;&#x4E2D;&#x6539;&#x53D8;&#x7C92;&#x5B50;&#x7684;&#x4F4D;&#x7F6E;:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> vertices = system2.geometry.vertices;
+vertices.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>)</span>{
+
+    v.y = v.y - (v.velocityY);
+    v.x = v.x - (v.velocityX);
+
+    <span class="hljs-comment">//&#x8BA9;&#x7C92;&#x5B50;&#x5728;&#x6307;&#x5B9A;&#x7684;&#x533A;&#x57DF;&#x8FD0;&#x52A8;</span>
+    <span class="hljs-keyword">if</span>(v.y &lt;= <span class="hljs-number">0</span> ) 
+        v.y = <span class="hljs-number">60</span>;
+
+    <span class="hljs-keyword">if</span>(v.x &lt;= <span class="hljs-number">-20</span> || v.x &gt;=<span class="hljs-number">20</span>)
+        v.velocityX = v.velocityX * (<span class="hljs-number">-1</span>);
+
+});
+</code></pre>
+<p>&#x4F7F;&#x7528;&#x4E94;&#x79CD;&#x4E0D;&#x540C;&#x7684;&#x56FE;&#x7247;&#x3002;</p>
+<p><strong>ParticleSystem&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x79CD;&#x6750;&#x8D28;&#xFF0C; &#x5982;&#x679C;&#x8981;&#x7528;&#x591A;&#x4E2A;&#x6750;&#x8D28;&#xFF0C;&#x5219;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x591A;&#x4E2A;&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;&#x3002;</strong></p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createParticles</span>(<span class="hljs-params">size,transparent,opacity,sizeAttenuation,color</span>)</span>{
+
+    <span class="hljs-keyword">var</span> texture1 = THREE.ImageUtils.loadTexture(<span class="hljs-string">&apos;../assets/textures/particles/snowflake1.png&apos;</span>);
+    <span class="hljs-keyword">var</span> texture2 = THREE.ImageUtils.loadTexture(<span class="hljs-string">&apos;../assets/textures/particles/snowflake2.png&apos;</span>);
+    <span class="hljs-keyword">var</span> texture3 = THREE.ImageUtils.loadTexture(<span class="hljs-string">&apos;../assets/textures/particles/snowflake3.png&apos;</span>);
+    <span class="hljs-keyword">var</span> texture4 = THREE.ImageUtils.loadTexture(<span class="hljs-string">&apos;../assets/textures/particles/snowflake4.png&apos;</span>);
+
+    scene.add(createSystem(<span class="hljs-string">&apos;system1&apos;</span>,texture1,size,transparent,opacity,sizeAttenuation,color));
+    scene.add(createSystem(<span class="hljs-string">&apos;system2&apos;</span>,texture2,size,transparent,opacity,sizeAttenuation,color));
+    scene.add(createSystem(<span class="hljs-string">&apos;system3&apos;</span>,texture3,size,transparent,opacity,sizeAttenuation,color));
+    scene.add(createSystem(<span class="hljs-string">&apos;system4&apos;</span>,texture4,size,transparent,opacity,sizeAttenuation,color));
+
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createSystem</span>(<span class="hljs-params">name,texture,size,transparent,opacity,sizeAttenuation,color</span>)</span>{
+
+    <span class="hljs-keyword">var</span> geom = <span class="hljs-keyword">new</span> THREE.Geometry();
+
+    <span class="hljs-keyword">var</span> color = <span class="hljs-keyword">new</span> THREE.Color(color);
+    color.setHSL(color.getHSL().h,color.getHSL().s,color.getHSL().l*(<span class="hljs-built_in">Math</span>.random()));
+
+    <span class="hljs-keyword">var</span> material = <span class="hljs-keyword">new</span> THREE.ParticleBasicMaterial({
+        size:size,
+        transparent:transparent,
+        opacity:opacity,
+        map:texture,
+        blending&#xFF1A;THREE.AdditiveBlending,
+        depthWrite:<span class="hljs-literal">false</span>,<span class="hljs-comment">//&#x51B3;&#x5B9A;&#x5F53;&#x524D;&#x5BF9;&#x8C61;&#x662F;&#x5426;&#x5F71;&#x54CD;&#x6DF1;&#x5EA6;&#x7F13;&#x5B58;&#x3002;&#x4E3A;false&#xFF0C;&#x4FDD;&#x8BC1;&#x5404;&#x4E2A;&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;&#x4E4B;&#x95F4;&#x4E92;&#x8865;&#x5F71;&#x54CD;&#x3002;</span>
+        sizeAttenuation:sizeAttenuation,
+        color:color
+    });
+
+    <span class="hljs-keyword">var</span> range = <span class="hljs-number">40</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span> ;i&lt;<span class="hljs-number">50</span>;i++){
+        <span class="hljs-keyword">var</span> particle = <span class="hljs-keyword">new</span> THREE.Vector3(
+            <span class="hljs-built_in">Math</span>.random() * range - range / <span class="hljs-number">2</span>,
+            <span class="hljs-built_in">Math</span>.random() * range * <span class="hljs-number">1.5</span> ,
+            <span class="hljs-built_in">Math</span>.random() * range - range / <span class="hljs-number">2</span>
+        );
+
+        particle.velocityY = <span class="hljs-number">0.1</span> + <span class="hljs-built_in">Math</span>.random() / <span class="hljs-number">5</span>;
+        particle.velocityX = (<span class="hljs-built_in">Math</span>.random() - <span class="hljs-number">0.5</span>) / <span class="hljs-number">3</span>;
+        particle.velocityZ = (<span class="hljs-built_in">Math</span>.random() - <span class="hljs-number">0.5</span>) / <span class="hljs-number">3</span>;
+
+        geom.vertices.push(particle);
+    }
+
+    <span class="hljs-keyword">var</span> system = <span class="hljs-keyword">new</span> THREE.ParticleSystem(geom,material);
+    system.name = name;
+    system.sortParticles = <span class="hljs-literal">true</span>;<span class="hljs-comment">//&#x5728;&#x6E32;&#x67D3;&#x4E4B;&#x524D;&#x6CBF;&#x7740;z&#x8F74;&#x6392;&#x597D;&#x5E8F;</span>
+
+    <span class="hljs-keyword">return</span> system;
+}
+</code></pre>
+<p>&#x5E27;&#x5FAA;&#x73AF;&#xFF1A;</p>
+<pre><code class="lang-js">scene.children.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">child</span>)</span>{
+
+    <span class="hljs-keyword">if</span>(child <span class="hljs-keyword">instanceof</span> THREE.ParticleSystem){
+        <span class="hljs-keyword">var</span> vertices = child.geometry.vertices;
+
+        vertices.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>)</span>{
+            v.y = v.y - (v.velocityY);
+            v.x = v.x - (v.velocityX);
+            v.z = v.z - (v.velocityZ);
+        });
+
+        <span class="hljs-keyword">if</span>(v.y &lt;= <span class="hljs-number">0</span>)v.y = <span class="hljs-number">60</span>;
+
+        <span class="hljs-keyword">if</span>(v.x&lt;=<span class="hljs-number">-20</span> || v.x &gt;=<span class="hljs-number">20</span>)
+            v.velocityX = v.velocityX * (<span class="hljs-number">-1</span>);
+
+        <span class="hljs-keyword">if</span>(v.z &lt;= <span class="hljs-number">-10</span> || v.z &gt;=<span class="hljs-number">20</span>)
+            v.velocityZ = v.velocityZ * (<span class="hljs-number">-1</span>);
+    }
+});
+</code></pre>
+<p>&#x8BE5;&#x65B9;&#x6CD5;&#x7684;&#x9650;&#x5236;&#xFF1A;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x8981;&#x7684;&#x7EB9;&#x7406;&#x79CD;&#x7C7B;&#x8D8A;&#x591A;&#xFF0C;&#x5373;&#x9700;&#x8981;&#x521B;&#x5EFA;&#x548C;&#x7BA1;&#x7406;&#x66F4;&#x591A;&#x7684;&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;&#x3002;</p>
+<p>THREE.Particle &#x4E0D;&#x80FD;&#x548C;WebGLRenderer&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#x3002;</p>
+<p>CanvasRenderer &#x6E32;&#x67D3;&#x5668;&#x6709;&#x6027;&#x80FD;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
+<h4 id="threesprite-&#x7CBE;&#x7075;&#x7C7B;">THREE.Sprite &#x7CBE;&#x7075;&#x7C7B;</h4>
+<p>&#x4F5C;&#x7528;&#xFF1A; </p>
+<ul>
+<li>1.&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;&#x5C4F;&#x5E55;&#x5750;&#x6807;&#x79FB;&#x52A8;&#x3001;&#x5B9A;&#x4F4D;&#x548C;&#x7F29;&#x653E;&#x7684;&#x5BF9;&#x8C61;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x5B83;&#x6765;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5E73;&#x89C6;&#x663E;&#x793A;&#x5668;(HUD)&#xFF0C;&#x5C31;&#x50CF;&#x5728;&#x4E09;&#x7EF4;&#x573A;&#x666F;&#x4E0A;&#x8499;&#x4E86;&#x4E00;&#x5C42;&#x3002; </li>
+<li>2.&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7C7B;&#x4F3C;&#x7C92;&#x5B50;&#x7684;&#x3001;&#x53EF;&#x4EE5;&#x5728;&#x4E09;&#x7EF4;&#x7A7A;&#x95F4;&#x79FB;&#x52A8;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x7C7B;&#x4F3C;&#x4F7F;&#x7528;CanvasRenderer&#x7684;THREE.Particle&#x3002;&#x4E09;&#x7EF4;&#x573A;&#x666F;&#x4E2D;&#x7684;&#x7CBE;&#x7075;&#x6709;&#x65F6;&#x5019;&#x4E5F;&#x79F0;&#x4E3A;&#x5E7F;&#x544A;&#x724C;&#x3002;</li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTexture</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-comment">//&#x52A0;&#x8F7D;&#x5305;&#x542B;5&#x5F20;&#x4E0D;&#x540C;&#x989C;&#x8272;&#x7684;&#x7CBE;&#x7075;&#x56FE;&#x7247;</span>
+    <span class="hljs-keyword">var</span> texture = <span class="hljs-keyword">new</span> THREE.ImageUtils.loadTexture(<span class="hljs-string">&apos;../assets/textures/particles/sprite-sheet.png&apos;</span>);
+
+    <span class="hljs-keyword">return</span> texture;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createSprite</span>(<span class="hljs-params">size,transparent,opacity,color,spriteNumber</span>)</span>{
+
+    <span class="hljs-keyword">var</span> spriteMaterial = <span class="hljs-keyword">new</span> THREE.SpriteMaterial({
+        opacity:opacity,
+        color:color,
+        transparent:transparent,
+        useScreenCoordinates:<span class="hljs-literal">true</span>,
+        map:getTexture()
+    });
+
+    <span class="hljs-comment">//uvOffset&#x3001;uvScale &#x6B63;&#x786E;&#x9009;&#x62E9;&#x8981;&#x663E;&#x793A;&#x7684;&#x7CBE;&#x7075;&#x56FE;&#x5F62;</span>
+    spriteMaterial.uvOffset.set(<span class="hljs-number">1</span>/<span class="hljs-number">5</span> * spriteNumber ,<span class="hljs-number">0</span>);<span class="hljs-comment">//&#x51B3;&#x5B9A;&#x7EB9;&#x7406;&#x5728;x&#x8F74;&#x548C;y&#x8F74;&#x7684;&#x504F;&#x79FB;&#x91CF;&#xFF0C;&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x53EA;&#x6709;&#x4E00;&#x884C;&#x56FE;&#x7247;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;y&#x504F;&#x79FB;&#x91CF;&#x4E3A;0</span>
+
+    <span class="hljs-comment">//&#x8FD9;&#x91CC;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x663E;&#x793A;&#x7B2C;&#x4E09;&#x4E2A;&#x56FE;&#x5F62;&#xFF0C;&#x5219;x&#x8F74;&#x504F;&#x79FB;&#x91CF;&#x4E3A;0.4&#x3002;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x53EA;&#x8BBE;&#x7F6E;&#x504F;&#x79FB;&#x91CF;&#xFF0C;&#x90A3;&#x4E48;&#x4F1A;&#x5C06;&#x7B2C;&#x4E09;&#x3001;&#x56DB;&#x3001;&#x4E94;&#x4E2A;&#x56FE;&#x5F62;&#x538B;&#x7F29;&#x5728;&#x4E00;&#x8D77;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x8981;&#x60F3;&#x53EA;&#x663E;&#x793A;&#x7B2C;&#x4E09;&#x4E2A;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x653E;&#x5927;&#x3002;</span>
+
+    <span class="hljs-comment">//&#x6211;&#x4EEC;&#x5C06;uvScale&#x7684;u&#x503C;&#x8BBE;&#x7F6E;&#x4E3A;0.2&#xFF0C;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x653E;&#x5927;(&#x6CBF;x&#x8F74;)&#x7EB9;&#x7406;&#xFF0C;&#x53EA;&#x663E;&#x793A;&#x5176;&#x4E2D;&#x7684;20%&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x7CBE;&#x7075;&#x3002;</span>
+    spriteMaterial.uvScale.set(<span class="hljs-number">1</span>/<span class="hljs-number">5</span>,<span class="hljs-number">1</span>);<span class="hljs-comment">//&#x7F29;&#x653E;&#x6BD4;&#x4F8B;&#xFF0C;&#x53D6;&#x503C;&#x8303;&#x56F4;0-1</span>
+
+    spriteMaterial.alignmnet = THREE.SpriteAlignmnet.bottomCenter;
+    spriteMaterial.scaleByViewport = <span class="hljs-literal">true</span>;
+    spriteMaterial.blending = THREE.AdditiveBlending;
+
+    <span class="hljs-keyword">var</span> sprite = <span class="hljs-keyword">new</span> THREE.Sprite(spriteMaterial);
+    sprite.scale.set(size,size,size);
+    sprite.position.set(<span class="hljs-number">200</span>,<span class="hljs-built_in">window</span>.innderHeight - <span class="hljs-number">2</span>,<span class="hljs-number">0</span>);
+    sprite.velocityX = <span class="hljs-number">5</span>;
+
+    scene.add(sprite);
+}
+</code></pre>
+<p>THREE.SpriteMaterial &#x6750;&#x8D28;&#x5C5E;&#x6027;&#xFF1A;</p>
+<ul>
+<li>Color&#xFF1A;&#x7C92;&#x5B50;&#x7684;&#x989C;&#x8272; </li>
+<li>Map&#xFF1A;&#x7CBE;&#x7075;&#x4F7F;&#x7528;&#x7684;&#x7EB9;&#x7406; </li>
+<li>sizeAttenuation&#xFF1A;&#x82E5;&#x4E3A;false&#xFF0C;&#x5219;&#x8DDD;&#x79BB;&#x955C;&#x5934;&#x7684;&#x8FDC;&#x8FD1;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;&#x7CBE;&#x7075;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A;true&#x3002; </li>
+<li>opacity&#xFF1A;&#x8BBE;&#x7F6E;&#x7CBE;&#x7075;&#x7684;&#x900F;&#x660E;&#x5EA6;&#x3002;&#x9ED8;&#x8BA4;1&#xFF0C;&#x4E0D;&#x900F;&#x660E;&#x3002; </li>
+<li>blending&#xFF1A;&#x6E32;&#x67D3;&#x7CBE;&#x7075;&#x65F6;&#x6240;&#x4EE5;&#x7684;&#x878D;&#x5408;&#x6A21;&#x5F0F;&#x3002; </li>
+<li>fog&#xFF1A;&#x7CBE;&#x7075;&#x662F;&#x5426;&#x53D7;&#x521B;&#x5EFA;&#x96FE;&#x5316;&#x6548;&#x679C;&#x7684;&#x5F71;&#x54CD;&#x3002; </li>
+<li>useScreenCoordinates&#xFF1A;&#x82E5;&#x8BBE;&#x7F6E;&#x4E3A;true&#xFF0C;&#x5219;&#x7CBE;&#x7075;&#x7684;&#x4F4D;&#x7F6E;&#x76F8;&#x5BF9;&#x4E8E;&#x7A97;&#x53E3;&#x5DE6;&#x4E0A;&#x89D2;&#x7684;x&#x548C;y&#x6765;&#x5B9A;&#x4F4D;&#xFF0C;&#x521B;&#x5EFA;&#x4E2D;&#x7684;&#x76F8;&#x673A;&#x5C31;&#x4F1A;&#x88AB;&#x5B8C;&#x5168;&#x5FFD;&#x7565;&#x3002; </li>
+<li>scaleByViewport&#xFF1A;&#x7CBE;&#x7075;&#x7684;&#x5927;&#x5C0F;&#x53D6;&#x51B3;&#x4E8E;&#x89C6;&#x56FE;&#x7A97;&#x53E3;&#x7684;&#x5C3A;&#x5BF8;&#x3002;&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x4E3A;true&#xFF0C;&#x5219;&#x7CBE;&#x7075;&#x7684;&#x5C3A;&#x5BF8; = &#x56FE;&#x7247;&#x5BBD;&#x5EA6; / &#x89C6;&#x56FE;&#x7A97;&#x53E3;&#x9AD8;&#x5EA6;&#x3002;&#x82E5;&#x4E3A;false&#xFF0C;&#x5219;&#x7CBE;&#x7075;&#x7684;&#x5C3A;&#x5BF8; = &#x56FE;&#x7247;&#x5BBD;&#x5EA6; / 1.0. </li>
+<li>alignmnet&#xFF1A;&#x5F53;&#x7CBE;&#x7075;&#x88AB;&#x538B;&#x7F29;&#x65F6;(&#x4F7F;&#x7528;scale&#x5C5E;&#x6027;)&#xFF0C;&#x8BE5;&#x5C5E;&#x6027;&#x6307;&#x5B9A;&#x7CBE;&#x7075;&#x4ECE;&#x54EA;&#x91CC;&#x5F00;&#x59CB;&#x7F29;&#x653E;&#x3002;&#x5982;&#x679C;&#x8BE5;&#x5C5E;&#x6027;&#x8BBE;&#x7F6E;&#x4E3A;THREE.SpriteAlignmnet.topLeft&#xFF0C;&#x5219;&#x5F53;&#x589E;&#x52A0;&#x6216;&#x51CF;&#x5C11;&#x7CBE;&#x7075;&#x7684;&#x7F29;&#x653E;&#x6BD4;&#x4F8B;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x7CBE;&#x7075;&#x7684;&#x5DE6;&#x4E0A;&#x89D2;&#x4FDD;&#x6301;&#x4E0D;&#x52A8;&#x3002;</li>
+<li>uvOffset&#xFF1A;&#x7ED3;&#x5408;nvScale&#x9009;&#x62E9;&#x7CBE;&#x7075;&#x6240;&#x7528;&#x7684;&#x7EB9;&#x7406;&#x3002; </li>
+<li>uvScale&#xFF1A;&#x7ED3;&#x5408;uvOffset&#x9009;&#x62E9;&#x7CBE;&#x7075;&#x6240;&#x7528;&#x7684;&#x7EB9;&#x7406;&#x3002;</li>
+</ul>
+<p><strong>&#x5728;&#x4E09;&#x7EF4;&#x7A7A;&#x95F4;&#x4E2D;&#x5B9A;&#x4F4D;&#x7C92;&#x5B50;</strong></p>
+<p>&#x5982;&#x679C;&#x5C06;useScreenCoordinates&#x8BBE;&#x7F6E;&#x4E3A;false&#xFF0C;&#x90A3;&#x4E48;&#x7CBE;&#x7075;&#x7684;&#x884C;&#x4E3A;&#x5C31;&#x4F1A;&#x8DDF;&#x524D;&#x9762;&#x6240;&#x8BA8;&#x8BBA;&#x7684;&#x7C92;&#x5B50;&#x4E00;&#x6837;&#xFF0C;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x76F8;&#x673A;&#x5750;&#x6807;&#x3002;</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createSprite</span>(<span class="hljs-params">size,transparent,opacity,color,spriteNumber</span>)</span>{
+
+    <span class="hljs-keyword">var</span> spriteMaterial = <span class="hljs-keyword">new</span> THREE.SpriteMaterial({
+        opacity:opacity,
+        color:color,
+        transparent:transparent,
+        useScreenCoordinates:<span class="hljs-literal">false</span>,
+        sizeAttenuation:<span class="hljs-literal">true</span>,
+        map:getTexture()
+    });
+
+    spriteMaterial.uvOffset.set(<span class="hljs-number">1</span>/<span class="hljs-number">5</span>*spriteNumber,<span class="hljs-number">0</span>);
+    spriteMaterial.uvScale.set(<span class="hljs-number">1</span>/<span class="hljs-number">5</span>,<span class="hljs-number">1</span>);
+
+    spriteMaterial.alignmnet = THREE.SpriteAlignmnet.bottomCenter;
+    spriteMaterial.blending = THREE.AdditiveBlending;
+
+    <span class="hljs-keyword">var</span> sprite = <span class="hljs-keyword">new</span> THREE.Sprite(spriteMaterial);
+    sprite.scale.set(size,size,size);
+    sprite.position = <span class="hljs-keyword">new</span> THREE.Vector3(
+        <span class="hljs-built_in">Math</span>.random() * range  -range /<span class="hljs-number">2</span> ,
+        <span class="hljs-built_in">Math</span>.random() * range  -range /<span class="hljs-number">2</span> ,
+        <span class="hljs-built_in">Math</span>.random() * range  -range /<span class="hljs-number">2</span> 
+    );
+
+    sprite.velocityX = <span class="hljs-number">5</span>;
+
+    <span class="hljs-keyword">return</span> sprite;
+}
+
+group.rotation.x += <span class="hljs-number">0.1</span>;
+</code></pre>
+<p><strong>&#x4ECE;&#x9AD8;&#x7EA7;&#x51E0;&#x4F55;&#x4F53;&#x4E2D;&#x521B;&#x5EFA;&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;</strong></p>
+<p><strong>&#x4ECE;&#x73AF;&#x9762;&#x626D;&#x7ED3;&#x521B;&#x5EFA;&#x7C92;&#x5B50;&#x7CFB;&#x7EDF;&#x3002;</strong></p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generateSprite</span>(<span class="hljs-params"></span>)</span>{
+
+    <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&apos;canvas&apos;</span>);
+    canvas.width = <span class="hljs-number">16</span>;
+    canvas.height = <span class="hljs-number">16</span>;
+
+    <span class="hljs-keyword">var</span> context = canvas.getContext(<span class="hljs-string">&apos;2d&apos;</span>);
+    <span class="hljs-keyword">var</span> gradient = context.createRadialGradient(
+        canvas.width / <span class="hljs-number">2</span>, canvas.height / <span class="hljs-number">2</span>,
+        <span class="hljs-number">0</span>,
+        canvas.width / <span class="hljs-number">2</span>,canvas.height /<span class="hljs-number">2</span>,
+        canvas.width / <span class="hljs-number">2</span>
+    );
+
+    gradient.addColorStop(<span class="hljs-number">0</span>,<span class="hljs-string">&apos;rgba(255,255,255,1)&apos;</span>);
+    gradient.addColorStop(<span class="hljs-number">0.2</span>,<span class="hljs-string">&apos;rgba(0,255,255,1)&apos;</span>);
+    gradient.addColorStop(<span class="hljs-number">0.4</span>,<span class="hljs-string">&apos;rgba(0,0,64,1)&apos;</span>);
+    gradient.addColorStop(<span class="hljs-number">1</span>,<span class="hljs-string">&apos;rgba(0,0,0,1)&apos;</span>);
+
+    context.fillStyle  = gradient;
+
+    context.fillRect(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,canvas.width,canvas.height);
+
+    <span class="hljs-keyword">var</span> texture = <span class="hljs-keyword">new</span> THREE.Texture(canvas);
+    texture.needsUpdate = <span class="hljs-literal">true</span>;
+
+    <span class="hljs-keyword">return</span> texture;
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createParticleSystem</span>(<span class="hljs-params">geom</span>)</span>{
+
+    <span class="hljs-keyword">var</span> material = <span class="hljs-keyword">new</span> THREE.ParticleBasicMaterial({
+
+        color:<span class="hljs-number">0xffffff</span>,
+        size:<span class="hljs-number">3</span>,
+        transparent.true,
+        blending:THREE.AdditiveBlending,
+        map:getTexture()
+    });
+
+    <span class="hljs-keyword">var</span> system = <span class="hljs-keyword">new</span> THREE.ParticleSystem(geom,material);
+    system.sortParticles = <span class="hljs-literal">true</span>;
+
+    <span class="hljs-keyword">return</span> system;
+}
+
+<span class="hljs-keyword">var</span> geom = <span class="hljs-keyword">new</span> THREE.TorusknotGeometry(...);
+<span class="hljs-keyword">var</span> knot = createParticleSystem(gemo);
+</code></pre>
+<p>&#x5982;&#x679C;&#x4F60;&#x60F3;&#x521B;&#x5EFA;&#x5927;&#x91CF;&#x7684;&#x7C92;&#x5B50;&#xFF0C;&#x5E76;&#x5171;&#x4EAB;&#x540C;&#x4E00;&#x4E2A;&#x6750;&#x8D28;&#xFF0C;&#x90A3;&#x4E48;&#x4F60;&#x5E94;&#x8BE5;&#x4F7F;&#x7528;THREE.ParticleSystem&#x5BF9;&#x8C61;&#x3002;&#x8FD9;&#x6837;&#x51E0;&#x4F55;&#x4F53;&#x4E2D;&#x7684;&#x6BCF;&#x4E2A;&#x9876;&#x70B9;&#x90FD;&#x4F1A;&#x88AB;&#x6E32;&#x67D3;&#x6210;&#x7C92;&#x5B50;&#xFF0C;&#x5E76;&#x4F7F;&#x7528;&#x6307;&#x5B9A;&#x7684;&#x6750;&#x8D28;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 其他">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"粒子系统","level":"1.22.1","depth":2,"next":{"title":"控制器/工具","level":"2.1","depth":1,"ref":"","articles":[{"title":"DragControls.js","level":"2.1.1","depth":2,"path":"tools/DragControls.js.md","ref":"tools/DragControls.js.md","articles":[]},{"title":"TransformControls.js","level":"2.1.2","depth":2,"path":"tools/TransformControls.js.md","ref":"tools/TransformControls.js.md","articles":[]},{"title":"PointerLockControls.js","level":"2.1.3","depth":2,"path":"tools/PointerLockControls.js.md","ref":"tools/PointerLockControls.js.md","articles":[]},{"title":"stats.js","level":"2.1.4","depth":2,"path":"tools/stats.js.md","ref":"tools/stats.js.md","articles":[]},{"title":"ui.js","level":"2.1.5","depth":2,"path":"tools/ui.js.md","ref":"tools/ui.js.md","articles":[]},{"title":"Raycaster","level":"2.1.6","depth":2,"path":"tools/Raycaster.md","ref":"tools/Raycaster.md","articles":[]}]},"previous":{"title":"其他","level":"1.22","depth":1,"path":"others/README.md","ref":"others/README.md","articles":[{"title":"粒子系统","level":"1.22.1","depth":2,"path":"others/ParticleSystem.md","ref":"others/ParticleSystem.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-favicon","-github","-tbfed-pagefooter","-donate@^1.0.2"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy <b><a target='view_window' href='https://sogrey.github.io/'>Sogrey</a></b> 2018,","modify_label":"    使用中遇到问题？<b><a target='view_window' href='https://github.com/Sogrey/Three.js-start/issues/new'>提个Issue</a></b>,最后修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/Sogrey"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"donate":{"wechat":"https://sogrey.github.io/img/wechatPay.png","alipay":"https://sogrey.github.io/img/alipay.jpg","title":"","button":"赏","alipayText":"支付宝打赏","wechatText":"微信打赏"},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Sogrey","pdf":{"pageBreaksBefore":"/","headerTemplate":null,"paperSize":"a4","margin":{"right":62,"left":62,"top":36,"bottom":36},"fontSize":12,"fontFamily":"Arial","footerTemplate":null,"chapterMark":"pagebreak","pageNumbers":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"isbn":"","variables":{},"title":"Three.js 入门","links":{"sharing":{"all":null,"facebook":null,"google":null,"twitter":null,"weibo":null},"sidebar":{"Sogrey's Blog":"https://sogrey.github.io"}},"gitbook":"*","description":"Three.js 入门笔记","extension":null},"file":{"path":"others/ParticleSystem.md","mtime":"2019-08-15T16:14:37.780Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-07-09T08:34:42.633Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>three.js webgl - draggable cubes</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+            body {
+                font-family: Monospace;
+                background-color: #f0f0f0;
+                margin: 0px;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="../js/threejs/three.js"></script>
+        <script src="../js/libs/tween.min.js"></script>
+        <script src="../js/controls/TrackballControls.js"></script>
+        <!-- <script src="script/renderers/CSS3DRenderer.js"></script> -->
+        <script src="../js/libs/stats.min.js"></script>
+            
+            
+        <script>
+            //container是指页面放置这个webGL的一个层  stats是指
+            var container, stats;
+            //camera是指场景相机 controls是指控制器，比如一般的鼠标视角控制等  scene是场景，就好像一个大的舞台 
+            //projector是可能指屏幕和场景转换工具 renderer是指场景渲染，能把场景呈现到浏览器里
+            var camera, controls, scene, projector, renderer;
+            //objects是指场景中的实体集合  plane是一个水平面网格，当选中一个物体时，可以通过这个水平面，看到和它在同一平面内的其他物理
+            var objects = [], plane;
+            //mouse，鼠标所对应的二维向量  offset 是指三维偏移向量 INTERSECTED是指相交的对象 SELECTED选中的对象
+            var mouse = new THREE.Vector2(),
+            offset = new THREE.Vector3(),
+            INTERSECTED, SELECTED;
+                
+            //初始化整个场景
+            init();
+            //开始每秒最大60帧的渲染
+            animate();
+    
+            function init() {
+                //创建一个放置webGL的层
+                container = document.createElement( 'div' );
+                //把上面的层放到body里
+                document.body.appendChild( container );
+                //创建一个透视相机 可视角度70度 浏览器的全屏的宽高 水平视锥 最近1 最远10000 
+                camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+                //相机的位置z正半轴3000
+                camera.position.z = 3000;
+                //轨迹球控制 鼠标左击旋转  右击平移 滚轮远近
+                controls = new THREE.TrackballControls( camera );
+                //旋转速度
+                controls.rotateSpeed = 1.0;
+                //变焦速度
+                controls.zoomSpeed = 1.2;
+                //平移速度
+                controls.panSpeed = 0.8;
+                //是否不变焦
+                controls.noZoom = false;
+                //是否不平移
+                controls.noPan = true;
+                //可能是惯性 true没有惯性
+                controls.staticMoving = false;
+                //动态阻尼系数 就是灵敏度
+                controls.dynamicDampingFactor = 0.3;
+                    
+                //新建一个场景
+                scene = new THREE.Scene();
+    
+                    
+                //新建一个环境光 就是正常物体都能照到的光
+                var ambientLight = new THREE.AmbientLight( Math.random() *0xffffff );
+                //把环境光加到场景中
+                scene.add( ambientLight );
+                //再新建一个无线远的平行光，就是像太阳光一样的，
+                var directionalLight = new THREE.DirectionalLight( Math.random() * 0xffffff );
+                //把平行光放在y轴正方向上的无穷远处
+                directionalLight.position.set( 0, 1, 0 );
+                //把平行光加到场景中
+                scene.add( directionalLight );
+                //再建一个点光源 颜色 强度 照射距离
+                var pointLight = new THREE.PointLight( 0xff0000, 1, 500 );
+                //设置点光源的位置
+                pointLight.position.set(0,0,-200);
+                //把点光源加入到场景中
+                scene.add( pointLight );
+                //定义一个球体
+                var geometry = new THREE.SphereGeometry( 70, 32, 16 );
+    
+                for ( var i = 0; i < 50; i ++ ) {
+                    //把这个球体加上网格材质，随机生成一种颜色的网格对象
+                    var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+                        
+                    //把材质颜色放到对象的环境颜色上，还没有理解
+                    object.material.ambient = object.material.color;
+                        
+                    //随机放置一个位置
+                    object.position.x = Math.random() * 3000 - 1500;
+                    object.position.y = Math.random() * 1800 - 1000;
+                    object.position.z = Math.random() * 2400 - 1200;
+                        
+                    //加到场景中去
+                    scene.add( object );
+                        
+                    //放到对象数组中
+                    objects.push( object );
+    
+                }
+                //创建一个长2000宽2000，8*8的网格对象并加上一种基本材质
+                plane = new THREE.Mesh( new THREE.PlaneGeometry( 2000, 2000, 8, 8 ), new THREE.MeshBasicMaterial( { color: 0x000000, opacity: 0.25, transparent: true, wireframe: true } ) );
+                //网格对象是否可见
+                plane.visible = true;
+                //把网格对象加到场景中
+                scene.add( plane );
+                    
+                //创建一个屏幕和场景转换工具
+                projector = new THREE.Projector();
+                //创建一个抗锯齿的webgl渲染器
+                renderer = new THREE.WebGLRenderer( { antialias: true } );
+                //是否排列对象 默认是true
+                renderer.sortObjects = false;
+                //设置渲染的范围
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                //是否启用阴影地图
+                renderer.shadowMapEnabled = true;
+                //设置阴影地图是纹理阴影
+                renderer.shadowMapType = THREE.PCFShadowMap;
+                //把渲染成的所有页面标签加入到webgl层中
+                container.appendChild( renderer.domElement );
+                    
+                //显示了一个左上角的性能监视窗口
+                stats = new Stats();
+                stats.domElement.style.position = 'absolute';
+                stats.domElement.style.top = '0px';
+                container.appendChild( stats.domElement );
+                    
+                //加入鼠标拖动对象的一系列监听事件
+                renderer.domElement.addEventListener( 'mousemove', onDocumentMouseMove, false );
+                renderer.domElement.addEventListener( 'mousedown', onDocumentMouseDown, false );
+                renderer.domElement.addEventListener( 'mouseup', onDocumentMouseUp, false );
+    
+                //加入窗口改变大小时的监听事件
+                window.addEventListener( 'resize', onWindowResize, false );
+    
+            }
+            //窗口改变大小时的触发事件
+            function onWindowResize() {
+                //改变相机的aspect属性为当前窗口的宽高
+                camera.aspect = window.innerWidth / window.innerHeight;
+                //更新相机的投影矩阵
+                camera.updateProjectionMatrix();
+                //重新设置场景宽高
+                renderer.setSize( window.innerWidth, window.innerHeight );
+    
+            }
+                
+            //当鼠标移动时触发的事件
+            function onDocumentMouseMove( event ) {
+                //阻止本来的默认事件，比如浏览器的默认右键事件是弹出浏览器的选项
+                event.preventDefault();
+                    
+                //mouse.x是指 鼠标的x到屏幕y轴的距离与屏幕宽的一半的比值 绝对值不超过1
+                //mouse.y是指 鼠标的y到屏幕x轴的距离与屏幕宽的一半的比值 绝对值不超过1
+                //
+                //下面的矩形是显示器屏幕，三维空间坐标系的布局以及屏幕的二维坐标系
+                //
+                // 鼠标是从  二维坐标系
+                // 这个点 .-------------------------------------------|-->鼠标x正半轴
+                //  开始算|                   个 y     /              |
+                //   x,y  |                    |     /                |
+                //        |                    |   /                  |
+                //        |          三维坐标系| /                    |
+                //        | -------------------/-------------------->x|
+                //        |                  / |                      |
+                //        |                /   |                      |
+                //        |              /     |                      |
+                //        |__________Z_匕______|______________________|
+                //        |
+                // 鼠标y  \/
+                // 正半轴
+                mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+                mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    
+                //新建一个三维变换半单位向量 假设z方向就是0.5,这样我左右移的时候，还会有前后移的效果
+                var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 );
+                    
+                //屏幕和场景转换工具根据照相机，把这个向量从屏幕转化为场景中的向量
+                projector.unprojectVector( vector, camera );
+                
+                //vector.sub( camera.position ).normalize()变换过后的向量vector减去相机的位置向量后标准化
+                //新建一条从相机的位置到vector向量的一道光线
+                var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+    
+                //是否有东西被选中
+                if ( SELECTED ) {
+                    //有的话取到这条光线射到的物体所在水平面上所有相交元素的集合,所以这样就可以限制每次拖动距离不能超出水平面panel
+                    var intersects = raycaster.intersectObject( plane );
+                    //这个鼠标点中的点的位置减去偏移向量，新位置赋值给选中物体
+                    if(intersects.length > 0){
+                        SELECTED.position.copy( intersects[ 0 ].point.sub( offset ) );
+                    }
+                    return;
+    
+                }
+    
+                //否则的话，光线和所有物体相交，返回相交的物体
+                var intersects = raycaster.intersectObjects( objects );
+                //如果有物体相交了
+                if ( intersects.length > 0 ) {
+                    //并且相交物体不是上一个相交物体
+                    if ( INTERSECTED != intersects[ 0 ].object ) {
+                        //将这个对象放到INTERSECTED中
+                        INTERSECTED = intersects[ 0 ].object;
+                        //改变水平面的位置
+                        plane.position.copy( INTERSECTED.position );
+                        //并把水平面指向到相机的方向
+                        plane.lookAt( camera.position );
+    
+                    }
+                    //改变鼠标的样式
+                    container.style.cursor = 'pointer';
+    
+                } else {
+                    //改变鼠标的样式
+                    container.style.cursor = 'auto';
+    
+                }
+    
+            }
+            //当鼠标按下时触发的事件
+            function onDocumentMouseDown( event ) {
+                //阻止本来的默认事件，比如浏览器的默认右键事件是弹出浏览器的选项
+                event.preventDefault();
+    
+                var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 );
+                projector.unprojectVector( vector, camera );
+    
+                var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+    
+                var intersects = raycaster.intersectObjects( objects );
+    
+                if ( intersects.length > 0 ) {
+                    //不能改变视角了
+                    controls.enabled = false;
+                    //把选中的对象放到全局变量SELECTED中
+                    SELECTED = intersects[ 0 ].object;
+                    //再和水平面相交
+                    var intersects = raycaster.intersectObject( plane );
+                        
+                    //选中位置和水平面位置（物体中心）的偏移量
+                    offset.copy( intersects[ 0 ].point ).sub( plane.position );
+                    //改变鼠标的样式
+                    container.style.cursor = 'move';
+    
+                }
+    
+            }
+    
+            function onDocumentMouseUp( event ) {
+    
+                event.preventDefault();
+                //又能改变视角了
+                controls.enabled = true;
+                //如果有相交物体
+                if ( INTERSECTED ) {
+                    //把位置给水平面
+                    plane.position.copy( INTERSECTED.position );
+                    //选中物体置空
+                    SELECTED = null;
+    
+                }
+                //改变鼠标的样式
+                container.style.cursor = 'auto';
+    
+            }
+    
+            //每秒最大60帧的渲染，一直在循环
+            function animate() {
+                //循环本身
+                requestAnimationFrame( animate );
+                //渲染场景
+                render();
+                //更新性能监视窗口
+                stats.update();
+    
+            }
+    
+            function render() {
+                //更新控制器
+                controls.update();
+                //渲染场景和相机
+                renderer.render( scene, camera );
+            }
+        </script>
+    </body>
+</html>

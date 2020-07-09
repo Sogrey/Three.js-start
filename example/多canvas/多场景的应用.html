@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/threejs/three.min.js"></script>
+    <script src="../js/controls/OrbitControls.js"></script>
+    <title>多场景的应用</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #canvas-frame,
+        #canvas-frame2 {
+            width: 50%;
+            height: 100%;
+            overflow: hidden;            
+        }
+        #canvas-frame2{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="canvas-frame"></div>
+    <div id="canvas-frame2"></div>
+    <script>
+        var sceneL, sceneR, cameraL, cameraR, rendererL, rendererR, controlsL, controlsR;
+        var WIDTH, HEIGHT;
+        // 创建渲染器
+        function initRender() {
+            WIDTH = window.innerWidth;
+            HEIGHT = window.innerHeight;
+            rendererL = new THREE.WebGLRenderer({
+                antialias: true,
+            });
+            rendererL.setSize(WIDTH/2, HEIGHT);
+            rendererL.setPixelRatio(WIDTH/2 / HEIGHT);
+            //  setScissorTest 启用或禁用剪裁检测. 若启用，则只有在所定义的裁剪区域内的像素才会受之后的渲染器影响。
+            rendererL.setScissorTest(true);
+            document.getElementById('canvas-frame').appendChild(rendererL.domElement);
+
+            rendererR = new THREE.WebGLRenderer({
+                antialias: true,
+            });
+            rendererR.setSize(WIDTH/2, HEIGHT);
+            rendererR.setPixelRatio(WIDTH/2 / HEIGHT);
+            //  setScissorTest 启用或禁用剪裁检测. 若启用，则只有在所定义的裁剪区域内的像素才会受之后的渲染器影响。
+            rendererR.setScissorTest(true);
+            document.getElementById('canvas-frame2').appendChild(rendererR.domElement);
+        }
+        //  创建场景
+        function initScene() {
+            sceneL = new THREE.Scene();
+            sceneL.background = new THREE.Color(0xfffeee);
+
+            sceneR = new THREE.Scene();
+            sceneR.background = new THREE.Color(0x000fff);
+        }
+        //  创建相机
+        function initCamera() {
+            cameraL = new THREE.PerspectiveCamera(50, WIDTH/2 / HEIGHT, 1, 10000);
+            cameraL.position.set(0, 0, 50);
+            cameraL.lookAt(0, 0, 0);
+
+            controlsL = new THREE.OrbitControls(cameraL,document.getElementById('canvas-frame'));
+
+            cameraR = new THREE.PerspectiveCamera(50, WIDTH/2 / HEIGHT, 1, 10000);
+            cameraR.position.set(0, 0, 50);
+            cameraR.lookAt(0, 0, 0);
+
+            controlsR = new THREE.OrbitControls(cameraR,document.getElementById('canvas-frame2'));
+        }
+        //  创建灯光
+        function initLight() {
+            //.clone()返回对象物体的克隆
+            //  创建环境光 并克隆 分别放入左右场景
+            var ambientL = new THREE.AmbientLight(0xffffff, 0.3);
+            var ambientR = ambientL.clone();
+            sceneL.add(ambientL);
+            sceneR.add(ambientR);
+            //  创建平行光 并克隆 分别放入左右场景
+            var directionalL = new THREE.DirectionalLight(0xffffff);
+            directionalL.position.set(0, 0, 1);
+            var directionalR = directionalL.clone();
+            sceneL.add(directionalL);
+            sceneR.add(directionalR);
+
+        }
+        //  创建对象
+        function initObject() {
+            //立方几何体
+            var geometry = new THREE.BoxGeometry(10, 10, 10);
+            var material = new THREE.MeshLambertMaterial({
+                color: 0x00ff00
+            });
+            var cube = new THREE.Mesh(geometry, material);
+            // 加入左边场景中
+            sceneL.add(cube);
+            
+            //二十面几何体
+            var geometry = new THREE.IcosahedronGeometry(5);
+            var material = new THREE.MeshLambertMaterial({
+                color: 0xff0000
+            });
+            var cube = new THREE.Mesh(geometry, material);
+            // 加入右边场景中
+            sceneR.add(cube)
+        }
+
+        function initThree() {
+            initRender();
+            initScene();
+            initCamera();
+            initLight();
+            initObject();
+            animation();
+        }
+
+        function animation() {
+            requestAnimationFrame(animation);
+            //  setScissor 将剪裁区域设为(x, y)到(x + width, y + height) 
+
+            rendererL.setScissor(0, 0, window.innerWidth / 2, window.innerHeight);
+            rendererL.render(sceneL, cameraL);
+
+            // rendererR.setScissor(window.innerWidth / 2, 0, window.innerWidth, window.innerHeight);
+            rendererR.setScissor(0, 0, window.innerWidth / 2, window.innerHeight);
+            rendererR.render(sceneR, cameraR);
+
+            controlsL.update();
+            controlsR.update();
+        }
+        initThree();
+    </script>
+</body>
+
+</html>

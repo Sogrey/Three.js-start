@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>OrthographicCamera</title>
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body onload="threeExcute();">
+    <div id="box" style="width: 400px;height: 200px;"></div>
+
+    <script src="../js/threejs/three.js"></script>
+    <script>
+        var renderer, scene, camera, light;
+        var width, height;
+
+        //初始化渲染器
+        function initRenderer() {
+            width = document.getElementById("box").clientWidth;
+            height = document.getElementById("box").clientHeight;
+            renderer = new THREE.WebGLRenderer({
+                antialias: true //抗锯齿
+            }); /*生成渲染器对象（属性：抗锯齿效果为设置有效）*/
+            renderer.setSize(width, height);
+            document.getElementById("box").appendChild(renderer.domElement);
+            /*设置canvas背景色(clearColor)和背景色透明度（clearAlpha） */
+            renderer.setClearColor(0xFFFFFF, 1.0);
+        }
+        //初始化场景
+        function initScene() {
+            scene = new THREE.Scene();
+        }
+        //初始化照相机
+        function initCamera() {
+            camera = new THREE.OrthographicCamera(-2, 2, 1.5, -1.5, 1, 10);
+            // camera = new THREE.OrthographicCamera(-2, 2, 1, -1, 1, 10); //设置 （right-left）/(top-bottom)的比例同样调整为2:1 与 canvas长宽比一致
+            //定义camera的位置
+            camera.position.set(0, 0, 5);
+            //将camera添加到scene中
+            scene.add(camera);
+        }
+        //初始化光源
+        function initLight() {
+            light = new THREE.DirectionalLight(0xFF0000, 1.0, 0); //平行光
+            light.position.set(100, 100, 200); //设置光源位置
+            scene.add(light); //将官员添加到场景
+        }
+
+        function threeExcute() {
+            //初始化渲染器
+            initRenderer();
+            //初始化场景
+            initScene();
+            //初始化照相机
+            initCamera();
+            //初始化光源
+            initLight();
+
+            //添加一个长方体
+            var cubeGeometry = new THREE.CubeGeometry(1, 1, 1);
+            var material = new THREE.MeshBasicMaterial({
+                color: 0xff0000,
+                wireframe: true
+            });
+            var cube = new THREE.Mesh(cubeGeometry, material);
+            scene.add(cube);
+
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+
+</html>

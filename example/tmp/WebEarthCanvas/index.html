@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>WebEarth</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body {
+			color: #808080;
+			font-family: Monospace;
+			font-size: 13px;
+			text-align: center;
+
+			background-color: #222222;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		#container {
+			background-color: #000000;
+			padding: 0px;
+			margin: 0px;
+		}
+
+		a {
+
+			color: #0080ff;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div id="container"></div>
+
+	<script src="Three.js"></script>
+	<script src="Stats.js"></script>
+	<script src="Detector.js"></script>
+
+
+	<script>
+		//if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+		// USER VARIABLES START HERE
+
+		//set tilt of Earth axis.  Negative X tilts away from screen.  Positive Z tilts to the left.  The Earth should tilt towards the screen in order to make North America visible.  Angle is measured in rads (2PI radians = 360 degrees).
+		var tiltX = .12;
+		var tiltZ = .1;
+
+		var rotSpeed = .001;
+
+		//END USER VARIABLES
+
+
+		var container, stats;
+		var camera, scene, renderer;
+
+		//window size and position vars
+		var windowWidth = window.innerWidth;
+		var windowHeight = windowWidth * .4;
+		var divPos = (window.innerHeight - windowHeight) / 2;
+		var posString = divPos.toString();
+		var divPosWrite = posString + "px";
+
+		//global handlers for dummies and imported geometry
+		var arrowGeo;
+		var dummyEarthAxis;
+		var arrowsBitmap;
+		var GeoScale = (windowWidth * .293) / 200;
+
+
+		init();
+		animate();
+
+		function init() {
+
+			container = document.getElementById('container');
+			container.style.position = 'absolute';
+			container.style.top = divPosWrite;
+
+			scene = new THREE.Scene();
+
+			camera = new THREE.OrthographicCamera(windowWidth / -2, windowWidth / 2, windowHeight / 2, windowHeight / -2, -
+				2000, 1000);
+			scene.add(camera);
+
+			var earthPosX = -(windowWidth / 2.844444);
+			var earthPosY = -(windowHeight / 10.32);
+			dummyEarthAxis = new THREE.Object3D();
+			dummyEarthAxis.position.x = earthPosX;
+			dummyEarthAxis.position.y = earthPosY;
+			dummyEarthAxis.rotation.x = tiltX;
+			dummyEarthAxis.rotation.z = tiltZ;
+			scene.add(dummyEarthAxis);
+
+			var earthRad = windowWidth * .293;
+			earthMesh = new THREE.Mesh(new THREE.SphereGeometry(earthRad, 24, 24), new THREE.MeshBasicMaterial({
+				map: THREE.ImageUtils.loadTexture('Earth_Continents_Solid.jpg'),
+				overdraw: true
+			}));
+
+			dummyEarthAxis.add(earthMesh);
+			/*
+				var atmosH = windowHeight;
+				var atmosW = atmosH * 1.163;
+				var atmosphere = new THREE.Mesh(new THREE.PlaneGeometry(atmosW, atmosH), new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'BlueEarthGlow.png' ), overdraw: true, transparent: true,}) );
+				atmosphere.rotation.x = Math.PI/2;
+				atmosphere.position.x = -(windowWidth/2) + (atmosW/2);
+				atmosphere.position.y = 0;
+				atmosphere.position.z = 2000;
+				
+				scene.add( atmosphere );
+				
+				
+				var GeoLoader = new THREE.JSONLoader();
+				GeoLoader.load("Atmosphere.js",
+                function (geometry) {
+                    createAtmosphere(geometry)
+                });
+				*/
+
+
+			var arrowLoader = new THREE.JSONLoader();
+			arrowLoader.load("Arrows.js",
+				function (geometry) {
+					createArrows(geometry)
+				});
+
+			//dummyEarthAxis.add(arrowGeo);
+
+			renderer = new THREE.CanvasRenderer();
+			renderer.setSize(windowWidth, windowHeight);
+
+			container.appendChild(renderer.domElement);
+
+			stats = new Stats();
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.top = '0px';
+			container.appendChild(stats.domElement);
+
+		}
+
+		function createArrows(geometry) {
+			arrowsBitmap = THREE.ImageUtils.loadTexture('Arrows_color.png');
+			arrowsBitmap.wrapS = arrowsBitmap.wrapT = THREE.RepeatWrapping;
+			arrowsBitmap.needsUpdate = true;
+			var arrowsMat = new THREE.MeshBasicMaterial({
+				map: arrowsBitmap,
+				overdraw: true,
+				transparent: true
+			});
+			arrowGeo = new THREE.Mesh(geometry, arrowsMat);
+			arrowGeo.scale.x = arrowGeo.scale.y = arrowGeo.scale.z = GeoScale;
+			arrowGeo.doubleSided = true;
+			dummyEarthAxis.add(arrowGeo);
+			//scene.add( arrowGeo );
+		}
+
+		function createAtmosphere(geometry) {
+			var atmosGeo = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+				map: THREE.ImageUtils.loadTexture('Atmosphere.png'),
+				overdraw: true,
+				transparent: true
+			}));
+			//var atmosGeo = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial( { color: 0x0088ff, opacity: .5, overdraw: true, transparent: true }) );
+			atmosGeo.scale.x = atmosGeo.scale.y = atmosGeo.scale.z = GeoScale * 1.01;
+			atmosGeo.position.x = dummyEarthAxis.position.x
+			atmosGeo.position.y = dummyEarthAxis.position.y
+			atmosGeo.rotation.x = tiltX;
+			atmosGeo.rotation.z = tiltZ;
+			scene.add(atmosGeo);
+		}
+
+
+		function animate() {
+
+			requestAnimationFrame(animate);
+
+			render();
+			stats.update();
+
+		}
+
+		function render() {
+
+			earthMesh.rotation.y += rotSpeed;
+			if (arrowGeo) arrowGeo.rotation.y += rotSpeed;
+			if (arrowsBitmap) arrowsBitmap.offset.x -= .000159;
+
+			renderer.render(scene, camera);
+
+		}
+	</script>
+
+</body>
+
+</html>
