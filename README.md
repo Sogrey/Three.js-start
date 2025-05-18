@@ -1,6 +1,8 @@
 # Three.js-start
 Three.js学习
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Sogrey/Three.js-start)
+
 <div class="github-widget" data-repo="Sogrey/Three.js-start"></div>
 <div style="display:none;"><script type="text/javascript" src="https://git.hust.cc/GitHub-Repo-Widget.js/GithubRepoWidget.js"></script></div>
 
